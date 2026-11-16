@@ -1,0 +1,192 @@
+body.map main{padding:0;overflow:hidden;background:#eee6d6}body.map #app>header{height:63px;background:#f5efdfed;border-bottom:1px solid #d9cdb84d;padding:8px 16px}body.map #title{font-size:13px;letter-spacing:.3px;color:#645e4d}body.map #mode{font-size:21px;background:transparent}body.map #floating{display:none}body.map footer{background:linear-gradient(transparent,#f0e8d9 80%)}body.map nav{background:#fffcf3ef}body.map #searchbtn{background:#fffcf3}.field-guide{height:100%;padding:78px 0 105px;display:flex;flex-direction:column;position:relative;color:#393e32}.field-heading{padding:0 22px 15px;position:relative}.eyebrow{font-size:9px;font-weight:700;letter-spacing:2.6px;color:#928064}.field-heading h1{font-family:Georgia,'Times New Roman',serif;font-size:33px;font-weight:400;letter-spacing:-1.2px;margin:7px 0 0}.field-heading h1 span{display:block;font-family:system-ui,sans-serif;font-size:11px;font-weight:400;letter-spacing:.3px;margin-top:7px;color:#7d806e}.arrival-shortcut{position:absolute;right:19px;top:3px;display:grid;justify-items:center;gap:3px;font-size:25px;color:#687456}.arrival-shortcut span{font-size:9px}.camp-filters{display:flex;gap:7px;padding:0 20px 13px;overflow:auto;flex-shrink:0;scrollbar-width:none}.camp-filters button{flex-shrink:0;min-height:32px;border:1px solid #cabea7;border-radius:30px;padding:5px 11px;font-size:11px;color:#786f5c;background:#f8f2e6}.camp-filters button[aria-pressed=true]{color:#fff9e9;background:#5c694e;border-color:#5c694e}.camp-viewport{flex:1;min-height:150px;overflow:auto;cursor:grab;scrollbar-width:thin;scrollbar-color:#cfc1a5 transparent;border-top:1px solid #c7bba34d;border-bottom:1px solid #c7bba34d;background:#eee7d7}.camp-viewport:active{cursor:grabbing}.camp-world{position:relative;aspect-ratio:1450/1040;min-width:100%;}.camp-terrain{width:100%;height:100%;display:block}.camp-pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;min-width:44px;min-height:44px;padding:0;z-index:1;color:var(--camp-color)}.camp-symbol{display:grid;place-items:center;width:31px;height:31px;border-radius:50%;background:var(--camp-color);color:#fff9e9;border:3px solid #f7efde;box-shadow:0 2px 8px #55412325;font-size:17px}.camp-caption{font-size:8px;font-weight:750;letter-spacing:1px;background:#f5eddbeb;padding:3px 6px 2px;border-radius:5px;white-space:nowrap;box-shadow:0 1px 4px #5541230a}.camp-caption small{font-size:9px;font-weight:500;letter-spacing:0;color:#655e4c}.camp-pin:hover,.camp-pin:focus-visible{z-index:4}.camp-pin:hover .camp-symbol{transform:translateY(-3px)}.entry-label{position:absolute;right:2%;top:83%;font-size:10px;letter-spacing:2px;color:#9a8054}.map-overlay{padding:5px 18px;display:flex;justify-content:space-between;align-items:center;gap:8px}.map-overlay>span{font-size:9px;color:#8b8069}.map-overlay>div{display:flex;gap:3px}.map-overlay button{font-size:22px;color:#756b53;width:34px;min-height:34px;border-radius:50%;background:#fff8}.arrival-card{margin:0 17px;display:flex;align-items:center;gap:12px;flex-shrink:0;text-align:left;padding:12px 15px;border-radius:17px;background:#faf6ec;color:#4c5946;box-shadow:0 3px 12px #6858360b;border:1px solid #d9d0bc}.parking-symbol{display:grid;place-items:center;border:1px solid #8f9a82;width:32px;height:35px;border-radius:10px;font-family:Georgia,serif;font-size:24px}.arrival-card b{font-size:13px;font-weight:650}.arrival-card small{font-size:10px;color:#918871;margin-top:3px}.arrival-card>span:last-child{margin-left:auto;font-size:23px}.camp-dialog{background:#faf7ef;color:#394332;max-height:88dvh;overflow:auto;padding:0 0 24px;border-radius:26px 26px 0 0}.sheet-close{position:sticky;top:10px;float:right;margin:10px 14px 0 0;width:40px;height:40px;min-height:40px;border-radius:50%;background:#e9e2d3;color:#625c4d;font-size:26px;z-index:2}.camp-sheet-title{padding:28px 24px 12px}.camp-sheet-title h2{font-size:25px;margin:10px 0;font-weight:550}.camp-sheet-title p{font-size:12px;line-height:1.7;color:#827965}.camp-media{padding:0 20px;font-size:13px}.camp-media video,.camp-media img{display:block;width:100%;max-height:52vh;object-fit:contain;margin:0 0 12px;border-radius:15px;background:#e6e0d3}.media-note{font-size:11px!important;line-height:1.8;color:#8b806e!important}.parking-tabs{display:flex;margin:0 20px 16px;gap:8px}.parking-tabs button{flex:1;border:1px solid #d5cbb8;border-radius:10px;font-size:12px;color:#6a715d}.parking-tabs button[aria-pressed=true]{background:#5c694e;color:#fff}.parking-content{padding:0 20px}.parking-content h3{font-size:17px;margin:0 0 5px}.parking-content>p{font-size:12px;color:#807764}.route-map{display:block;width:100%;height:260px;border:0;background:#e6e5d9;border-radius:14px;margin:16px 0 12px}.route-primary{display:block;text-align:center;padding:14px;background:#5c694e;color:white;text-decoration:none;border-radius:12px;font-size:13px}.route-links{display:flex;gap:12px;justify-content:center;padding:15px 0}.route-links a,.source-link{font-size:11px;color:#6c775d;text-underline-offset:4px}.route-destination{padding:17px;border:1px solid #ded4c1;border-radius:13px;margin:8px 0 15px}.route-destination>span:first-child{display:block;font-size:9px;letter-spacing:2px;color:#a18e6f;margin-bottom:8px}.route-destination b{font-size:15px}.route-destination p{font-size:12px;line-height:1.7}.route-destination button{padding:6px 12px;border:1px solid #c5b89e;border-radius:8px;min-height:36px;font-size:12px;color:#657254}#copyResult{font-size:11px;display:inline;margin-left:8px}@media(max-height:700px){.field-heading h1{font-size:26px}.field-heading{padding-bottom:10px}.field-guide{padding-top:70px}.arrival-card{padding:8px 12px}.field-heading h1 span{display:none}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+/* Portrait field map: rotate site geometry, keep all marker labels upright. */
+.camp-world{width:100%;min-width:0;aspect-ratio:1040/1450}
+.camp-viewport{overflow-x:hidden;overflow-y:auto;touch-action:pan-y}
+.camp-filters{flex-wrap:wrap;overflow:visible;gap:5px;padding-bottom:10px}
+.camp-filters button{font-size:10px;padding:4px 9px;min-height:30px}
+.map-scroll-note{font-size:9px;color:#8b8069;margin:6px 20px;text-align:center;flex-shrink:0}
+.parking-simple{margin:0 18px;flex-shrink:0;border-top:1px solid #d5cab4}
+.parking-simple a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:39px;padding:8px 2px;color:#59684d;text-decoration:none;font-size:12px;border-bottom:1px solid #d5cab466}
+.parking-simple small{display:inline;font-size:10px;color:#827b67}
+.parking-simple a:hover{text-decoration:underline;text-underline-offset:3px}
+.camp-caption{font-size:7px;letter-spacing:.3px;padding:2px 4px}
+.camp-caption small{font-size:8px}
+.camp-symbol{width:27px;height:27px;font-size:14px;border-width:2px}
+
+/* Playa cartography: quiet linework, open streets, ochre camp markers. */
+body.map main,.camp-viewport{background:#eee4d0}
+.camp-symbol{background:#f4ebd8;color:var(--camp-color);border:1.5px solid var(--camp-color);box-shadow:0 0 0 3px #eee4d0;font-weight:600}
+.camp-caption{background:#eee4d0e8;box-shadow:none;border-radius:0;font-family:ui-monospace,SFMono-Regular,monospace;font-weight:600;letter-spacing:.65px;color:#766044}
+.camp-caption small{font-family:system-ui,sans-serif;color:#8b7b60;font-weight:400}
+.camp-pin:hover .camp-symbol,.camp-pin:focus-visible .camp-symbol{background:#b9773e;color:#fff6e4;border-color:#b9773e}
+.camp-filters button{background:transparent;border-color:#caba98;color:#887352}
+.camp-filters button[aria-pressed=true]{background:#a77d43;border-color:#a77d43;color:#fff9eb}
+.field-heading .eyebrow{color:#a08151}.field-heading h1{color:#5c4b33}
+
+/* One-screen abstract playa: no horizontal or vertical map scrolling. */
+.abstract-guide{padding-top:72px;padding-bottom:98px;overflow:hidden}
+.abstract-guide .field-heading{padding:0 22px 5px;flex-shrink:0}
+.abstract-guide .field-heading h1{font-size:27px;margin-top:4px}
+.abstract-guide .field-heading h1 span{font-size:10px;margin-top:3px}
+.abstract-map{flex:1;min-height:0;width:100%;overflow:hidden}
+.abstract-map .camp-terrain{display:block;width:100%;height:100%;max-height:100%}
+.zone-marker{cursor:pointer;outline:none}
+.zone-symbol{font-family:system-ui,sans-serif;font-size:28px;fill:#a47a3d}
+.zone-en{font-family:ui-monospace,SFMono-Regular,monospace;font-size:15px;letter-spacing:1.7px;fill:#6f5939;font-weight:600}
+.zone-ko{font-family:system-ui,sans-serif;font-size:16px;fill:#917c5c;font-weight:400}
+.zone-marker:hover .zone-en,.zone-marker:focus .zone-en{fill:#b45e28}
+.zone-marker:hover rect,.zone-marker:focus rect{fill:#b78d3715;stroke:#b78d37;stroke-width:1}
+.abstract-guide .parking-simple a{min-height:33px;padding:5px 2px;font-size:11px}
+.abstract-guide .map-scroll-note{font-size:9px;margin:1px 10px 6px}
+@media(max-height:700px){.abstract-guide .field-heading h1{font-size:22px}.abstract-guide .field-heading .eyebrow{font-size:8px}.abstract-guide{padding-top:66px;padding-bottom:94px}.abstract-guide .field-heading h1 span{display:none}}
+
+/* Aligned camp blocks: common edges, equal service plots, clear hierarchy. */
+.zone-compact .zone-symbol{font-size:20px;transform:translateY(-5px)}
+.zone-compact .zone-en{font-size:10px;letter-spacing:.4px;transform:translateY(-7px)}
+.zone-compact .zone-ko{font-size:13px;transform:translateY(-10px)}
+.zone-marker[data-camp="main"] .zone-en{font-size:19px;letter-spacing:2.4px}
+.zone-marker[data-camp="main"] .zone-symbol{font-size:34px}
+
+.zone-marker[data-camp="free"] .zone-en{font-size:13px;letter-spacing:.8px}
+
+/* Facilities use icons only; accessible labels and details are retained. */
+.zone-compact .zone-en,.zone-compact .zone-ko{display:none}
+.zone-compact .zone-symbol{font-size:32px;transform:translateY(20px)}
+
+/* Palette matched visually to the official iBurn public map (iburnapp.com). */
+body.map main,body.map #app,.abstract-guide,.abstract-map{background:#e8e0d8}
+body.map #app>header{background:#e8e0d8ed;border-bottom:0}
+body.map footer{background:linear-gradient(transparent,#e8e0d8 80%)}
+body.map #title,.field-heading h1{color:#655f56}
+.field-heading .eyebrow,.map-scroll-note{color:#93897c}
+.zone-en{fill:#686258;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-weight:500;letter-spacing:.7px}
+.zone-symbol{fill:#82796a}
+.zone-marker rect,.zone-marker:hover rect,.zone-marker:focus rect{stroke:none;fill:transparent}
+.zone-marker:hover .zone-en,.zone-marker:focus .zone-en{fill:#a27c3f}
+.zone-marker:focus-visible{outline:1px solid #a27c3f;outline-offset:4px}
+.parking-simple{border-color:#bcb3a766}.parking-simple a{color:#776f61;border-color:#bcb3a755}.parking-simple small{color:#928777}
+.tree-icon{stroke:#7a8976}.tree-icon path:first-child{fill:#a6b19b}
+.camp-dialog{background:#e8e0d8}.camp-sheet-title h2{color:#655f56}
+
+/* A single pictogram family: cabin, caravan, restroom, tents and the Man. */
+.camp-pictogram{color:#827666}
+.zone-marker[data-camp="fire"] .camp-pictogram{color:#a48259}
+.zone-marker[data-camp="tree"] .camp-pictogram{color:#766b5b}
+.zone-marker:hover .camp-pictogram,.zone-marker:focus-visible .camp-pictogram{color:#a27c3f}
+
+/* Off-site parking control above the map, address beneath it. */
+.abstract-guide .map-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 20px 4px;min-height:52px}
+.abstract-guide .field-heading h1.map-eyebrow{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;font-weight:650;letter-spacing:2px;color:#82796a;line-height:1.6}
+.offsite-parking{display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;min-width:52px;min-height:52px;padding:2px;color:#82796a;border-radius:8px}
+.offsite-parking svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.offsite-parking span{font-size:8px;letter-spacing:.8px;line-height:14px}
+.offsite-parking:hover{background:#bcb3a722;color:#a27c3f}
+.farm-address{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px 4px;flex-shrink:0;font-size:10px;color:#81776a;line-height:1.7}
+.farm-address a{color:#746854;text-decoration:underline;text-underline-offset:3px;min-height:30px;display:inline-flex;align-items:center}
+@media(max-width:360px){.abstract-guide .field-heading h1.map-eyebrow{font-size:9px;letter-spacing:1.5px}.farm-address{gap:2px 8px}}
+
+.abstract-guide .map-heading{justify-content:flex-end}.map-shortcuts{display:flex;align-items:center;gap:10px}
+body.map #title{display:none}
+
+.zone-marker[data-camp="tree"] .zone-en{font-size:21px;font-weight:600;letter-spacing:1.8px}
+
+.playa-map-title{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:24px;font-weight:600;letter-spacing:2px;fill:#686258;pointer-events:none}
+.tree-caption{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:11px;font-weight:400;letter-spacing:.5px;fill:#82796a}
+
+.abstract-guide .map-heading{justify-content:space-between}
+.abstract-guide .field-heading h1.explore-title{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:19px;font-weight:600;letter-spacing:.8px;color:#686258;line-height:1.25;text-align:left}
+.location-parking{border-top:0}
+.location-parking a{min-height:48px;line-height:1.7}
+.location-parking small{font-size:11px}
+@media(max-width:360px){.abstract-guide .field-heading h1.explore-title{font-size:16px;letter-spacing:.4px}}
+
+.location-address-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px}
+.location-address-row>div{min-width:0}
+.camp-sheet-title.location-title h2{font-size:18px;line-height:1.6;word-break:keep-all;margin:0}
+.location-address-row p{margin:5px 0 0;font-size:12px}
+.naver-icon-link{display:grid;place-items:center;width:44px;height:44px;flex-shrink:0;border:1px solid #bbb1a055;border-radius:12px;color:#758366;text-decoration:none}
+.naver-icon-link svg{width:28px;height:28px}
+.naver-icon-link:hover{background:#a6b19b22}.naver-icon-link:focus-visible{outline:2px solid #758366;outline-offset:3px}
+.parking-section{margin:12px 24px 0;padding-top:20px;border-top:1px solid #bcb3a766}
+.parking-section h3{font-size:14px;font-weight:600;color:#686258;margin:0 0 12px}
+.parking-location-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #bcb3a733;font-size:13px;line-height:1.6;color:#756b5d}
+
+.facility-caption{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:12px;letter-spacing:1px;fill:#82796a;font-weight:500}
+
+.zone-marker[data-camp="fire"] .camp-pictogram{transform:scale(.85)}
+.zone-marker[data-camp="fire"] .zone-en{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:12px;letter-spacing:1px;fill:#82796a;font-weight:500}
+
+.zone-marker[data-camp="free"] .zone-en{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:12px;letter-spacing:1px;fill:#82796a;font-weight:500}
+
+.zone-marker[data-camp="free"] .zone-en{font-size:16px}
+
+.abstract-guide .field-heading h1.guild-wordmark{display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin:0;color:#74634c;line-height:1;font-weight:400}
+.wordmark-top{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:10px;font-weight:650;letter-spacing:3.8px;padding-left:2px}
+.wordmark-name{display:flex;align-items:center;gap:9px;font-family:Georgia,"Times New Roman",serif;font-size:34px;font-weight:400;letter-spacing:-1.4px;line-height:1.05}
+.wordmark-spark{font-family:Georgia,serif;font-size:23px;color:#9d8968;letter-spacing:0}
+@media(max-width:360px){.wordmark-name{font-size:29px}.wordmark-top{font-size:9px;letter-spacing:3px}}
+
+/* Override legacy heading-span rules, including short-screen hiding. */
+.abstract-guide .field-heading h1.guild-wordmark > .wordmark-top{display:block;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:10px;font-weight:650;letter-spacing:3.8px;margin:0;padding-left:2px;color:#74634c;line-height:1.3}
+.abstract-guide .field-heading h1.guild-wordmark > .wordmark-name{display:flex;align-items:center;gap:9px;font-family:Georgia,"Times New Roman",serif;font-size:34px;font-weight:400;letter-spacing:-1.4px;margin:0;color:#74634c;line-height:1.05}
+.abstract-guide .field-heading h1.guild-wordmark .wordmark-spark{display:inline;font-family:Georgia,serif;font-size:23px;font-weight:400;color:#9d8968;letter-spacing:0;margin:0;line-height:1}
+@media(max-width:360px){.abstract-guide .field-heading h1.guild-wordmark > .wordmark-name{font-size:29px}.abstract-guide .field-heading h1.guild-wordmark > .wordmark-top{font-size:9px;letter-spacing:3px}}
+
+/* Center the two-line uppercase wordmark independently of Location. */
+.abstract-guide .map-heading{position:relative;justify-content:center;min-height:64px;padding-left:72px;padding-right:72px}
+.abstract-guide .map-heading .map-shortcuts{position:absolute;right:16px;top:50%;transform:translateY(-50%)}
+.abstract-guide .field-heading h1.guild-wordmark{align-items:center;text-align:center;gap:4px}
+.abstract-guide .field-heading h1.guild-wordmark > .wordmark-top{padding-left:0;text-align:center}
+.abstract-guide .field-heading h1.guild-wordmark > .wordmark-name{justify-content:center;text-align:center;font-size:28px;letter-spacing:.5px}
+@media(max-width:360px){.abstract-guide .field-heading h1.guild-wordmark > .wordmark-name{font-size:23px;letter-spacing:0}}
+
+#app > header #mode{display:none}
+
+/* Reclaim the unused map header space. */
+body.map #app > header{display:none}
+.field-guide.abstract-guide{padding-top:max(10px,env(safe-area-inset-top))}
+
+#app footer nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:48px}
+#app footer nav button svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.shop-page,.community-page{padding:18px 20px}.page-kicker{font-size:10px;letter-spacing:2px;color:#9b8c76}
+.shop-page h1,.community-page h1{margin:8px 0 25px;font-size:28px;color:#655f56}
+.shop-coming{padding:48px 22px;text-align:center;background:#f5f1e9;border-radius:20px;color:#877b68}
+.shop-coming>svg{width:48px;height:48px;fill:none;stroke:currentColor;stroke-width:1.5}
+.shop-coming h2{font-size:17px;font-weight:500;margin:20px 0 10px}.shop-coming p{font-size:13px;line-height:1.8}
+.community-links{border-top:1px solid #ded7ca}.community-link{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:20px 0;border-bottom:1px solid #ded7ca;color:#655f56;opacity:1;cursor:default}
+.community-icon{font-size:25px;color:#9a8b72;flex-shrink:0}.community-link b{font-size:14px;font-weight:550}.community-link small{font-size:11px;color:#a29785;margin-top:4px}.link-pending{margin-left:auto;flex-shrink:0;font-size:10px;color:#9a9080}
+
+/* Center Camp: a quiet, interactive plan in the same palette as the playa. */
+.camp-interior{padding:16px 18px 8px;color:#766b5b}
+.inside-back{padding:0 8px;color:#817665;font-size:11px;letter-spacing:1.5px;min-height:40px}
+.inside-heading{padding:14px 8px 0}.inside-heading .eyebrow{font-size:9px;color:#9a8b76;letter-spacing:2.5px}
+.inside-heading h2{margin:9px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:30px;font-weight:400;letter-spacing:1px;color:#655f56}
+.inside-plan{display:block;width:100%;height:auto;margin:10px 0 0;overflow:visible}
+.inside-outline{fill:none;stroke:#bcb3a7;stroke-width:1.3}
+.inside-dividers{fill:none;stroke:#bcb3a7;stroke-width:1;opacity:.65}
+.inside-space{cursor:pointer;outline:none;color:#827666}
+.inside-hit{fill:transparent;stroke:none;transition:fill .18s}
+.inside-space text{fill:currentColor;font:500 13px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;letter-spacing:1px;pointer-events:none}
+.inside-furniture{pointer-events:none}
+.inside-space:hover,.inside-space[aria-pressed=true]{color:#927044}
+.inside-space:hover .inside-hit{fill:#bba88316}
+.inside-space[aria-pressed=true] .inside-hit{fill:#bba88330}
+.inside-space:focus-visible .inside-hit{stroke:#927044;stroke-width:2}
+.inside-hint{text-align:center;font-size:10px;color:#9a8f80;margin:0 0 22px;letter-spacing:.5px}
+.inside-detail{border-top:1px solid #bcb3a766;margin:0 8px;padding:18px 0 0;min-height:96px}
+.inside-detail-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.inside-detail h3{margin:0;font-size:17px;font-weight:500;color:#655f56}
+.inside-detail-heading span{font-size:9px;letter-spacing:1.5px;color:#9a8b76;white-space:nowrap}
+.inside-description{font-size:11px;line-height:1.7;color:#948776;margin:8px 0 16px}
+.camp-media.inside-media{padding:0}.inside-media img,.inside-media video{border-radius:8px}
+@media(prefers-reduced-motion:reduce){.inside-hit{transition:none}}
+
+/* Small amenity symbols keep the marquee as the main landmark. */
+.center-amenities{color:#938675;pointer-events:none}
+.center-amenities .inside-furniture{stroke-width:3}
+.zone-marker[data-camp="main"]:hover .center-amenities,.zone-marker[data-camp="main"]:focus-visible .center-amenities{color:#a27c3f}
+
+a.community-link{cursor:pointer;text-decoration:none}a.community-link:hover{color:#a27c3f}a.community-link:focus-visible{outline:2px solid #a27c3f;outline-offset:3px}
+
+.community-icon{display:grid;place-items:center;width:34px;height:34px}.community-icon svg{display:block;width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}

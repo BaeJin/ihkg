@@ -1,0 +1,148 @@
+/* iHKG field guide. Geometry follows the supplied site layout, not GPS. */
+window.GuildMap = (() => {
+  const scriptBase = new URL('.', document.currentScript.src);
+  // Abstract zones preserve the source plan's left/right orientation, not scale.
+  const camps = [
+    {id:'tree',en:'TREE OF LIFE',name:'진입로 · 생명의 나무',x:300,y:94,source:['tree','entrance'],symbol:'✳'},
+    {id:'fire',en:'FIRE CIRCLE',name:'캠프파이어',x:165,y:495,source:[],symbol:'♨'},
+    {id:'garden',en:'BIG WILD',name:'조경수 공간',x:220,y:290,source:['frontplant','plant','treerows'],symbol:''},
+    {id:'animals',en:'LITTLE WILD',name:'낮은 식물과 동물들',x:430,y:290,source:[],symbol:''},
+    {id:'main',en:'CENTER CAMP',name:'먹고 · 마시고 · 함께',x:175,y:645,source:['drinking','music','indoor'],symbol:'◉'},
+    {id:'free',en:'Walk-In Camp',name:'자유 캠핑 + Building',x:415,y:525,source:['sauna','house'],symbol:'△'},
+    {id:'hut',en:'CABIN',name:'농막',x:360,y:665,source:[],symbol:'⌂'},
+    {id:'caravan',en:'CARAVAN',name:'카라반',x:470,y:665,source:['caravan'],symbol:'🚐'},
+    {id:'toilet',en:'WC',name:'화장실',x:470,y:785,source:['toilet'],symbol:'🚻'}
+  ];
+  const address='경기도 고양시 일산서구 대화동 1667-4';
+  const parking=[{name:'대화농업체험공원 주차장',url:'https://naver.me/5T4pEsah',address:'경기도 고양시 일산서구 대수길 31-3',note:'공원 이용객과 함께 사용하는 주차장입니다. 요금과 개방 구역은 현장 안내를 확인해주세요.'},{name:'고양종합운동장 부설주차장',url:'https://naver.me/xFLsIsxD',address:'경기도 고양시 일산서구 중앙로 1601',note:'유료 주차장입니다. 경기·공연일에는 진입 구역과 주차 운영이 달라질 수 있습니다.'}];
+  const naver=q=>'https://map.naver.com/p/search/'+encodeURIComponent(q);
+  function pictogram(id){
+    const art={
+      tree:`<path d="M-6 13C-29 17-38-7-24-20C-27-34-9-44 1-34C14-43 31-31 27-18C40-5 29 17 7 13" fill="currentColor" fill-opacity=".10"/><path d="M0-25V19M0 4L-17-12M-10-5L-21-5M-10-5L-11-20M0-4L17-20M10-14L22-14M0 12L15 1M0 19L-9 28L-23 33M-9 28L-10 37M0 19L9 28L23 33M9 28L10 37M0 19V36"/>`,
+      fire:`<path d="M0-25C8-10 19-5 16 9C12 24-12 24-17 9C-21-3-9-10-9-18C-7-12-5-9-2-6C3-13 3-18 0-25Z" fill="currentColor" fill-opacity=".18"/><path d="M0 0C7 8 7 16 0 19C-8 16-7 9 0 0ZM-19 28L19 34M19 28L-19 34"/>`,
+      hut:`<path d="M-28-6L0-29L28-6M-23-10V26H23V-10M10-21V-31H18V-15"/><path d="M-4 26V7H7V26M-17-3H-8V7H-17ZM12-3H20V5H12Z"/><path d="M-28 29H28"/>`,
+      caravan:`<path d="M-29 15V-13Q-29-24-18-24H18Q27-24 29-13L32 15ZM32 12H43L47 17M-20-16H-5V-4H-20ZM5 15V-16H19V15"/><circle cx="-14" cy="17" r="6" fill="#e8e0d8"/><circle cx="-14" cy="17" r="2"/><path d="M14-1H15M25 20V25"/>`,
+      toilet:`<g fill="currentColor" stroke="none"><circle cx="-16" cy="-24" r="5"/><circle cx="16" cy="-24" r="5"/><path d="M-23-15Q-23-18-20-18H-12Q-9-18-9-15V2H-12V26H-16V7H-18V26H-22V2H-25V-12Q-25-15-23-15Z"/><path d="M12-17H20L29 6H23L19-5L25 13H20V26H16V13H13V26H9V13H4L10-5L6 6H1L10-15Q10-17 12-17Z"/></g><path d="M0-30V30" stroke-width="1.5" opacity=".45"/>`,
+      free:`<path d="M-38 24L0-30L38 24ZM0-30V24M-15 24L0-7L15 24M-38 24H-49M38 24H49M-49 24L-19-3M49 24L19-3"/><path d="M0-30V-39L12-35L0-31"/>`,
+      main:`<path d="M-65-4Q-37-13-23-42Q0-14 23-42Q37-13 65-4M-65-4Q-54 8-43-4Q-32 8-21-4Q-10 8 0-4Q11 8 22-4Q33 8 44-4Q55 8 65-4M-57 0V43H57V0M-23-42V-57L-8-51L-23-47M23-42V-57L38-51L23-47M-15 43V18Q0 3 15 18V43M-57 43L-77 43M57 43H77M-77 43L-65-4M77 43L65-4"/><path d="M-42 13H-29V27H-42ZM29 13H42V27H29Z"/>`
+    };
+    return `<g class="camp-pictogram" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${art[id]||''}</g>`;
+  }
+  function marker(p){
+    if(p.id==='tree')return `<g class="zone-marker tree-marker" data-camp="tree" role="button" tabindex="0" aria-label="Tree of Life details" transform="translate(480 95)"><rect x="-48" y="-44" width="96" height="96" fill="transparent"/>${pictogram('tree')}<text class="tree-caption" y="50" text-anchor="middle">tree of life</text></g>`;
+    if(['garden','animals'].includes(p.id))return `<g class="zone-marker" data-camp="${p.id}" role="button" tabindex="0" aria-label="${p.en}"><rect x="${p.id==='garden'?75:325}" y="190" width="${p.id==='garden'?205:200}" height="210" fill="transparent"/></g>`;
+    const compact=['hut','caravan','toilet'].includes(p.id);
+    const offset=p.id==='main'?-18:p.id==='free'?-15:p.id==='fire'?-22:0;
+    return `<g class="zone-marker" data-camp="${p.id}" role="button" tabindex="0" aria-label="${p.en}" transform="translate(${p.x} ${p.y})"><rect x="${compact?-35:-80}" y="${p.id==='main'?-80:-55}" width="${compact?70:160}" height="${p.id==='main'?180:110}" fill="transparent"/><g transform="translate(0 ${offset}) ${compact?'scale(.8)':''}">${pictogram(p.id)}</g>${p.id==='main'?`<g class="center-amenities" aria-hidden="true">${['kitchen','tent','bed','music'].map((icon,i)=>`<g transform="translate(${-57+i*38} 43) scale(.28)">${insideIcon(icon)}</g>`).join('')}</g>`:''}${compact?(['hut','caravan','toilet'].includes(p.id)?`<text class="facility-caption" y="42" text-anchor="middle">${p.id==='toilet'?'W/C':p.en}</text>`:''):`<text class="zone-en" y="${p.id==='main'?80:p.id==='free'?35:35}" text-anchor="middle">${p.en}</text>`}</g>`;
+  }
+  function terrain(){
+    const big=[];for(const y of [220,295,370])for(const x of [105,180,255])big.push([x,y]);
+    const little=[];for(const y of [220,295,370])for(const x of [345,420,495])little.push([x,y]);
+    return `<svg viewBox="0 0 600 850" class="camp-terrain" aria-label="Camp map with perimeter roads and a highlighted route between two entrances.">
+      
+      <defs><g id="wild-tree" fill="none" stroke="#7a8976" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-5 5C-20 9-24-7-15-14C-18-24-6-29 0-24C8-30 21-22 17-13C27-5 19 9 5 5" fill="#a6b19b" fill-opacity=".22"/><path d="M0-17V19M0 0L-9-9M0-3L9-12M-5 19H5"/></g></defs>
+      <g class="map-roads" fill="none" stroke="#bcb3a7" stroke-width="2" stroke-linejoin="miter">
+        <path d="M57 185Q57 155 87 155H543V730H87Q57 730 57 704Z"/>
+        <path d="M57 432H543M300 155V730M543 155H585M543 730H585"/>
+        <path class="entry-route" d="M300 155H585M543 155V730M300 730H585" stroke-width="8"/>
+      </g>
+      <g class="wild-icons" aria-hidden="true">
+        ${big.map(([x,y])=>`<use href="#wild-tree" transform="translate(${x} ${y}) scale(.95)"/>`).join('')}
+        ${little.map(([x,y])=>`<use href="#wild-tree" transform="translate(${x} ${y}) scale(.95)"/>`).join('')}
+      </g>
+      <g fill="#928777" font-family="monospace" font-size="11" letter-spacing="2"><text x="585" y="141" text-anchor="end">ENTRY</text><text x="585" y="754" text-anchor="end">ENTRY</text></g>
+      ${camps.map(marker).join('')}
+    </svg>`;
+  }
+  function parkingLinks(){return `<div class="parking-simple location-parking">${parking.map((p,i)=>`<a href="${p.url||naver(p.name)}" target="_blank" rel="noopener"><span>주차 위치 ${i?'B':'A'} <small>(${p.name})</small></span><span aria-hidden="true">↗</span></a>`).join('')}</div>`;}
+  function render(){return `<section class="field-guide abstract-guide"><div class="field-heading map-heading"><h1 class="guild-wordmark" aria-label="2026 HKG GUILD CAMP"><span class="wordmark-top">2026 HKG</span><span class="wordmark-name">GUILD CAMP</span></h1><div class="map-shortcuts"><button class="offsite-parking" data-location aria-label="Show location and parking" title="Location"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 7L11 3L21 7L29 3V25L21 29L11 25L3 29ZM11 3V25M21 7V29"/><circle cx="16" cy="14" r="3"/><path d="M16 17V21"/></svg><span>LOCATION</span></button></div></div><div class="abstract-map">${terrain()}</div></section>`;}
+
+  function modal(content){
+    let d=document.querySelector('#campDialog');
+    if(!d){d=document.createElement('dialog');d.id='campDialog';d.className='camp-dialog';document.querySelector('#app').append(d);d.addEventListener('click',e=>{if(e.target===d)d.close()});d.addEventListener('close',()=>{d.querySelectorAll('video').forEach(v=>{v.pause();v.removeAttribute('src');v.load()});d.replaceChildren()});}
+    d.querySelectorAll('video').forEach(v=>v.pause());
+    d.innerHTML=`<button class="sheet-close" aria-label="닫기">×</button>${content}`;
+    d.querySelector('.sheet-close').onclick=()=>d.close(); if(!d.open)d.showModal(); return d;
+  }
+  let assetPromise;
+  function assets(){if(window.GUILD_ASSETS)return Promise.resolve();if(!assetPromise)assetPromise=new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=new URL('site-assets.js',scriptBase);s.onload=resolve;s.onerror=()=>{assetPromise=null;s.remove();reject(Error('자료를 불러오지 못했습니다.'))};document.head.append(s)});return assetPromise;}
+
+  // Relative positions follow the site-visit plan; furniture is symbolic.
+  const insideSpaces=[
+    {id:'kitchen',label:'KITCHEN',title:'Kitchen',x:78,y:230,w:102,h:310,icon:'kitchen',files:['IMG_9677.jpeg']},
+    {id:'sleep',label:'CAMP HOUSE',title:'Camp House',x:439,y:146,w:276,h:142,icon:'bed',files:[]},
+    {id:'lounge',label:'LOUNGE',title:'Lounge',x:439,y:312,w:276,h:142,icon:'music',files:['IMG_9693.mp4','IMG_9694.jpeg','IMG_9680.mp4']},
+    {id:'indoor',label:'INDOOR CAMP',title:'Indoor camping',x:213,y:230,w:140,h:310,icon:'tent',files:['IMG_9678(1).mp4']}
+  ];
+  function insideIcon(id){
+    const icons={
+      table:'<rect x="-20" y="-48" width="40" height="96" rx="5"/><path d="M-32-33V-13M-32 13V33M32-33V-13M32 13V33M-10-60H10M-10 60H10"/>',
+      kitchen:'<path d="M-28-32V-8Q-28 3-18 3Q-8 3-8-8V-32M-18-32V34M18 34V-32C30-23 31-4 29 9H18"/>',
+      bed:'<path d="M-36-20V30M36 0V30M-36 18H36M-36 5H36V-4Q36-12 28-12H-4V5"/><rect x="-29" y="-12" width="18" height="13" rx="4"/>',
+      lounge:'<rect x="-22" y="-12" width="44" height="28" rx="9"/><path d="M-30-22H30M-30 26H30M-34-18V-32H34V-18M-34 23V36H34V23"/>',
+      tent:'<path d="M-38 28L0-32L38 28ZM0-32V28M-15 28L0-3L15 28M-45 28H45"/>',
+      music:'<path d="M-13 18V-23L27-31V10M-13-12L27-20"/><ellipse cx="-23" cy="21" rx="10" ry="7" fill="currentColor" stroke="none"/><ellipse cx="17" cy="13" rx="10" ry="7" fill="currentColor" stroke="none"/>'
+    };
+    return `<g class="inside-furniture" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icons[id]}</g>`;
+  }
+  function interiorPlan(){
+    return `<svg class="inside-plan" viewBox="0 0 610 450" aria-label="Center Camp interior: a tall kitchen on the left, indoor camping beside it, Camp House across the upper right and Lounge across the lower right.">
+      <path class="inside-outline" d="M24 50H587V400H24Z"/>
+      <g class="inside-dividers"><path d="M136 65V385M291 65V385M303 228H575"/></g>
+      ${insideSpaces.map(p=>`<g class="inside-space" data-inside="${p.id}" role="button" tabindex="0" aria-label="${p.title}" aria-pressed="false" transform="translate(${p.x} ${p.y})"><rect class="inside-hit" x="${-p.w/2}" y="${-p.h/2}" width="${p.w}" height="${p.h}" rx="16"/>${insideIcon(p.icon)}<text y="62" text-anchor="middle">${p.label}</text></g>`).join('')}
+    </svg>`;
+  }
+  function openInterior(){
+    const d=modal(`<section class="camp-interior"><button class="inside-back" aria-label="Back to camp map">← MAP</button><div class="inside-heading"><span class="eyebrow">INSIDE THE CAMP</span><h2>CENTER CAMP</h2></div>${interiorPlan()}<p class="inside-hint">Select a space to explore</p><section class="inside-detail" aria-live="polite"><div class="inside-detail-heading"><h3>Make yourself at home.</h3><span>01 / 04</span></div><p class="inside-description">A place to eat, rest and spend time together.</p><div class="camp-media inside-media"></div></section></section>`);
+    d.querySelector('.inside-back').onclick=()=>d.close();
+    let selection=0;
+    async function select(id){
+      const p=insideSpaces.find(s=>s.id===id),version=++selection;
+      d.querySelectorAll('[data-inside]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.inside===id)));
+      d.querySelector('.inside-detail h3').textContent=p.title;
+      d.querySelector('.inside-detail-heading span').textContent=String(insideSpaces.indexOf(p)+1).padStart(2,'0')+' / '+String(insideSpaces.length).padStart(2,'0');
+      const target=d.querySelector('.inside-media');
+      target.querySelectorAll('video').forEach(v=>{v.pause();v.removeAttribute('src');v.load()});target.replaceChildren();
+      const description=d.querySelector('.inside-description');
+      description.textContent=p.files.length?'Loading site visit photos…':'Photos coming soon.';
+      if(!p.files.length)return;
+      try{
+        await assets();if(version!==selection||!d.open||!target.isConnected)return;
+        let count=0;
+        for(const file of p.files){
+          if(!window.GUILD_ASSETS[file])continue;
+          const video=false,m=document.createElement(video?'video':'img');m.src=window.GUILD_ASSETS[file];
+          if(video){m.controls=true;m.playsInline=true;m.preload='metadata';if(window.GUILD_ASSETS[file+'.jpg'])m.poster=window.GUILD_ASSETS[file+'.jpg'];}else m.alt=p.title+' — site visit';
+          target.append(m);count++;
+        }
+        description.textContent=count?'Site visit photos · Layout may change.':'Photos coming soon.';
+      }catch(e){if(version===selection&&target.isConnected)description.textContent='Unable to load media. Please try again.';}
+    }
+    d.querySelectorAll('[data-inside]').forEach(b=>{b.onclick=()=>select(b.dataset.inside);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(b.dataset.inside);}};});
+  }
+
+  async function openCamp(id){
+    if(id==='main'){openInterior();return;}
+    const p=camps.find(c=>c.id===id);
+    const sources=p.source.map(id=>window.GUILD_PLACES.find(c=>c.id===id)).filter(Boolean);
+    const planned=['free','fire'].includes(id);
+    const d=modal(`<div class="camp-sheet-title"><span class="eyebrow">${p.en}</span><h2>${p.en}</h2><p>${planned?'Activities and availability will be announced.':'Explore our shared space.'}</p></div><div class="camp-media" aria-live="polite">${sources.length?'Loading photos…':'Photos coming soon.'}</div>`);
+    if(!sources.length)return;
+    const target=d.querySelector('.camp-media');
+    try{await assets();if(!d.open||!target.isConnected)return;target.replaceChildren();
+      const files=[...new Set(sources.map(p=>p.file))];if(id==='garden')files.push('IMG_9673.mp4');if(id==='main')files.push('IMG_9680.mp4');if(id==='free')files.push('IMG_9691.jpeg');
+      for(const file of files){if(!window.GUILD_ASSETS[file])continue;const video=false,m=document.createElement(video?'video':'img');m.src=window.GUILD_ASSETS[file];if(video){m.controls=true;m.playsInline=true;m.preload='metadata';if(window.GUILD_ASSETS[file+'.jpg'])m.poster=window.GUILD_ASSETS[file+'.jpg'];}else m.alt=p.name+' 현장 사진';target.append(m);}
+      const note=document.createElement('p');note.className='media-note';note.textContent='Site visit photos. The event layout may change.';target.append(note);
+    }catch(e){if(target.isConnected)target.textContent='Unable to load media. Please check that the media files are available.';}
+  }
+  function naverIcon(query,label,url){return `<a class="naver-icon-link" href="${url||naver(query)}" target="_blank" rel="noopener" aria-label="${label} 네이버 지도에서 보기" title="${label} · 네이버 지도"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9.4 3 5 7.6 5 14c0 7 11 15 11 15s11-8 11-15C27 7.6 22.6 3 16 3Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 19V9h3l5 7V9h2v10h-3l-5-7v7Z" fill="currentColor"/></svg></a>`;}
+  function location(){modal(`<div class="camp-sheet-title location-title"><span class="eyebrow">LOCATION</span><div class="location-address-row"><div><h2>${address}</h2><p>(송포로118번길 170-107)</p></div>${naverIcon(address,'놀일 위치')}</div></div><section class="parking-section" aria-labelledby="parking-heading"><h3 id="parking-heading">주차 위치 안내</h3>${parking.map(p=>`<div class="parking-location-row"><span>${p.name}</span>${naverIcon(p.name,p.name,p.url)}</div>`).join('')}</section>`);}
+  function arrival(){location();}
+
+  function bind(){
+    document.querySelectorAll('[data-camp]').forEach(b=>{b.onclick=()=>openCamp(b.dataset.camp);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openCamp(b.dataset.camp);}};});
+    document.querySelectorAll('[data-arrival]').forEach(b=>b.onclick=()=>arrival());
+    document.querySelectorAll('[data-location]').forEach(b=>b.onclick=()=>location());
+  }
+  return {render,bind,arrival};
+})();

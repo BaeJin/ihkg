@@ -65,13 +65,13 @@ window.GuildMap = (() => {
     d.querySelector('.sheet-close').onclick=()=>d.close(); if(!d.open)d.showModal(); return d;
   }
   let assetPromise;
-  function assets(){if(window.GUILD_ASSETS)return Promise.resolve();if(!assetPromise)assetPromise=new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=new URL('site-assets.js',scriptBase);s.onload=resolve;s.onerror=()=>{assetPromise=null;s.remove();reject(Error('자료를 불러오지 못했습니다.'))};document.head.append(s)});return assetPromise;}
+  function assets(){if(window.GUILD_ASSETS)return Promise.resolve();if(!assetPromise)assetPromise=new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=new URL('site-assets.js?v=20261117-photos1',scriptBase);s.onload=resolve;s.onerror=()=>{assetPromise=null;s.remove();reject(Error('자료를 불러오지 못했습니다.'))};document.head.append(s)});return assetPromise;}
 
   // Relative positions follow the site-visit plan; furniture is symbolic.
   const insideSpaces=[
     {id:'kitchen',label:'KITCHEN',title:'Kitchen',x:78,y:230,w:102,h:310,icon:'kitchen',files:['IMG_9677.jpeg']},
     {id:'sleep',label:'CAMP HOUSE',title:'Camp House',x:439,y:146,w:276,h:142,icon:'bed',files:[]},
-    {id:'lounge',label:'LOUNGE',title:'Lounge',x:439,y:312,w:276,h:142,icon:'music',files:['IMG_9693.mp4','IMG_9694.jpeg','IMG_9680.mp4']},
+    {id:'lounge',label:'LOUNGE',title:'Lounge',x:439,y:312,w:276,h:142,icon:'music',files:['IMG_9693.mp4','IMG_9694.jpeg']},
     {id:'indoor',label:'INDOOR CAMP',title:'Indoor camping',x:213,y:230,w:140,h:310,icon:'tent',files:['IMG_9678(1).mp4']}
   ];
   function insideIcon(id){
@@ -115,7 +115,7 @@ window.GuildMap = (() => {
           if(video){m.controls=true;m.playsInline=true;m.preload='metadata';if(window.GUILD_ASSETS[file+'.jpg'])m.poster=window.GUILD_ASSETS[file+'.jpg'];}else m.alt=p.title+' — site visit';
           target.append(m);count++;
         }
-        description.textContent=count?'Site visit photos · Layout may change.':'Photos coming soon.';
+        description.textContent=count?'현장 사진을 바탕으로 AI가 일부 정리·재구성한 이미지가 포함되어 있습니다.':'Photos coming soon.';
       }catch(e){if(version===selection&&target.isConnected)description.textContent='Unable to load media. Please try again.';}
     }
     d.querySelectorAll('[data-inside]').forEach(b=>{b.onclick=()=>select(b.dataset.inside);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(b.dataset.inside);}};});
@@ -130,9 +130,9 @@ window.GuildMap = (() => {
     if(!sources.length)return;
     const target=d.querySelector('.camp-media');
     try{await assets();if(!d.open||!target.isConnected)return;target.replaceChildren();
-      const files=[...new Set(sources.map(p=>p.file))];if(id==='garden')files.push('IMG_9673.mp4');if(id==='main')files.push('IMG_9680.mp4');if(id==='free')files.push('IMG_9691.jpeg');
+      const files=[...new Set(sources.map(p=>p.file))];if(id==='garden')files.push('IMG_9673.mp4');if(id==='free')files.push('IMG_9691.jpeg');
       for(const file of files){if(!window.GUILD_ASSETS[file])continue;const video=false,m=document.createElement(video?'video':'img');m.src=window.GUILD_ASSETS[file];if(video){m.controls=true;m.playsInline=true;m.preload='metadata';if(window.GUILD_ASSETS[file+'.jpg'])m.poster=window.GUILD_ASSETS[file+'.jpg'];}else m.alt=p.name+' 현장 사진';target.append(m);}
-      const note=document.createElement('p');note.className='media-note';note.textContent='Site visit photos. The event layout may change.';target.append(note);
+      const note=document.createElement('p');note.className='media-note';note.textContent='현장 사진을 바탕으로 AI가 일부 정리·재구성한 이미지가 포함되어 있습니다. 실제 배치는 달라질 수 있습니다.';target.append(note);
     }catch(e){if(target.isConnected)target.textContent='Unable to load media. Please check that the media files are available.';}
   }
   function naverIcon(query,label,url){return `<a class="naver-icon-link" href="${url||naver(query)}" target="_blank" rel="noopener" aria-label="${label} 네이버 지도에서 보기" title="${label} · 네이버 지도"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9.4 3 5 7.6 5 14c0 7 11 15 11 15s11-8 11-15C27 7.6 22.6 3 16 3Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 19V9h3l5 7V9h2v10h-3l-5-7v7Z" fill="currentColor"/></svg></a>`;}

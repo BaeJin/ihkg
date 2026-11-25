@@ -6,4 +6,4 @@
 .event-notes{margin-top:10px;color:#665f53;font-size:12px;line-height:1.5;white-space:pre-line;overflow-wrap:anywhere}
 .event-card .event-notes{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .details .event-notes{margin-bottom:18px}
-nav button[data-tab="events"] small{font-size:13px;font-weight:700}
+

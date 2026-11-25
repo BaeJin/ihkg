@@ -17,11 +17,11 @@ const GuildEvents = (() => {
       const day = date ? date[1]+'-'+date[2].padStart(2,'0')+'-'+date[3].padStart(2,'0') : 'pending';
       const period = desc.match(/시간대:\s*(오전|오후)/)?.[1];
       const time = labels.includes('날짜') ? (day==='pending'?'날짜 미정':day)+' · '+(value('시각') || value('시간') || (period?period+' · 시각 미정':'시각 미정')) : rawDate;
-      const participants = [...new Set(value('같이 하고 싶어요').split(/[,\r\n]+/).map(s=>s.trim()).filter(Boolean))];
+      const participants = [...new Set(value('같이 하고 싶어요').split(/[,，\r\n]+/).map(s=>s.trim()).filter(Boolean))];
       return {id:'sheet-'+encodeURIComponent(name+'|'+host), name, camp:host || '진행자 미정',
         participants,
         day, time:time || '일정 미정', desc:desc || '세부 내용은 추후 안내합니다.',
-        type, icon:'◷', color:'#b59966'};
+        type};
     }).filter(event => event.name);
   }
   async function load() {

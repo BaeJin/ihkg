@@ -47,16 +47,28 @@ const GuildSignup = (() => {
       names.forEach(name=>{const chip=document.createElement('span');chip.textContent=name;list.appendChild(chip);});
       participants.querySelector('.participant-load').textContent = names.length ? '' : '아직 등록된 참여자가 없어요. 첫 번째로 함께해 주세요!';
     }
-    GuildEvents.load().then(items=>{
-      if (!participants.isConnected) return;
-      const current=items.find(item=>item.id===event.id);
-      if (!current) throw new Error('Event missing');
-      event.participants=current.participants || [];
-      showParticipants(event.participants);
-    }).catch(()=>{
-      if (!participants.isConnected) return;
-      participants.querySelector('.participant-load').textContent='현재 명단을 불러오지 못했습니다. 잠시 후 다시 열어주세요.';
-    });
+    let rosterRequest = 0;
+    async function refreshRoster(registeredName) {
+      const request = ++rosterRequest;
+      const note = participants.querySelector('.participant-load');
+      try {
+        const items = await GuildEvents.load();
+        if (!participants.isConnected || request !== rosterRequest) return;
+        const current = items.find(item => item.id === event.id);
+        if (!current) throw new Error('Event missing');
+        event.participants = current.participants || [];
+        showParticipants(event.participants);
+        const normalize = value => value.normalize('NFKC').trim().replace(/\s+/g, ' ').toLowerCase();
+        if (registeredName && !event.participants.some(name => normalize(name) === normalize(registeredName))) {
+          note.textContent = '신청은 저장됐습니다. 공개 명단에는 아직 반영되지 않았습니다.';
+        }
+      } catch {
+        if (participants.isConnected && request === rosterRequest) {
+          note.textContent = '현재 명단을 불러오지 못했습니다. 잠시 후 다시 열어주세요.';
+        }
+      }
+    }
+    refreshRoster();
     const form = document.createElement('form');
     form.className = 'signup-form';
     form.innerHTML = `<h3>참여 신청</h3>
@@ -77,6 +89,7 @@ const GuildSignup = (() => {
       button.textContent = '신청 중…'; status.textContent = '';
       try {
         const result = await submit(event.id, input.value, form.querySelector('[name="website"]').value);
+        refreshRoster(input.value);
         form.onsubmit = e => e.preventDefault();
         form.classList.add('signup-finished');
         form.innerHTML = `<section class="signup-success" tabindex="-1" aria-labelledby="signup-success-title">

@@ -37,12 +37,32 @@ const GuildSignup = (() => {
     if (!endpoint()) return;
     const container = document.querySelector('#detailbody .details');
     if (!container) return;
+    const participants = document.createElement('section');
+    participants.className = 'signup-participants';
+    participants.innerHTML = '<h3>같이 하고 싶어요 <span class="participant-count"></span></h3><div class="participant-names"></div><p class="participant-load" role="status">현재 참여자를 확인하고 있어요…</p>';
+    container.appendChild(participants);
+    function showParticipants(names) {
+      participants.querySelector('.participant-count').textContent = names.length+'명';
+      const list=participants.querySelector('.participant-names'); list.replaceChildren();
+      names.forEach(name=>{const chip=document.createElement('span');chip.textContent=name;list.appendChild(chip);});
+      participants.querySelector('.participant-load').textContent = names.length ? '' : '아직 등록된 참여자가 없어요. 첫 번째로 함께해 주세요!';
+    }
+    GuildEvents.load().then(items=>{
+      if (!participants.isConnected) return;
+      const current=items.find(item=>item.id===event.id);
+      if (!current) throw new Error('Event missing');
+      event.participants=current.participants || [];
+      showParticipants(event.participants);
+    }).catch(()=>{
+      if (!participants.isConnected) return;
+      participants.querySelector('.participant-load').textContent='현재 명단을 불러오지 못했습니다. 잠시 후 다시 열어주세요.';
+    });
     const form = document.createElement('form');
     form.className = 'signup-form';
     form.innerHTML = `<h3>참여 신청</h3>
       <label for="signup-name">이름</label>
       <input id="signup-name" name="name" autocomplete="name" maxlength="40" required aria-describedby="signup-hint">
-      <p id="signup-hint">동명이인은 이름 뒤에 별칭을 붙여주세요.</p>
+      <p id="signup-hint">신청한 이름은 참여자 명단에 표시됩니다.<br>동명이인은 이름 뒤에 별칭을 붙여주세요.</p>
       <label class="signup-trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
       <button class="detail-action" type="submit">참여 신청</button>
       <p class="signup-status" role="status" aria-live="polite"></p>`;
@@ -84,3 +104,4 @@ const GuildSignup = (() => {
   }
   return {mount, submit};
 })();
+

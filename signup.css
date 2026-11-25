@@ -15,3 +15,8 @@
 .signup-success .signup-success-event{font-size:15px;line-height:1.6;font-weight:600;padding:12px;border-radius:10px;background:#ffffffa6;overflow-wrap:anywhere}
 .signup-success .signup-success-note{font-size:13px;color:#52674f;line-height:1.6}
 .signup-success .signup-confirm{display:block;background:#385d40;color:white;border:0;border-radius:10px;padding:14px;font-size:15px;font-weight:700;margin:20px 0 0}
+.signup-participants{border-top:1px solid #c9bda8;margin-top:24px;padding-top:20px}
+.signup-participants h3{font-size:17px;margin:0 0 12px}.participant-count{font-size:13px;color:#55725a;margin-left:6px}
+.participant-names{display:flex;flex-wrap:wrap;gap:8px}.participant-names span{background:#e7eddf;border:1px solid #c7d4bc;padding:7px 11px;border-radius:20px;font-size:14px;color:#314331;overflow-wrap:anywhere;max-width:100%}
+.signup-participants .participant-load{font-size:13px;line-height:1.6;color:#706554}
+

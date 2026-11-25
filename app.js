@@ -91,10 +91,10 @@ const $=s=>document.querySelector(s),main=$('#main');const icons={map:'Map',even
 function filtered(){return events.filter(e=>(day==='all'||e.day===day)&&(category==='전체'||e.type===category)&&(!onlyFav||saved.has(e.id))&&`${e.name} ${e.camp} ${e.desc} ${e.type}`.toLowerCase().includes(query.toLowerCase()))}
 function favorite(id){saved.has(id)?saved.delete(id):saved.add(id);try{localStorage.setItem('iguild-favorites',JSON.stringify([...saved]))}catch{}render()}
 function eventSummary(e, heading) {
-  return `<span class="event-kind">${e.type}</span>
+  const byline = e.camp && e.camp !== '진행자 미정' ? `${e.type} - ${e.camp}` : e.type;
+  return `<span class="event-kind">${byline}</span>
     <${heading} class="event-name">${e.name}</${heading}>
     <strong class="event-when">${e.time}</strong>
-    <span class="event-host">주최자 <b>${e.camp}</b></span>
     <span class="event-notes">${e.desc}</span>`;
 }
 function row(event) {

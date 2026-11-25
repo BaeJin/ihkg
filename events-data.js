@@ -16,7 +16,7 @@ const GuildEvents = (() => {
       const date = rawDate.match(/(\d{4})\s*[.\/-]\s*(\d{1,2})\s*[.\/-]\s*(\d{1,2})/);
       const day = date ? date[1]+'-'+date[2].padStart(2,'0')+'-'+date[3].padStart(2,'0') : 'pending';
       const period = desc.match(/시간대:\s*(오전|오후)/)?.[1];
-      const time = labels.includes('날짜') ? (day==='pending'?'날짜 미정':day)+' · '+(value('시간') || (period?period+' · 시각 미정':'시각 미정')) : rawDate;
+      const time = labels.includes('날짜') ? (day==='pending'?'날짜 미정':day)+' · '+(value('시각') || value('시간') || (period?period+' · 시각 미정':'시각 미정')) : rawDate;
       const participants = [...new Set(value('같이 하고 싶어요').split(/\n/).map(s=>s.trim()).filter(Boolean))];
       return {id:'sheet-'+encodeURIComponent(name+'|'+host), name, camp:host || '진행자 미정',
         participants,

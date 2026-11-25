@@ -1,4 +1,94 @@
-let events=[];
+// Show the verified schedule while Google Sheets refreshes.
+let events=[
+  {
+    "id": "sheet-%EA%B8%B8%ED%95%98%EC%9D%98%20%EC%98%A8%EA%B8%B0%EB%A5%BC%20%EC%A7%80%EC%BC%9C%20%EC%A4%84%20%22%ED%99%94%EB%AA%A9%20%EB%82%9C%EB%A1%9C%22%20%EC%A7%81%EC%A0%91%20%EB%A7%8C%EB%93%A4%EA%B8%B0%7C%EC%A7%84%EB%B0%B0",
+    "name": "길하의 온기를 지켜 줄 \"화목 난로\" 직접 만들기",
+    "camp": "진배",
+    "day": "2026-12-04",
+    "time": "2026-12-04 · 오전 · 시각 미정",
+    "desc": "5인 이상 지원 필요. 반나절 가량 소요. 재밌음!\n시간대: 오전 (시각 미정)",
+    "type": "액티비티",
+    "icon": "◷",
+    "color": "#b59966"
+  },
+  {
+    "id": "sheet-%EC%95%84%EA%B8%B0%EB%93%A4%20%ED%9E%90%EB%A7%81%ED%95%98%EB%8A%94%20%EC%B2%B4%ED%97%98%EB%86%8D%EC%9E%A5!%20(%ED%8C%8C%EB%A6%87%ED%8C%8C%EB%A6%87)%7C%EB%B0%80%EB%9D%BC",
+    "name": "아기들 힐링하는 체험농장! (파릇파릇)",
+    "camp": "밀라",
+    "day": "2026-12-05",
+    "time": "2026-12-05 · 10:00",
+    "desc": "https://naver.me/xCBu6GcT",
+    "type": "액티비티",
+    "icon": "◷",
+    "color": "#b59966"
+  },
+  {
+    "id": "sheet-%EA%B3%A0%EA%B8%B0%EB%9E%91%20%EA%B0%99%EC%9D%B4%20%EB%A8%B9%EC%9D%84%20%EA%B9%80%EC%B9%98%20%EB%8B%B4%EA%B7%B8%EA%B8%B0%7C%ED%81%B4%EB%A1%9C%EC%9D%B4",
+    "name": "고기랑 같이 먹을 김치 담그기",
+    "camp": "클로이",
+    "day": "2026-12-05",
+    "time": "2026-12-05 · 오전 · 시각 미정",
+    "desc": "배추 현지 조달 가능\n시간대: 오전 (시각 미정)",
+    "type": "액티비티",
+    "icon": "◷",
+    "color": "#b59966"
+  },
+  {
+    "id": "sheet-%EB%B2%84%EB%8B%9D%EB%A7%A8%20%EB%A7%8C%EB%93%A4%EA%B8%B0%7C%EC%A7%84%EB%B0%B0",
+    "name": "버닝맨 만들기",
+    "camp": "진배",
+    "day": "2026-12-05",
+    "time": "2026-12-05 · 오전 · 시각 미정",
+    "desc": "각목으로 미니 버닝맨 만들기\n시간대: 오전 (시각 미정)",
+    "type": "액티비티",
+    "icon": "◷",
+    "color": "#b59966"
+  },
+  {
+    "id": "sheet-%EC%8F%98%EA%B0%80%EB%A6%AC%20%EB%82%9A%EC%8B%9C%7C%EC%A7%84%EB%B0%B0",
+    "name": "쏘가리 낚시",
+    "camp": "진배",
+    "day": "2026-12-05",
+    "time": "2026-12-05 · 오후 · 시각 미정",
+    "desc": "농장 옆 수로에서 쏘가리가 낚인대요\n시간대: 오후 (시각 미정)",
+    "type": "액티비티",
+    "icon": "◷",
+    "color": "#b59966"
+  },
+  {
+    "id": "sheet-%ED%92%8B%EC%82%B4%7C",
+    "name": "풋살",
+    "camp": "진행자 미정",
+    "day": "pending",
+    "time": "날짜 미정 · 시각 미정",
+    "desc": "근처 체육시설 예약 가능",
+    "type": "액티비티",
+    "icon": "◷",
+    "color": "#b59966"
+  },
+  {
+    "id": "sheet-%EC%A1%B1%EA%B5%AC%7C",
+    "name": "족구",
+    "camp": "진행자 미정",
+    "day": "pending",
+    "time": "날짜 미정 · 시각 미정",
+    "desc": "근처 체육시설 예약 가능",
+    "type": "액티비티",
+    "icon": "◷",
+    "color": "#b59966"
+  },
+  {
+    "id": "sheet-%ED%94%BC%ED%81%B4%EB%B3%BC%7C",
+    "name": "피클볼",
+    "camp": "진행자 미정",
+    "day": "pending",
+    "time": "날짜 미정 · 시각 미정",
+    "desc": "근처 체육시설 예약 가능",
+    "type": "액티비티",
+    "icon": "◷",
+    "color": "#b59966"
+  }
+];
 let eventState='loading', eventLoading=false;
 const escapeHTML=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 async function refreshEvents(){if(eventLoading)return;eventLoading=true;eventState='loading';if(tab==='events')render();try{events=await GuildEvents.load();eventState='ready'}catch{eventState='error'}finally{eventLoading=false;if(tab==='events')render()}}
@@ -13,7 +103,7 @@ function list(){if(eventState==='loading'&&!events.length)return '<div class="em
 function search(){return `<label class="search">⌕ <input id="query" aria-label="프로그램 검색" placeholder="Search events, camps…" value=""></label>`}
 function filters(){return showFilters?'<div class="filters"><select id="category" aria-label="이벤트 유형">'+['전체',...new Set(events.map(e=>e.type))].map(c=>`<option ${category===c?'selected':''}>${escapeHTML(c)}</option>`).join('')+'</select><button id="reset">초기화</button></div>':''}
 function map(){return GuildMap.render()}
-function render(){document.body.classList.toggle('map',tab==='map');$('#title').textContent=tab==='map'?'iHKG / FIELD GUIDE':icons[tab];document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===tab);b.setAttribute('aria-current',b.dataset.tab===tab?'page':'false')});$('#fav').textContent=onlyFav?'♥':'♡';$('#fav').style.color=onlyFav?'#dc5f7c':'#555';$('#floating').hidden=tab==='more'||tab==='shop';$('#filter').hidden=tab!=='events';$('#mode').hidden=tab==='more';if(tab==='map')main.innerHTML=map();else if(tab==='shop')main.innerHTML=GuildShop.render();else if(tab==='more')main.innerHTML=`<section class="community-page"><span class="page-kicker">STAY CONNECTED</span><h1>More</h1><div class="community-links"><button class="community-link" disabled><span class="community-icon" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 5C8.8 5 3 9.3 3 14.7c0 3.5 2.5 6.6 6.2 8.3L8 28l6-3.7 2 .1c7.2 0 13-4.4 13-9.7S23.2 5 16 5Z" fill="currentColor" stroke="none"/><g fill="#e8e0d8" stroke="none"><circle cx="10" cy="15" r="1.4"/><circle cx="16" cy="15" r="1.4"/><circle cx="22" cy="15" r="1.4"/></g></svg></span><span><b>길드하우스 단톡방</b><small>카카오톡</small></span><span class="link-pending">링크 준비 중</span></button><button class="community-link" disabled><span class="community-icon" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 6V3H29V24H26"/><rect x="3" y="8" width="21" height="21" rx="3"/><circle cx="9" cy="14" r="2"/><path d="M4 25L10 19L14 23L18 17L24 24"/></svg></span><span><b>길드하우스 사진첩</b><small>구글포토</small></span><span class="link-pending">링크 준비 중</span></button><button class="community-link" disabled><span class="community-icon" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="5" width="22" height="25" rx="3"/><rect x="11" y="2" width="10" height="6" rx="2" fill="#e8e0d8"/><circle cx="11" cy="15" r="2"/><path d="M8 22v-1a3 3 0 0 1 6 0v1M18 14H23M18 20H23M9 26H23"/></svg></span><span><b>숙박자 명단</b><small>구글시트</small></span><span class="link-pending">길드 내부 안내</span></button></div></section>`;else main.innerHTML=search()+(tab==='events'?`<div class="days">${eventDays().map(d=>`<button data-day="${d[0]}" class="${day===d[0]?'selected':''}"><small>${d[1]}</small><b>${d[2]}</b></button>`).join('')}</div>`:'')+filters()+`<p class="notice">${eventState==='loading'?'프로그램을 불러오는 중…':eventState==='error'?'업데이트하지 못했습니다. 다시 시도해주세요.':'공유회 · 프로그램 안내 — 일정은 변경될 수 있습니다.'}${onlyFav?' · 즐겨찾기만 표시':''}</p><button class="detail-action" id="refresh-events" ${eventLoading?'disabled':''}>새로고침</button><section id="results">${list()}</section>`;bind();if(tab==='map')GuildMap.bind();if(tab==='shop')GuildShop.bind();}
+function render(){document.body.classList.toggle('map',tab==='map');$('#title').textContent=tab==='map'?'iHKG / FIELD GUIDE':icons[tab];document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===tab);b.setAttribute('aria-current',b.dataset.tab===tab?'page':'false')});$('#fav').textContent=onlyFav?'♥':'♡';$('#fav').style.color=onlyFav?'#dc5f7c':'#555';$('#floating').hidden=tab==='more'||tab==='shop';$('#filter').hidden=tab!=='events';$('#mode').hidden=tab==='more';if(tab==='map')main.innerHTML=map();else if(tab==='shop')main.innerHTML=GuildShop.render();else if(tab==='more')main.innerHTML=`<section class="community-page"><span class="page-kicker">STAY CONNECTED</span><h1>More</h1><div class="community-links"><button class="community-link" disabled><span class="community-icon" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 5C8.8 5 3 9.3 3 14.7c0 3.5 2.5 6.6 6.2 8.3L8 28l6-3.7 2 .1c7.2 0 13-4.4 13-9.7S23.2 5 16 5Z" fill="currentColor" stroke="none"/><g fill="#e8e0d8" stroke="none"><circle cx="10" cy="15" r="1.4"/><circle cx="16" cy="15" r="1.4"/><circle cx="22" cy="15" r="1.4"/></g></svg></span><span><b>길드하우스 단톡방</b><small>카카오톡</small></span><span class="link-pending">링크 준비 중</span></button><button class="community-link" disabled><span class="community-icon" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 6V3H29V24H26"/><rect x="3" y="8" width="21" height="21" rx="3"/><circle cx="9" cy="14" r="2"/><path d="M4 25L10 19L14 23L18 17L24 24"/></svg></span><span><b>길드하우스 사진첩</b><small>구글포토</small></span><span class="link-pending">링크 준비 중</span></button><button class="community-link" disabled><span class="community-icon" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="5" width="22" height="25" rx="3"/><rect x="11" y="2" width="10" height="6" rx="2" fill="#e8e0d8"/><circle cx="11" cy="15" r="2"/><path d="M8 22v-1a3 3 0 0 1 6 0v1M18 14H23M18 20H23M9 26H23"/></svg></span><span><b>숙박자 명단</b><small>구글시트</small></span><span class="link-pending">길드 내부 안내</span></button></div></section>`;else main.innerHTML=search()+(tab==='events'?`<div class="days">${eventDays().map(d=>`<button data-day="${d[0]}" class="${day===d[0]?'selected':''}"><small>${d[1]}</small><b>${d[2]}</b></button>`).join('')}</div>`:'')+filters()+`<p class="notice">${eventState==='loading'?'프로그램을 불러오는 중…':eventState==='error'?'저장된 일정을 표시하고 있어요. 새로고침하면 최신 일정을 확인합니다.':'공유회 · 프로그램 안내 — 일정은 변경될 수 있습니다.'}${onlyFav?' · 즐겨찾기만 표시':''}</p><button class="detail-action" id="refresh-events" ${eventLoading?'disabled':''}>새로고침</button><section id="results">${list()}</section>`;bind();if(tab==='map')GuildMap.bind();if(tab==='shop')GuildShop.bind();}
 function bind(){if($('#refresh-events'))$('#refresh-events').onclick=refreshEvents;document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>detail(b.dataset.open));document.querySelectorAll('[data-save]').forEach(b=>b.onclick=()=>favorite(b.dataset.save));document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{day=b.dataset.day;render()});if($('#query')){$('#query').value=query;$('#query').oninput=e=>{query=e.target.value;$('#results').innerHTML=list();document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>detail(b.dataset.open));document.querySelectorAll('[data-save]').forEach(b=>b.onclick=()=>favorite(b.dataset.save))}}if($('#category'))$('#category').onchange=e=>{category=e.target.value;render()};if($('#reset'))$('#reset').onclick=()=>{category='전체';day='all';query='';onlyFav=false;render()};if($('#plus')){$('#plus').onclick=()=>{zoom=Math.min(1.8,zoom+.2);render()};$('#minus').onclick=()=>{zoom=Math.max(.7,zoom-.2);render()};$('#home').onclick=()=>{zoom=1;render()}}if($('#savedlist')){$('#savedlist').onclick=()=>{tab='events';onlyFav=true;day='all';query='';category='전체';render()};$('#alllist').onclick=()=>{tab='events';onlyFav=false;render()}}}
 function detail(id){const event=events.find(e=>e.id===id);if(!event)return;const e=Object.fromEntries(Object.entries(event).map(([k,v])=>[k,escapeHTML(v)]));$('#detailbody').innerHTML=`<div class="hero" style="--bg:${e.color}">${e.icon}<button class="close" aria-label="닫기">‹</button></div><div class="details"><h2>${e.name}</h2><p>${e.desc}</p><div class="label">HOSTED BY</div><div class="dayline">⌖ ${e.camp}</div><div class="label">WHEN</div><div class="dayline">${e.time}</div><button class="detail-action" id="dsave">${saved.has(id)?'♥ 즐겨찾기 해제':'♡ 즐겨찾기에 추가'}</button><button class="detail-action" id="dmap">지도에서 보기</button><p class="notice">프로그램과 일정은 변경될 수 있습니다.</p></div>`;$('#detail .close').onclick=()=>$('#detail').close();$('#dsave').onclick=()=>{favorite(id);$('#dsave').textContent=saved.has(id)?'♥ 즐겨찾기 해제':'♡ 즐겨찾기에 추가'};$('#dmap').onclick=()=>{tab='map';onlyFav=false;category='전체';day='all';query='';$('#detail').close();render()};if(!$('#detail').open)$('#detail').showModal();GuildSignup.mount(event)}
 document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;query='';day='all';render()});$('#fav').onclick=()=>{onlyFav=!onlyFav;render()};$('#mode').onclick=()=>{tab=tab==='map'?'events':'map';render()};$('#filter').onclick=()=>{showFilters=!showFilters;render()};$('#detail').onclick=e=>{if(e.target===$('#detail'))$('#detail').close()};render();

@@ -154,23 +154,18 @@ window.GuildMap = (() => {
   function arrival(){
     // Coordinates follow the orientation and turns of the supplied walking map.
     // All points use the original satellite image's pixel coordinates.
-    const venue=[
-      [566,130],[570,123],[585,114],[616,85],[641,56],[663,25],[680,0],[692,0],
-      [725,18],[766,43],[820,72],[870,101],[916,126],[955,158],[996,191],
-      [969,222],[945,244],[922,269],[907,291],[895,317],[886,330],[878,329],
-      [835,307],[786,278],[732,246],[678,212],[638,187],[605,159],[574,138]
-    ];
+    const venue=[[566,130],[685,0],[916,126],[996,191],[884,330]];
     const connector=[[1787,1152],[1687,1135],[1322,1014],[1365,843],[1184,735]];
     const paths=[
-      {label:'짧은 길',meters:193,points:[[1171,714],[1349,470],[1009,231],[996,248]]},
-      {label:'돌아가는 길',meters:539,points:[[1150,726],[986,965],[597,1046],[521,899],[275,835],[139,448],[547,63],[608,115]]}
+      {label:'짧은 길',meters:200,points:[[1171,714],[1349,470],[1009,231],[996,248],[966,227],[950,216]]},
+      {label:'돌아가는 길',meters:550,points:[[1150,726],[986,965],[597,1046],[521,899],[275,835],[139,448],[547,63],[608,115]]}
     ];
     const formGroup=(name,title,labels)=>`<fieldset><legend>${title}</legend><div class="route-options">${labels.map((text,i)=>
       `<label><input type="radio" name="${name}" value="${i}" ${i===0?'checked':''}><span>${text}</span></label>`
     ).join('')}</div></fieldset>`;
-    const d=modal(`<div class="camp-sheet-title"><span class="eyebrow">LOCATION · PARKING</span><h2>위치와 주차 안내</h2><div class="location-address-row"><div><strong>${address}</strong><p>송포로118번길 170-107</p></div>${naverIcon(address,'행사장 위치')}</div></div>
+    const d=modal(`<div class="camp-sheet-title"><span class="eyebrow">LOCATION · PARKING</span><h2>위치와 주차 안내</h2><div class="location-address-row"><div><strong>${address}</strong><p>송포로118번길 170-107</p></div>${naverIcon(address,'길드하우스 위치')}</div></div>
       <div class="walking-guide">${formGroup('lot','출발 주차장',parking.map(p=>p.name))}
-      ${formGroup('walk','행사장 접근로',paths.map(p=>p.label))}
+      ${formGroup('walk','길드하우스 접근로',paths.map(p=>p.label+' · 약 '+p.meters+' m'))}
       <div class="route-result" aria-live="polite"></div></div>`);
     const draw=()=>{
       const lot=Number(d.querySelector('input[name=lot]:checked').value);
@@ -178,23 +173,23 @@ window.GuildMap = (() => {
       const path=paths[walk], p=parking[lot];
       const points=lot ? connector.concat(path.points) : path.points;
       const line=(pts,cls)=>`<polyline class="${cls}" points="${pts.map(pt=>pt.join(',')).join(' ')}"/>`;
-      // Frame the selected route with room for labels on a narrow phone screen.
-      const extent=points.concat(venue);
-      const xs=extent.map(pt=>pt[0]), ys=extent.map(pt=>pt[1]);
-      const left=Math.min(...xs)-85, top=Math.max(-5,Math.min(...ys)-60);
-      const width=Math.max(...xs)-left+85, height=Math.max(...ys)-top+70;
-      const unit=Math.max(width/360,height/300);
-      const marker=(pt,caption,offset)=>`<circle class="route-pin" cx="${pt[0]}" cy="${pt[1]}" r="${4*unit}"/><text class="route-label" x="${pt[0]}" y="${pt[1]+offset*unit}" style="font-size:${12*unit}px" text-anchor="middle">${caption}</text>`;
-      const meters=path.meters+(lot ? 218 : 0);
+      const pin=pt=>`<circle class="route-pin" cx="${pt[0]}" cy="${pt[1]}" r="18"/>`;
+      const label=(x,y,text,anchor='middle')=>`<text class="route-label" x="${x}" y="${y}" text-anchor="${anchor}" style="font-size:60px">${text}</text>`;
+      const meters=lot ? Math.round((path.meters+218)/10)*10 : path.meters;
       d.querySelector('.route-result').innerHTML=`<div class="route-summary"><strong>${p.name} → ${path.label}</strong><b>약 ${meters} m</b></div>
-        <svg class="walking-map" viewBox="${left} ${top} ${width} ${height}" role="img" aria-label="${p.name}에서 행사장까지 ${path.label} 위성 지도">
+        <svg class="walking-map" viewBox="0 0 2092 1241" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${p.name}에서 길드하우스까지 ${path.label} 위성 지도">
           <image href="${new URL('media/arrival-satellite.webp',scriptBase)}" width="2092" height="1241"/>
           <rect width="2092" height="1241" fill="#091710" opacity=".38"/>
-          <polygon class="venue-area" points="${venue.map(pt=>pt.join(',')).join(' ')}" fill="#ffc65c" fill-opacity=".44" stroke="#ffe198" stroke-width="2" vector-effect="non-scaling-stroke"><title>행사장 영역</title></polygon>
+          <polygon class="venue-area" points="${venue.map(pt=>pt.join(',')).join(' ')}" fill="#ffc65c" fill-opacity=".44" stroke="#ffe198" stroke-width="2" vector-effect="non-scaling-stroke"><title>길드하우스 영역</title></polygon>
           ${line(points,'route-outline')}${line(points,'route-active')}
-          ${marker(points[0],'출발',-8)}${marker(points[points.length-1],'행사장',15)}
+          ${pin(points[0])}${pin(points[points.length-1])}
+          ${label(points[0][0]-25,points[0][1]+58,'출발','end')}
+          ${label(775,165,'길드하우스')}
+          ${label(1640,350,'대화천')}
+          ${label(1250,655,'대화농업체험공원')}${label(1250,715,'주차장')}
+          ${label(2060,1090,'킨텍스 제1주차장','end')}${label(2060,1150,'방면 ↓','end')}
         </svg>
-        <p class="route-note">노란 면은 행사장, 청록색 선은 선택한 도보 경로입니다.</p>
+        <p class="route-note">노란 면은 길드하우스, 청록색 선은 선택한 도보 경로입니다.${walk===0?' 수로 앞에서 꺾어 다리를 건너세요.':''}</p>
         <div class="parking-location-row"><div><strong>${p.name}</strong><p>${p.address}<br>${p.note}</p></div>${naverIcon(p.name,p.name,p.url)}</div>`;
     };
     d.querySelectorAll('.route-options input').forEach(input=>input.addEventListener('change',draw));

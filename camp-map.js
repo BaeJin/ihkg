@@ -11,7 +11,6 @@ window.GuildMap = (() => {
     {id:'hut',en:'CABIN 1',name:'캐빈 1',x:343,y:646,source:[],symbol:'⌂'},
     {id:'hut2',en:'CABIN 2',name:'캐빈 2',x:415,y:646,source:[]},
     {id:'caravan',en:'CARAVAN',name:'카라반',x:495,y:646,source:['caravan'],symbol:'🚐'},
-    {id:'toilet',en:'WC',name:'화장실',x:504,y:787,source:['toilet'],symbol:'🚻'}
   ];
   const address='경기도 고양시 일산서구 대화동 1667-4';
   const parking=[{name:'대화농업체험공원 주차장',url:'https://naver.me/5T4pEsah',address:'경기도 고양시 일산서구 대수길 31-3',note:'공원 이용객과 함께 사용하는 주차장입니다. 요금과 개방 구역은 현장 안내를 확인해주세요.'},{name:'고양종합운동장 부설주차장',url:'https://naver.me/xFLsIsxD',address:'경기도 고양시 일산서구 중앙로 1601',note:'유료 주차장입니다. 경기·공연일에는 진입 구역과 주차 운영이 달라질 수 있습니다.'}];
@@ -49,7 +48,7 @@ window.GuildMap = (() => {
     const hitWidth=centerCamp?236:p.id==='plunge'?100:68;
     return `<g class="zone-marker" data-camp="${p.id}" role="button" tabindex="0" aria-label="${p.name}" transform="translate(${p.x} ${p.y})">
       <rect x="${-hitWidth/2}" y="${centerCamp?-103:-40}" width="${hitWidth}" height="${centerCamp?198:88}" fill="transparent"/>
-      <g transform="scale(${scale})">${pictogram(p.id)}</g>
+      <g transform="scale(${scale})">${p.id==='caravan'?'<path d="M-29 15V-13Q-29-24-18-24H18Q27-24 29-13L32 15Z" fill="#dae2cf"/><path d="M-20-16H-5V-4H-20Z" fill="#c5dadd"/>':''}${pictogram(p.id)}</g>
       <text class="facility-caption" y="${centerCamp?93:44}" text-anchor="middle">${caption}</text></g>`;
   }
   function terrain(){
@@ -120,14 +119,14 @@ window.GuildMap = (() => {
 
   // Relative positions follow the site-visit plan; furniture is symbolic.
   const insideSpaces=[
-    {id:'kitchen',title:'주방/식당',shape:'M14 48H89V357H14Z',x:52,y:212,icon:'kitchen',files:['IMG_9677.jpeg']},
-    {id:'prep',title:'보조주방',shape:'M89 48H147V141H89Z',x:118,y:100,files:[]},
+    {id:'kitchen',title:'주방/식당',shape:'M14 48H89V357H14Z',x:52,y:212,icon:'kitchen',files:[]},
+    {id:'prep',title:'보조주방',shape:'M89 48H147V141H89Z',x:118,y:100,files:['kitchen-clean.webp']},
     {id:'wc1',title:'화장실 1',shape:'M147 48H204V141H147Z',x:175,y:100,files:[]},
     {id:'wc2',title:'화장실 2',shape:'M204 48H261V141H204Z',x:232,y:100,files:[]},
     ...[3,2,1].map((n,i)=>({id:'sleep'+n,title:'침실 컨테이너 '+n,label:'침실 '+n,
       shape:`M${321+i*72} 48h72v93h-72Z`,x:357+i*72,y:100,files:[]})),
-    {id:'lounge',title:'라운지',shape:'M89 183H189V242H261V357H89Z',x:157,y:284,icon:'music',files:['IMG_9693.mp4','IMG_9694.jpeg']},
-    {id:'indoor',title:'캠핑 존',shape:'M537 48H603V357H261V242H189V183H537Z',x:414,y:272,icon:'tent',files:['IMG_9678(1).mp4']}
+    {id:'lounge',title:'라운지',shape:'M89 183H189V242H261V357H89Z',x:157,y:284,icon:'music',files:['lounge-plan.webp'],preview:true},
+    {id:'indoor',title:'캠핑 존',shape:'M537 48H603V357H261V242H189V183H537Z',x:414,y:272,icon:'tent',files:['camping-plan.webp'],preview:true}
   ];
   function insideIcon(id){
     const icons={
@@ -153,28 +152,22 @@ window.GuildMap = (() => {
   function openInterior(initialSpace){
     const d=modal(`<section class="camp-interior"><button class="inside-back" aria-label="Back to camp map">← MAP</button><div class="inside-heading"><span class="eyebrow">INSIDE THE CAMP</span><h2>CENTER CAMP</h2></div>${interiorPlan()}<p class="inside-hint">Select a space to explore</p><section class="inside-detail" aria-live="polite"><div class="inside-detail-heading"><h3>Make yourself at home.</h3><span>— / ${String(insideSpaces.length).padStart(2,'0')}</span></div><p class="inside-description">A place to eat, rest and spend time together.</p><div class="camp-media inside-media"></div></section></section>`);
     d.querySelector('.inside-back').onclick=()=>d.close();
-    let selection=0;
-    async function select(id){
-      const p=insideSpaces.find(s=>s.id===id),version=++selection;
+    function select(id){
+      const p=insideSpaces.find(s=>s.id===id);
       d.querySelectorAll('[data-inside]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.inside===id)));
       d.querySelector('.inside-detail h3').textContent=p.title;
       d.querySelector('.inside-detail-heading span').textContent=String(insideSpaces.indexOf(p)+1).padStart(2,'0')+' / '+String(insideSpaces.length).padStart(2,'0');
       const target=d.querySelector('.inside-media');
-      target.querySelectorAll('video').forEach(v=>{v.pause();v.removeAttribute('src');v.load()});target.replaceChildren();
+      target.replaceChildren();
       const description=d.querySelector('.inside-description');
-      description.textContent=p.files.length?'Loading site visit photos…':'Photos coming soon.';
-      if(!p.files.length)return;
-      try{
-        await assets();if(version!==selection||!d.open||!target.isConnected)return;
-        let count=0;
-        for(const file of p.files){
-          if(!window.GUILD_ASSETS[file])continue;
-          const video=false,m=document.createElement(video?'video':'img');m.src=window.GUILD_ASSETS[file];
-          if(video){m.controls=true;m.playsInline=true;m.preload='metadata';if(window.GUILD_ASSETS[file+'.jpg'])m.poster=window.GUILD_ASSETS[file+'.jpg'];}else m.alt=p.title+' — site visit';
-          target.append(m);count++;
-        }
-        description.textContent=count?'현장 사진을 바탕으로 AI가 일부 정리·재구성한 이미지가 포함되어 있습니다.':'Photos coming soon.';
-      }catch(e){if(version===selection&&target.isConnected)description.textContent='Unable to load media. Please try again.';}
+      description.textContent=p.files.length?(p.preview?'현장 사진에 인조잔디와 배치 드로잉을 더한 예상도입니다.':'현장 사진을 바탕으로 정리한 이미지입니다.'):'아직 등록된 사진이 없습니다.';
+      for(const file of p.files){
+        const image=document.createElement('img');
+        image.alt=p.title+(p.preview?' 배치 예상도':' 사진');
+        image.src=new URL('media/'+file,scriptBase);
+        image.onerror=()=>{if(image.isConnected)description.textContent='사진을 불러오지 못했습니다.';};
+        target.append(image);
+      }
     }
     d.querySelectorAll('[data-inside]').forEach(b=>{b.onclick=()=>select(b.dataset.inside);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(b.dataset.inside);}};});
     if(initialSpace)select(initialSpace);

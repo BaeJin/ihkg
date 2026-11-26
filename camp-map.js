@@ -8,7 +8,7 @@ window.GuildMap = (() => {
     {id:'plunge',en:'COLD PLUNGE',name:'콜드플런지',x:214,y:495,source:[]},
     {id:'garden',en:'BIG WILD',name:'조경수 공간',x:220,y:290,source:['frontplant','plant','treerows'],symbol:''},
     {id:'animals',en:'LITTLE WILD',name:'낮은 식물과 동물들',x:430,y:290,source:[],symbol:''},
-    {id:'main',en:'CENTER CAMP',name:'먹고 · 마시고 · 함께',x:125,y:610,source:['drinking','music','indoor'],symbol:'◉'},
+    {id:'main',en:'CENTER CAMP',name:'먹고 · 마시고 · 함께',x:178,y:634,source:['drinking','music','indoor'],symbol:'◉'},
     {id:'free',en:'INDOOR CAMP',name:'비닐하우스 캠핑 공간',x:235,y:642,source:['sauna','house'],symbol:'△'},
     {id:'hut',en:'CABIN 1',name:'캐빈 1',x:343,y:646,source:[],symbol:'⌂'},
     {id:'hut2',en:'CABIN 2',name:'캐빈 2',x:415,y:646,source:[]},
@@ -35,23 +35,25 @@ window.GuildMap = (() => {
     if(p.id==='tree')return `<g class="zone-marker tree-marker" data-camp="tree" role="button" tabindex="0" aria-label="Tree of Life details" transform="translate(480 95)"><rect x="-48" y="-44" width="96" height="96" fill="transparent"/>${pictogram('tree')}<text class="tree-caption" y="50" text-anchor="middle">tree of life</text></g>`;
     if(['garden','animals'].includes(p.id))return `<g class="zone-marker" data-camp="${p.id}" role="button" tabindex="0" aria-label="${p.en}"><rect x="${p.id==='garden'?75:325}" y="190" width="${p.id==='garden'?205:200}" height="210" fill="transparent"/></g>`;
     if(p.id==='hut'||p.id==='hut2')return `<g class="zone-marker" aria-hidden="true" pointer-events="none" transform="translate(${p.x} ${p.y}) scale(.78)">${pictogram('hut')}</g>`;
-    const scale=p.id==='main' ? .66 : .78;
+    const centerCamp=p.id==='main';
+    const scale=centerCamp ? 1.44 : .78;
     const caption=p.id==='toilet'?'W/C':p.en;
-    const hitWidth=p.id==='main'||p.id==='plunge'?100:68;
+    const hitWidth=centerCamp?226:p.id==='plunge'?100:68;
     return `<g class="zone-marker" data-camp="${p.id}" role="button" tabindex="0" aria-label="${p.name}" transform="translate(${p.x} ${p.y})">
-      <rect x="${-hitWidth/2}" y="-40" width="${hitWidth}" height="88" fill="transparent"/>
+      <rect x="${-hitWidth/2}" y="${centerCamp?-84:-40}" width="${hitWidth}" height="${centerCamp?171:88}" fill="transparent"/>
       <g transform="scale(${scale})">${pictogram(p.id)}</g>
-      <text class="facility-caption" y="44" text-anchor="middle">${caption}</text></g>`;
+      <text class="facility-caption" y="${centerCamp?83:44}" text-anchor="middle">${caption}</text></g>`;
   }
   function terrain(){
     const big=[];for(const y of [277,359])for(const x of [105,177])big.push([x,y]);
     const little=[];for(const y of [218,294,370])for(const x of [339,401,462])little.push([x,y]);
+    for(const y of [458,543])for(const x of [345,420,495])little.push([x,y]);
     return `<svg viewBox="0 0 600 850" class="camp-terrain" aria-label="Camp map with perimeter roads and a highlighted route between two entrances.">
       
       <defs><g id="wild-tree" fill="none" stroke="#7a8976" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-5 5C-20 9-24-7-15-14C-18-24-6-29 0-24C8-30 21-22 17-13C27-5 19 9 5 5" fill="#a6b19b" fill-opacity=".22"/><path d="M0-17V19M0 0L-9-9M0-3L9-12M-5 19H5"/></g></defs>
       <g class="map-roads" fill="none" stroke="#bcb3a7" stroke-width="2" stroke-linejoin="miter">
         <path d="M57 185Q57 155 87 155H543V730H87Q57 730 57 704Z"/>
-        <path d="M57 432H543M300 155V730M543 155H585M543 730H585"/>
+        <path d="M300 155V730M543 155H585M543 730H585"/>
         <path class="entry-route" d="M300 155H585M543 155V730M300 730H585" stroke-width="8"/>
       </g>
       <g class="garden-art" fill="none" stroke="#82796a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none">

@@ -224,3 +224,8 @@ a.community-link{cursor:pointer;text-decoration:none}a.community-link:hover{colo
 .walking-map .route-active{stroke:#52ffda;stroke-width:3}
 .walking-map .route-outline{stroke:#14392f;stroke-width:6}
 .walking-map .route-label{fill:#fff;stroke:#14392f;stroke-width:3}
+
+.walking-guide .lot-address{margin:0 0 16px;padding-top:0}
+.walk-cautions{padding:10px 12px;background:#f4eee0;border-left:3px solid #937344;border-radius:4px}
+.walk-cautions h3{margin:0;font-size:13px}
+.walk-cautions ul{margin:4px 0 0;padding-left:18px;font-size:12px;line-height:1.65;word-break:keep-all}

@@ -7,7 +7,7 @@ window.GuildMap = (() => {
     {id:'fire',en:'FIRE CIRCLE',name:'캠프파이어',x:108,y:466,source:[],symbol:'♨'},
     {id:'plunge',en:'COLD PLUNGE',name:'콜드플런지',x:214,y:466,source:[]},
     {id:'main',en:'CENTER CAMP',name:'먹고 · 마시고 · 함께',x:178,y:628,source:['drinking','music','indoor'],symbol:'◉'},
-    {id:'free',en:'INDOOR CAMP',name:'비닐하우스 캠핑 공간',x:235,y:642,source:['sauna','house'],symbol:'△'},
+    {id:'free',en:'INDOOR CAMP',name:'캠핑 존',x:235,y:642,source:['sauna','house'],symbol:'△'},
     {id:'hut',en:'CABIN 1',name:'캐빈 1',x:343,y:646,source:[],symbol:'⌂'},
     {id:'hut2',en:'CABIN 2',name:'캐빈 2',x:415,y:646,source:[]},
     {id:'caravan',en:'CARAVAN',name:'카라반',x:495,y:646,source:['caravan'],symbol:'🚐'},
@@ -115,7 +115,7 @@ window.GuildMap = (() => {
     ...[3,2,1].map((n,i)=>({id:'sleep'+n,title:'침실 컨테이너 '+n,label:'침실 '+n,
       shape:`M${321+i*72} 48h72v93h-72Z`,x:357+i*72,y:100,files:[]})),
     {id:'lounge',title:'라운지',shape:'M89 183H189V242H261V357H89Z',x:157,y:284,icon:'music',files:['IMG_9693.mp4','IMG_9694.jpeg']},
-    {id:'indoor',title:'캠핑 공간 (비닐하우스)',label:'비닐하우스 캠핑',shape:'M537 48H603V357H261V242H189V183H537Z',x:414,y:272,icon:'tent',files:['IMG_9678(1).mp4']}
+    {id:'indoor',title:'캠핑 존',shape:'M537 48H603V357H261V242H189V183H537Z',x:414,y:272,icon:'tent',files:['IMG_9678(1).mp4']}
   ];
   function insideIcon(id){
     const icons={

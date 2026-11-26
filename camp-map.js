@@ -55,13 +55,25 @@ window.GuildMap = (() => {
     </svg>`;
   }
   function parkingLinks(){return `<div class="parking-simple location-parking">${parking.map((p,i)=>`<a href="${p.url||naver(p.name)}" target="_blank" rel="noopener"><span>주차 위치 ${i?'B':'A'} <small>(${p.name})</small></span><span aria-hidden="true">↗</span></a>`).join('')}</div>`;}
-  function render(){return `<section class="field-guide abstract-guide"><div class="field-heading map-heading"><h1 class="guild-wordmark" aria-label="2026 HKG GUILD CAMP"><span class="wordmark-top">2026 HKG</span><span class="wordmark-name">GUILD CAMP</span></h1><div class="map-shortcuts"><button class="offsite-parking" data-location aria-label="Show location and parking" title="Location"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 7L11 3L21 7L29 3V25L21 29L11 25L3 29ZM11 3V25M21 7V29"/><circle cx="16" cy="14" r="3"/><path d="M16 17V21"/></svg><span>LOCATION</span></button></div></div><div class="abstract-map">${terrain()}</div></section>`;}
+  function shortcutButtons(){
+    const shortcuts=[
+      ['location','LOCATION','위치','<path d="M3 7L11 3L21 7L29 3V25L21 29L11 25L3 29ZM11 3V25M21 7V29"/><circle cx="16" cy="14" r="3"/><path d="M16 17V21"/>'],
+      ['parking','PARKING','주차 안내','<rect x="4" y="4" width="24" height="24" rx="5"/><path d="M13 23V9h5a4 4 0 0 1 0 8h-5"/>'],
+      ['nearby','NEARBY','주변 놀거리','<circle cx="16" cy="16" r="13"/><path d="m22 10-4 8-8 4 4-8Z"/>']
+    ];
+    return shortcuts.map(([id,label,title,icon])=>
+      `<button class="offsite-parking" data-guide="${id}" aria-label="${title}" aria-haspopup="dialog" title="${title}"><svg viewBox="0 0 32 32" aria-hidden="true">${icon}</svg><span>${label}</span></button>`
+    ).join('');
+  }
+  function render(){return `<section class="field-guide abstract-guide"><div class="field-heading map-heading"><h1 class="guild-wordmark" aria-label="2026 HKG GUILD CAMP"><span class="wordmark-top">2026 HKG</span><span class="wordmark-name">GUILD CAMP</span></h1><div class="map-shortcuts">${shortcutButtons()}</div></div><div class="abstract-map">${terrain()}</div></section>`;}
 
   function modal(content){
     let d=document.querySelector('#campDialog');
     if(!d){d=document.createElement('dialog');d.id='campDialog';d.className='camp-dialog';document.querySelector('#app').append(d);d.addEventListener('click',e=>{if(e.target===d)d.close()});d.addEventListener('close',()=>{d.querySelectorAll('video').forEach(v=>{v.pause();v.removeAttribute('src');v.load()});d.replaceChildren()});}
     d.querySelectorAll('video').forEach(v=>v.pause());
     d.innerHTML=`<button class="sheet-close" aria-label="닫기">×</button>${content}`;
+    const heading=d.querySelector('h2');
+    if(heading){heading.id='camp-dialog-title';d.setAttribute('aria-labelledby',heading.id);}
     d.querySelector('.sheet-close').onclick=()=>d.close(); if(!d.open)d.showModal(); return d;
   }
   let assetPromise;
@@ -137,12 +149,24 @@ window.GuildMap = (() => {
   }
   function naverIcon(query,label,url){return `<a class="naver-icon-link" href="${url||naver(query)}" target="_blank" rel="noopener" aria-label="${label} 네이버 지도에서 보기" title="${label} · 네이버 지도"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9.4 3 5 7.6 5 14c0 7 11 15 11 15s11-8 11-15C27 7.6 22.6 3 16 3Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 19V9h3l5 7V9h2v10h-3l-5-7v7Z" fill="currentColor"/></svg></a>`;}
   function location(){modal(`<div class="camp-sheet-title location-title"><span class="eyebrow">LOCATION</span><div class="location-address-row"><div><h2>${address}</h2><p>(송포로118번길 170-107)</p></div>${naverIcon(address,'놀일 위치')}</div></div><section class="parking-section" aria-labelledby="parking-heading"><h3 id="parking-heading">주차 위치 안내</h3>${parking.map(p=>`<div class="parking-location-row"><span>${p.name}</span>${naverIcon(p.name,p.name,p.url)}</div>`).join('')}</section>`);}
+  function placeGuide(label,title,places){
+    const rows=places.map(p=>`<div class="parking-location-row"><div><strong>${p.name}</strong><p>${p.address ? p.address+'<br>' : ''}${p.note}</p></div>${naverIcon(p.name,p.name,p.url)}</div>`).join('');
+    modal(`<div class="camp-sheet-title"><span class="eyebrow">${label}</span><h2>${title}</h2></div><div class="parking-section guide-places">${rows}</div>`);
+  }
+  function showParking(){placeGuide('PARKING','주차 안내',parking);}
+  function showNearby(){
+    placeGuide('NEARBY','주변 놀거리',[
+      {name:'일산호수공원',note:'호숫가를 따라 걷거나 메타세쿼이아길을 산책해 보세요.'},
+      {name:'현대 모터스튜디오 고양',note:'실내에서 자동차를 둘러볼 수 있는 전시 공간이에요.'}
+    ]);
+  }
   function arrival(){location();}
 
   function bind(){
     document.querySelectorAll('[data-camp]').forEach(b=>{b.onclick=()=>openCamp(b.dataset.camp);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openCamp(b.dataset.camp);}};});
     document.querySelectorAll('[data-arrival]').forEach(b=>b.onclick=()=>arrival());
-    document.querySelectorAll('[data-location]').forEach(b=>b.onclick=()=>location());
+    const guides={location,parking:showParking,nearby:showNearby};
+    document.querySelectorAll('[data-guide]').forEach(b=>b.onclick=guides[b.dataset.guide]);
   }
   return {render,bind,arrival};
 })();

@@ -190,3 +190,9 @@ body.map #app > header{display:none}
 a.community-link{cursor:pointer;text-decoration:none}a.community-link:hover{color:#a27c3f}a.community-link:focus-visible{outline:2px solid #a27c3f;outline-offset:3px}
 
 .community-icon{display:grid;place-items:center;width:34px;height:34px}.community-icon svg{display:block;width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+.abstract-guide .map-heading{flex-direction:column;gap:6px;padding:0 12px}
+.abstract-guide .map-heading .map-shortcuts{position:static;transform:none;gap:10px}
+.map-shortcuts button:focus-visible{outline:2px solid currentColor;outline-offset:1px}
+.guide-places{margin-top:0;padding-top:0}
+.guide-places p{margin:4px 0 0;font-size:12px;line-height:1.6}

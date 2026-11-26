@@ -229,3 +229,11 @@ a.community-link{cursor:pointer;text-decoration:none}a.community-link:hover{colo
 .walk-cautions{padding:10px 12px;background:#f4eee0;border-left:3px solid #937344;border-radius:4px}
 .walk-cautions h3{margin:0;font-size:13px}
 .walk-cautions ul{margin:4px 0 0;padding-left:18px;font-size:12px;line-height:1.65;word-break:keep-all}
+
+.walking-viewport{width:100%;aspect-ratio:2092/1241;overflow:auto;border-radius:10px;background:#22342e;scrollbar-width:thin}
+.walking-viewport .walking-map{height:auto;max-width:none;max-height:none;border-radius:0;user-select:none}
+.map-zoom-controls{display:flex;justify-content:flex-end;align-items:center;gap:4px;margin-bottom:4px}
+.map-zoom-controls button{min-width:44px;min-height:44px;border:1px solid #b5aa98;border-radius:8px;font-size:20px}
+.map-zoom-controls button:disabled{opacity:.42}
+.map-zoom-controls output{min-width:4ch;text-align:center;font-size:12px;font-variant-numeric:tabular-nums}
+.aerial-credit{margin:3px 0;text-align:right;font-size:10px;color:#645e52}

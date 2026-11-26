@@ -166,7 +166,7 @@ window.GuildMap = (() => {
     const d=modal(`<div class="camp-sheet-title"><span class="eyebrow">LOCATION · PARKING</span><h2>위치와 주차 안내</h2><div class="location-address-row"><div><strong>${address}</strong><p>송포로118번길 170-107</p></div>${naverIcon(address,'길드하우스 위치')}</div></div>
       <div class="walking-guide">${formGroup('lot','주차장',parking.map(p=>p.name))}
       <div class="lot-address parking-location-row" aria-live="polite"></div>
-      ${formGroup('walk','주차장에서 오는 길',paths.map(p=>p.label+' · 약 '+p.meters+' m'))}
+      ${formGroup('walk','주차장에서 오는 길',paths.map(p=>p.label))}
       <div class="route-result" aria-live="polite"></div></div>`);
     const draw=()=>{
       const lot=Number(d.querySelector('input[name=lot]:checked').value);
@@ -176,25 +176,58 @@ window.GuildMap = (() => {
       const line=(pts,cls)=>`<polyline class="${cls}" points="${pts.map(pt=>pt.join(',')).join(' ')}"/>`;
       const pin=pt=>`<circle class="route-pin" cx="${pt[0]}" cy="${pt[1]}" r="18"/>`;
       const label=(x,y,text,anchor='middle')=>`<text class="route-label" x="${x}" y="${y}" text-anchor="${anchor}" style="font-size:60px">${text}</text>`;
-      const meters=lot ? Math.round((path.meters+218)/10)*10 : path.meters;
+      const distances=paths.map(route=>Math.round((route.meters+(lot ? 218 : 0))/10)*10);
+      d.querySelectorAll('input[name=walk]').forEach((input,i)=>{
+        input.nextElementSibling.textContent=`${paths[i].label} · 약 ${distances[i]} m`;
+      });
+      const meters=distances[walk];
       d.querySelector('.lot-address').innerHTML=`<div><strong>${p.address}</strong><p>${p.note}</p></div>${naverIcon(p.name,p.name,p.url)}`;
       const cautions=walk===0
         ? ['근처에 민가가 있으니 조용히 지나가 주세요.','좁은 다리를 건너야 합니다.']
         : ['길가에서 개가 짖을 수 있으니 놀라지 마세요.'];
       d.querySelector('.route-result').innerHTML=`<section class="walk-cautions"><h3>주의사항</h3><ul><li>농로입니다. 야간에는 불빛이 없으니 조심하세요.</li>${cautions.map(text=>`<li>${text}</li>`).join('')}</ul></section><div class="route-summary"><strong>${p.name} → ${path.label}</strong><b>약 ${meters} m</b></div>
+        <div class="map-zoom-controls" role="group" aria-label="지도 배율">
+          <button type="button" data-map-minus aria-label="지도 축소" disabled>−</button>
+          <output aria-label="현재 지도 배율">100%</output>
+          <button type="button" data-map-plus aria-label="지도 확대">＋</button>
+        </div>
+        <div class="walking-viewport" tabindex="0" role="region" aria-label="도보 경로 지도">
         <svg class="walking-map" viewBox="0 0 2092 1241" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${p.name}에서 길드하우스까지 ${path.label} 위성 지도">
-          <image href="${new URL('media/arrival-satellite.webp',scriptBase)}" width="2092" height="1241"/>
+          <image href="${new URL('media/arrival-aerial.webp',scriptBase)}" width="2092" height="1241"/>
           <rect width="2092" height="1241" fill="#091710" opacity=".38"/>
           <polygon class="venue-area" points="${venue.map(pt=>pt.join(',')).join(' ')}" fill="#ffc65c" fill-opacity=".44" stroke="#ffe198" stroke-width="2" vector-effect="non-scaling-stroke"><title>길드하우스 영역</title></polygon>
           ${line(points,'route-outline')}${line(points,'route-active')}
           ${pin(points[0])}${pin(points[points.length-1])}
-          ${label(points[0][0]-25,points[0][1]+58,'출발','end')}
           ${label(775,165,'길드하우스')}
           ${label(1640,350,'대화천')}
           ${label(1250,655,'대화농업체험공원')}${label(1250,715,'주차장')}
-          ${label(2060,1090,'킨텍스 제1주차장','end')}${label(2060,1150,'방면 ↓','end')}
-        </svg>
-        <p class="route-note">노란 면은 길드하우스, 청록색 선은 선택한 도보 경로입니다.${walk===0?' 수로 앞에서 꺾어 다리를 건너세요.':''}</p>`;
+          ${label(2050,866,'고양종합운동장','end')}${label(2050,932,'제1주차장','end')}
+        </svg></div>
+        <p class="aerial-credit">위성영상 © Kakao</p>
+        <p class="route-note">노란 면은 길드하우스, 청록색 선은 선택한 도보 경로입니다.</p>`;
+      const viewport=d.querySelector('.walking-viewport');
+      const map=viewport.querySelector('svg');
+      const plus=d.querySelector('[data-map-plus]'), minus=d.querySelector('[data-map-minus]');
+      let zoom=1;
+      function resizeMap(next){
+        const ratio=next/zoom;
+        const cx=viewport.scrollLeft+viewport.clientWidth/2, cy=viewport.scrollTop+viewport.clientHeight/2;
+        map.style.width=(next*100)+'%';
+        viewport.scrollTo(cx*ratio-viewport.clientWidth/2,cy*ratio-viewport.clientHeight/2);
+        zoom=next;
+        plus.disabled=zoom===4;
+        minus.disabled=zoom===1;
+        d.querySelector('.map-zoom-controls output').textContent=(zoom*100)+'%';
+      }
+      plus.onclick=()=>resizeMap(Math.min(4,zoom+1));
+      minus.onclick=()=>resizeMap(Math.max(1,zoom-1));
+      viewport.onpointerdown=e=>{
+        if(e.pointerType!=='mouse'||e.button!==0||zoom===1)return;
+        viewport.setPointerCapture(e.pointerId);
+        const left=viewport.scrollLeft,top=viewport.scrollTop;
+        viewport.onpointermove=move=>viewport.scrollTo(left+e.clientX-move.clientX,top+e.clientY-move.clientY);
+      };
+      viewport.onlostpointercapture=()=>{viewport.onpointermove=null;};
     };
     d.querySelectorAll('.route-options input').forEach(input=>input.addEventListener('change',draw));
     draw();

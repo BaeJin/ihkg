@@ -45,7 +45,7 @@ window.GuildMap = (() => {
   }
   function terrain(){
     const big=[];for(const y of [277,359])for(const x of [105,177])big.push([x,y]);
-    const little=[];for(const y of [218,294,370])for(const x of [345,420,495])little.push([x,y]);
+    const little=[];for(const y of [218,294,370])for(const x of [339,401,462])little.push([x,y]);
     return `<svg viewBox="0 0 600 850" class="camp-terrain" aria-label="Camp map with perimeter roads and a highlighted route between two entrances.">
       
       <defs><g id="wild-tree" fill="none" stroke="#7a8976" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-5 5C-20 9-24-7-15-14C-18-24-6-29 0-24C8-30 21-22 17-13C27-5 19 9 5 5" fill="#a6b19b" fill-opacity=".22"/><path d="M0-17V19M0 0L-9-9M0-3L9-12M-5 19H5"/></g></defs>
@@ -55,7 +55,7 @@ window.GuildMap = (() => {
         <path class="entry-route" d="M300 155H585M543 155V730M300 730H585" stroke-width="8"/>
       </g>
       <g class="garden-art" fill="none" stroke="#82796a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none">
-        <g transform="translate(248 190)" aria-label="비닐하우스">
+        <g transform="translate(512 190)" aria-label="비닐하우스">
           <path d="M-20 14Q0-12 20 14V181Q0 155-20 181Z" fill="#c4d3c7" fill-opacity=".38"/>
           <path d="M-20 181V190H20V181M-20 14V24M20 14V24M0 2V168" opacity=".7"/>
           <path d="M-20 52Q0 26 20 52M-20 90Q0 64 20 90M-20 128Q0 102 20 128M-20 166Q0 140 20 166"/>

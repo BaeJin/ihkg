@@ -4,8 +4,8 @@ window.GuildMap = (() => {
   // Abstract zones preserve the source plan's left/right orientation, not scale.
   const camps = [
     {id:'tree',en:'TREE OF LIFE',name:'진입로 · 생명의 나무',x:300,y:94,source:['tree','entrance'],symbol:'✳'},
-    {id:'fire',en:'FIRE CIRCLE',name:'캠프파이어',x:108,y:429,source:[],symbol:'♨'},
-    {id:'plunge',en:'COLD PLUNGE',name:'콜드플런지',x:214,y:429,source:[]},
+    {id:'fire',en:'FIRE CIRCLE',name:'캠프파이어',x:108,y:495,source:[],symbol:'♨'},
+    {id:'plunge',en:'COLD PLUNGE',name:'콜드플런지',x:214,y:495,source:[]},
     {id:'garden',en:'BIG WILD',name:'조경수 공간',x:220,y:290,source:['frontplant','plant','treerows'],symbol:''},
     {id:'animals',en:'LITTLE WILD',name:'낮은 식물과 동물들',x:430,y:290,source:[],symbol:''},
     {id:'main',en:'CENTER CAMP',name:'먹고 · 마시고 · 함께',x:125,y:610,source:['drinking','music','indoor'],symbol:'◉'},
@@ -33,33 +33,52 @@ window.GuildMap = (() => {
   }
   function marker(p){
     if(p.id==='tree')return `<g class="zone-marker tree-marker" data-camp="tree" role="button" tabindex="0" aria-label="Tree of Life details" transform="translate(480 95)"><rect x="-48" y="-44" width="96" height="96" fill="transparent"/>${pictogram('tree')}<text class="tree-caption" y="50" text-anchor="middle">tree of life</text></g>`;
-    if(['garden','animals'].includes(p.id))return `<g class="zone-marker" data-camp="${p.id}" role="button" tabindex="0" aria-label="${p.en}"><rect x="${p.id==='garden'?75:325}" y="190" width="${p.id==='garden'?205:200}" height="${p.id==='garden'?155:360}" fill="transparent"/></g>`;
-    const icon=p.id==='hut2'?'hut':p.id;
+    if(['garden','animals'].includes(p.id))return `<g class="zone-marker" data-camp="${p.id}" role="button" tabindex="0" aria-label="${p.en}"><rect x="${p.id==='garden'?75:325}" y="190" width="${p.id==='garden'?205:200}" height="210" fill="transparent"/></g>`;
+    if(p.id==='hut'||p.id==='hut2')return `<g class="zone-marker" aria-hidden="true" pointer-events="none" transform="translate(${p.x} ${p.y}) scale(.78)">${pictogram('hut')}</g>`;
     const scale=p.id==='main' ? .66 : .78;
     const caption=p.id==='toilet'?'W/C':p.en;
     const hitWidth=p.id==='main'||p.id==='plunge'?100:68;
     return `<g class="zone-marker" data-camp="${p.id}" role="button" tabindex="0" aria-label="${p.name}" transform="translate(${p.x} ${p.y})">
       <rect x="${-hitWidth/2}" y="-40" width="${hitWidth}" height="88" fill="transparent"/>
-      <g transform="scale(${scale})">${pictogram(icon)}</g>
+      <g transform="scale(${scale})">${pictogram(p.id)}</g>
       <text class="facility-caption" y="44" text-anchor="middle">${caption}</text></g>`;
   }
   function terrain(){
-    const big=[];for(const y of [208,282])for(const x of [105,180,255])big.push([x,y]);
-    const little=[];for(const y of [218,294,370,446,522])for(const x of [345,420,495])little.push([x,y]);
+    const big=[];for(const y of [277,359])for(const x of [105,177])big.push([x,y]);
+    const little=[];for(const y of [218,294,370])for(const x of [345,420,495])little.push([x,y]);
     return `<svg viewBox="0 0 600 850" class="camp-terrain" aria-label="Camp map with perimeter roads and a highlighted route between two entrances.">
       
       <defs><g id="wild-tree" fill="none" stroke="#7a8976" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-5 5C-20 9-24-7-15-14C-18-24-6-29 0-24C8-30 21-22 17-13C27-5 19 9 5 5" fill="#a6b19b" fill-opacity=".22"/><path d="M0-17V19M0 0L-9-9M0-3L9-12M-5 19H5"/></g></defs>
       <g class="map-roads" fill="none" stroke="#bcb3a7" stroke-width="2" stroke-linejoin="miter">
         <path d="M57 185Q57 155 87 155H543V730H87Q57 730 57 704Z"/>
-        <path d="M57 350H300M57 512H300M300 155V730M300 570H543M543 155H585M543 730H585"/>
+        <path d="M57 432H543M300 155V730M543 155H585M543 730H585"/>
         <path class="entry-route" d="M300 155H585M543 155V730M300 730H585" stroke-width="8"/>
+      </g>
+      <g class="garden-art" fill="none" stroke="#82796a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none">
+        <g transform="translate(248 190)" aria-label="비닐하우스">
+          <path d="M-20 14Q0-12 20 14V181Q0 155-20 181Z" fill="#c4d3c7" fill-opacity=".38"/>
+          <path d="M-20 181V190H20V181M-20 14V24M20 14V24M0 2V168" opacity=".7"/>
+          <path d="M-20 52Q0 26 20 52M-20 90Q0 64 20 90M-20 128Q0 102 20 128M-20 166Q0 140 20 166"/>
+        </g>
+        <g transform="translate(110 211)" aria-label="오리">
+          <path d="M-24 1Q-20 7-8 4Q-2 3 0-4Q-3-17 9-18Q21-19 21-7Q22 0 16 3Q18 18 0 20Q-18 22-24 1Z" fill="#eee2bc"/>
+          <path d="M21-8L30-5L21-2Z" fill="#ce9a67"/><circle cx="14" cy="-10" r="2" fill="#534d43" stroke="none"/>
+          <path d="M-13 8Q-8 15 1 10M-4 21l-3 4m13-5 2 4"/>
+        </g>
+        <g transform="translate(172 211)" aria-label="닭">
+          <path d="M-11 2Q-20-12-24-9L-21 4L-28-1Q-24 12-14 13" fill="#beaa8c"/>
+          <path d="M-15 6Q-11-1-4 0Q0-2 0-9Q0-19 11-18Q22-16 18-5Q21 6 14 14Q3 24-10 16Q-16 12-15 6Z" fill="#ece0ca"/>
+          <path d="M2-17Q-2-25 4-23L7-19Q7-28 12-24L13-19Q19-24 19-18L16-15" fill="#b98479"/>
+          <path d="M19-10L25-7L18-5Z" fill="#ce9a67"/><circle cx="13" cy="-10" r="1.9" fill="#534d43" stroke="none"/>
+          <path d="M-8 7Q-3 14 4 7M-3 19v6l-4 2m13-9 1 7 4 2"/>
+        </g>
       </g>
       <g class="wild-icons" aria-hidden="true">
         ${big.map(([x,y])=>`<use href="#wild-tree" transform="translate(${x} ${y}) scale(.95)"/>`).join('')}
         ${little.map(([x,y])=>`<use href="#wild-tree" transform="translate(${x} ${y}) scale(.95)"/>`).join('')}
       </g>
       <g fill="#928777" font-family="monospace" font-size="11" letter-spacing="2"><text x="585" y="141" text-anchor="end">ENTRY</text><text x="585" y="754" text-anchor="end">ENTRY</text></g>
-      ${camps.map(marker).join('')}
+      ${camps.filter(p=>p.id!=='free').map(marker).join('')}
     </svg>`;
   }
   function parkingLinks(){return `<div class="parking-simple location-parking">${parking.map((p,i)=>`<a href="${p.url||naver(p.name)}" target="_blank" rel="noopener"><span>주차 위치 ${i?'B':'A'} <small>(${p.name})</small></span><span aria-hidden="true">↗</span></a>`).join('')}</div>`;}

@@ -4,14 +4,16 @@ window.GuildMap = (() => {
   // Abstract zones preserve the source plan's left/right orientation, not scale.
   const camps = [
     {id:'tree',en:'TREE OF LIFE',name:'진입로 · 생명의 나무',x:300,y:94,source:['tree','entrance'],symbol:'✳'},
-    {id:'fire',en:'FIRE CIRCLE',name:'캠프파이어',x:165,y:495,source:[],symbol:'♨'},
+    {id:'fire',en:'FIRE CIRCLE',name:'캠프파이어',x:108,y:429,source:[],symbol:'♨'},
+    {id:'plunge',en:'COLD PLUNGE',name:'콜드플런지',x:214,y:429,source:[]},
     {id:'garden',en:'BIG WILD',name:'조경수 공간',x:220,y:290,source:['frontplant','plant','treerows'],symbol:''},
     {id:'animals',en:'LITTLE WILD',name:'낮은 식물과 동물들',x:430,y:290,source:[],symbol:''},
-    {id:'main',en:'CENTER CAMP',name:'먹고 · 마시고 · 함께',x:175,y:645,source:['drinking','music','indoor'],symbol:'◉'},
-    {id:'free',en:'Walk-In Camp',name:'자유 캠핑 + Building',x:415,y:525,source:['sauna','house'],symbol:'△'},
-    {id:'hut',en:'CABIN',name:'농막',x:360,y:665,source:[],symbol:'⌂'},
-    {id:'caravan',en:'CARAVAN',name:'카라반',x:470,y:665,source:['caravan'],symbol:'🚐'},
-    {id:'toilet',en:'WC',name:'화장실',x:470,y:785,source:['toilet'],symbol:'🚻'}
+    {id:'main',en:'CENTER CAMP',name:'먹고 · 마시고 · 함께',x:125,y:610,source:['drinking','music','indoor'],symbol:'◉'},
+    {id:'free',en:'INDOOR CAMP',name:'비닐하우스 캠핑 공간',x:235,y:642,source:['sauna','house'],symbol:'△'},
+    {id:'hut',en:'CABIN 1',name:'캐빈 1',x:343,y:646,source:[],symbol:'⌂'},
+    {id:'hut2',en:'CABIN 2',name:'캐빈 2',x:415,y:646,source:[]},
+    {id:'caravan',en:'CARAVAN',name:'카라반',x:495,y:646,source:['caravan'],symbol:'🚐'},
+    {id:'toilet',en:'WC',name:'화장실',x:504,y:787,source:['toilet'],symbol:'🚻'}
   ];
   const address='경기도 고양시 일산서구 대화동 1667-4';
   const parking=[{name:'대화농업체험공원 주차장',url:'https://naver.me/5T4pEsah',address:'경기도 고양시 일산서구 대수길 31-3',note:'공원 이용객과 함께 사용하는 주차장입니다. 요금과 개방 구역은 현장 안내를 확인해주세요.'},{name:'고양종합운동장 부설주차장',url:'https://naver.me/xFLsIsxD',address:'경기도 고양시 일산서구 중앙로 1601',note:'유료 주차장입니다. 경기·공연일에는 진입 구역과 주차 운영이 달라질 수 있습니다.'}];
@@ -19,6 +21,7 @@ window.GuildMap = (() => {
   function pictogram(id){
     const art={
       tree:`<path d="M-6 13C-29 17-38-7-24-20C-27-34-9-44 1-34C14-43 31-31 27-18C40-5 29 17 7 13" fill="currentColor" fill-opacity=".10"/><path d="M0-25V19M0 4L-17-12M-10-5L-21-5M-10-5L-11-20M0-4L17-20M10-14L22-14M0 12L15 1M0 19L-9 28L-23 33M-9 28L-10 37M0 19L9 28L23 33M9 28L10 37M0 19V36"/>`,
+      plunge:`<ellipse cx="0" cy="-5" rx="27" ry="9"/><path d="M-27-5l4 20q21 13 46 0l4-20M-13-5q5-4 11 0t12 0"/>`,
       fire:`<path d="M0-25C8-10 19-5 16 9C12 24-12 24-17 9C-21-3-9-10-9-18C-7-12-5-9-2-6C3-13 3-18 0-25Z" fill="currentColor" fill-opacity=".18"/><path d="M0 0C7 8 7 16 0 19C-8 16-7 9 0 0ZM-19 28L19 34M19 28L-19 34"/>`,
       hut:`<path d="M-28-6L0-29L28-6M-23-10V26H23V-10M10-21V-31H18V-15"/><path d="M-4 26V7H7V26M-17-3H-8V7H-17ZM12-3H20V5H12Z"/><path d="M-28 29H28"/>`,
       caravan:`<path d="M-29 15V-13Q-29-24-18-24H18Q27-24 29-13L32 15ZM32 12H43L47 17M-20-16H-5V-4H-20ZM5 15V-16H19V15"/><circle cx="-14" cy="17" r="6" fill="#e8e0d8"/><circle cx="-14" cy="17" r="2"/><path d="M14-1H15M25 20V25"/>`,
@@ -30,20 +33,25 @@ window.GuildMap = (() => {
   }
   function marker(p){
     if(p.id==='tree')return `<g class="zone-marker tree-marker" data-camp="tree" role="button" tabindex="0" aria-label="Tree of Life details" transform="translate(480 95)"><rect x="-48" y="-44" width="96" height="96" fill="transparent"/>${pictogram('tree')}<text class="tree-caption" y="50" text-anchor="middle">tree of life</text></g>`;
-    if(['garden','animals'].includes(p.id))return `<g class="zone-marker" data-camp="${p.id}" role="button" tabindex="0" aria-label="${p.en}"><rect x="${p.id==='garden'?75:325}" y="190" width="${p.id==='garden'?205:200}" height="210" fill="transparent"/></g>`;
-    const compact=['hut','caravan','toilet'].includes(p.id);
-    const offset=p.id==='main'?-18:p.id==='free'?-15:p.id==='fire'?-22:0;
-    return `<g class="zone-marker" data-camp="${p.id}" role="button" tabindex="0" aria-label="${p.en}" transform="translate(${p.x} ${p.y})"><rect x="${compact?-35:-80}" y="${p.id==='main'?-80:-55}" width="${compact?70:160}" height="${p.id==='main'?180:110}" fill="transparent"/><g transform="translate(0 ${offset}) ${compact?'scale(.8)':''}">${pictogram(p.id)}</g>${p.id==='main'?`<g class="center-amenities" aria-hidden="true">${['kitchen','tent','bed','music'].map((icon,i)=>`<g transform="translate(${-57+i*38} 43) scale(.28)">${insideIcon(icon)}</g>`).join('')}</g>`:''}${compact?(['hut','caravan','toilet'].includes(p.id)?`<text class="facility-caption" y="42" text-anchor="middle">${p.id==='toilet'?'W/C':p.en}</text>`:''):`<text class="zone-en" y="${p.id==='main'?80:p.id==='free'?35:35}" text-anchor="middle">${p.en}</text>`}</g>`;
+    if(['garden','animals'].includes(p.id))return `<g class="zone-marker" data-camp="${p.id}" role="button" tabindex="0" aria-label="${p.en}"><rect x="${p.id==='garden'?75:325}" y="190" width="${p.id==='garden'?205:200}" height="${p.id==='garden'?155:360}" fill="transparent"/></g>`;
+    const icon=p.id==='hut2'?'hut':p.id;
+    const scale=p.id==='main' ? .66 : .78;
+    const caption=p.id==='toilet'?'W/C':p.en;
+    const hitWidth=p.id==='main'||p.id==='plunge'?100:68;
+    return `<g class="zone-marker" data-camp="${p.id}" role="button" tabindex="0" aria-label="${p.name}" transform="translate(${p.x} ${p.y})">
+      <rect x="${-hitWidth/2}" y="-40" width="${hitWidth}" height="88" fill="transparent"/>
+      <g transform="scale(${scale})">${pictogram(icon)}</g>
+      <text class="facility-caption" y="44" text-anchor="middle">${caption}</text></g>`;
   }
   function terrain(){
-    const big=[];for(const y of [220,295,370])for(const x of [105,180,255])big.push([x,y]);
-    const little=[];for(const y of [220,295,370])for(const x of [345,420,495])little.push([x,y]);
+    const big=[];for(const y of [208,282])for(const x of [105,180,255])big.push([x,y]);
+    const little=[];for(const y of [218,294,370,446,522])for(const x of [345,420,495])little.push([x,y]);
     return `<svg viewBox="0 0 600 850" class="camp-terrain" aria-label="Camp map with perimeter roads and a highlighted route between two entrances.">
       
       <defs><g id="wild-tree" fill="none" stroke="#7a8976" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-5 5C-20 9-24-7-15-14C-18-24-6-29 0-24C8-30 21-22 17-13C27-5 19 9 5 5" fill="#a6b19b" fill-opacity=".22"/><path d="M0-17V19M0 0L-9-9M0-3L9-12M-5 19H5"/></g></defs>
       <g class="map-roads" fill="none" stroke="#bcb3a7" stroke-width="2" stroke-linejoin="miter">
         <path d="M57 185Q57 155 87 155H543V730H87Q57 730 57 704Z"/>
-        <path d="M57 432H543M300 155V730M543 155H585M543 730H585"/>
+        <path d="M57 350H300M57 512H300M300 155V730M300 570H543M543 155H585M543 730H585"/>
         <path class="entry-route" d="M300 155H585M543 155V730M300 730H585" stroke-width="8"/>
       </g>
       <g class="wild-icons" aria-hidden="true">
@@ -80,10 +88,14 @@ window.GuildMap = (() => {
 
   // Relative positions follow the site-visit plan; furniture is symbolic.
   const insideSpaces=[
-    {id:'kitchen',label:'KITCHEN',title:'Kitchen',x:78,y:230,w:102,h:310,icon:'kitchen',files:['IMG_9677.jpeg']},
-    {id:'sleep',label:'CAMP HOUSE',title:'Camp House',x:439,y:146,w:276,h:142,icon:'bed',files:[]},
-    {id:'lounge',label:'LOUNGE',title:'Lounge',x:439,y:312,w:276,h:142,icon:'music',files:['IMG_9693.mp4','IMG_9694.jpeg']},
-    {id:'indoor',label:'INDOOR CAMP',title:'Indoor camping',x:213,y:230,w:140,h:310,icon:'tent',files:['IMG_9678(1).mp4']}
+    {id:'kitchen',title:'주방/식당',shape:'M14 48H89V357H14Z',x:52,y:212,icon:'kitchen',files:['IMG_9677.jpeg']},
+    {id:'prep',title:'보조주방',shape:'M89 48H147V141H89Z',x:118,y:100,files:[]},
+    {id:'wc1',title:'화장실 1',shape:'M147 48H204V141H147Z',x:175,y:100,files:[]},
+    {id:'wc2',title:'화장실 2',shape:'M204 48H261V141H204Z',x:232,y:100,files:[]},
+    ...[3,2,1].map((n,i)=>({id:'sleep'+n,title:'침실 컨테이너 '+n,label:'침실 '+n,
+      shape:`M${321+i*72} 48h72v93h-72Z`,x:357+i*72,y:100,files:[]})),
+    {id:'lounge',title:'라운지',shape:'M89 183H189V242H261V357H89Z',x:157,y:284,icon:'music',files:['IMG_9693.mp4','IMG_9694.jpeg']},
+    {id:'indoor',title:'캠핑 공간 (비닐하우스)',label:'비닐하우스 캠핑',shape:'M537 48H603V357H261V242H189V183H537Z',x:414,y:272,icon:'tent',files:['IMG_9678(1).mp4']}
   ];
   function insideIcon(id){
     const icons={
@@ -97,14 +109,17 @@ window.GuildMap = (() => {
     return `<g class="inside-furniture" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icons[id]}</g>`;
   }
   function interiorPlan(){
-    return `<svg class="inside-plan" viewBox="0 0 610 450" aria-label="Center Camp interior: a tall kitchen on the left, indoor camping beside it, Camp House across the upper right and Lounge across the lower right.">
-      <path class="inside-outline" d="M24 50H587V400H24Z"/>
-      <g class="inside-dividers"><path d="M136 65V385M291 65V385M303 228H575"/></g>
-      ${insideSpaces.map(p=>`<g class="inside-space" data-inside="${p.id}" role="button" tabindex="0" aria-label="${p.title}" aria-pressed="false" transform="translate(${p.x} ${p.y})"><rect class="inside-hit" x="${-p.w/2}" y="${-p.h/2}" width="${p.w}" height="${p.h}" rx="16"/>${insideIcon(p.icon)}<text y="62" text-anchor="middle">${p.label}</text></g>`).join('')}
-    </svg>`;
+    return `<svg class="inside-plan" viewBox="0 0 620 379" aria-label="센터캠프 시설 배치도">
+      <rect class="inside-outline" x="14" y="48" width="589" height="309"/>
+      <rect x="261" y="48" width="60" height="93" fill="#bcb3a733"/>
+      ${insideSpaces.map(p=>`<g class="inside-space" data-inside="${p.id}" role="button" tabindex="0" aria-label="${p.title}" aria-pressed="false">
+        <path class="floor-zone" d="${p.shape}"/>
+        ${p.icon?`<g transform="translate(${p.x} ${p.y-23}) scale(.6)">${insideIcon(p.icon)}</g>`:''}
+        <text x="${p.x}" y="${p.y+(p.icon?16:0)}" text-anchor="middle">${p.label||p.title}</text></g>`).join('')}
+      </svg>`;
   }
-  function openInterior(){
-    const d=modal(`<section class="camp-interior"><button class="inside-back" aria-label="Back to camp map">← MAP</button><div class="inside-heading"><span class="eyebrow">INSIDE THE CAMP</span><h2>CENTER CAMP</h2></div>${interiorPlan()}<p class="inside-hint">Select a space to explore</p><section class="inside-detail" aria-live="polite"><div class="inside-detail-heading"><h3>Make yourself at home.</h3><span>01 / 04</span></div><p class="inside-description">A place to eat, rest and spend time together.</p><div class="camp-media inside-media"></div></section></section>`);
+  function openInterior(initialSpace){
+    const d=modal(`<section class="camp-interior"><button class="inside-back" aria-label="Back to camp map">← MAP</button><div class="inside-heading"><span class="eyebrow">INSIDE THE CAMP</span><h2>CENTER CAMP</h2></div>${interiorPlan()}<p class="inside-hint">Select a space to explore</p><section class="inside-detail" aria-live="polite"><div class="inside-detail-heading"><h3>Make yourself at home.</h3><span>— / ${String(insideSpaces.length).padStart(2,'0')}</span></div><p class="inside-description">A place to eat, rest and spend time together.</p><div class="camp-media inside-media"></div></section></section>`);
     d.querySelector('.inside-back').onclick=()=>d.close();
     let selection=0;
     async function select(id){
@@ -130,11 +145,13 @@ window.GuildMap = (() => {
       }catch(e){if(version===selection&&target.isConnected)description.textContent='Unable to load media. Please try again.';}
     }
     d.querySelectorAll('[data-inside]').forEach(b=>{b.onclick=()=>select(b.dataset.inside);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(b.dataset.inside);}};});
+    if(initialSpace)select(initialSpace);
   }
 
   async function openCamp(id){
-    if(id==='main'){openInterior();return;}
+    if(id==='main'||id==='free'){openInterior(id==='free'?'indoor':null);return;}
     const p=camps.find(c=>c.id===id);
+    if(id==='plunge'){modal(`<div class="camp-sheet-title"><span class="eyebrow">COLD PLUNGE</span><h2>콜드플런지</h2><p>모닥불 옆에 있습니다.</p></div>`);return;}
     const sources=p.source.map(id=>window.GUILD_PLACES.find(c=>c.id===id)).filter(Boolean);
     const planned=['free','fire'].includes(id);
     const d=modal(`<div class="camp-sheet-title"><span class="eyebrow">${p.en}</span><h2>${p.en}</h2><p>${planned?'Activities and availability will be announced.':'Explore our shared space.'}</p></div><div class="camp-media" aria-live="polite">${sources.length?'Loading photos…':'Photos coming soon.'}</div>`);

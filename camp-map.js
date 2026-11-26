@@ -154,6 +154,12 @@ window.GuildMap = (() => {
   function arrival(){
     // Coordinates follow the orientation and turns of the supplied walking map.
     // All points use the original satellite image's pixel coordinates.
+    const venue=[
+      [566,130],[570,123],[585,114],[616,85],[641,56],[663,25],[680,0],[692,0],
+      [725,18],[766,43],[820,72],[870,101],[916,126],[955,158],[996,191],
+      [969,222],[945,244],[922,269],[907,291],[895,317],[886,330],[878,329],
+      [835,307],[786,278],[732,246],[678,212],[638,187],[605,159],[574,138]
+    ];
     const connector=[[1787,1152],[1687,1135],[1322,1014],[1365,843],[1184,735]];
     const paths=[
       {label:'짧은 길',meters:193,points:[[1171,714],[1349,470],[1009,231],[996,248]]},
@@ -173,8 +179,9 @@ window.GuildMap = (() => {
       const points=lot ? connector.concat(path.points) : path.points;
       const line=(pts,cls)=>`<polyline class="${cls}" points="${pts.map(pt=>pt.join(',')).join(' ')}"/>`;
       // Frame the selected route with room for labels on a narrow phone screen.
-      const xs=points.map(pt=>pt[0]), ys=points.map(pt=>pt[1]);
-      const left=Math.min(...xs)-85, top=Math.min(...ys)-60;
+      const extent=points.concat(venue);
+      const xs=extent.map(pt=>pt[0]), ys=extent.map(pt=>pt[1]);
+      const left=Math.min(...xs)-85, top=Math.max(-5,Math.min(...ys)-60);
       const width=Math.max(...xs)-left+85, height=Math.max(...ys)-top+70;
       const unit=Math.max(width/360,height/300);
       const marker=(pt,caption,offset)=>`<circle class="route-pin" cx="${pt[0]}" cy="${pt[1]}" r="${4*unit}"/><text class="route-label" x="${pt[0]}" y="${pt[1]+offset*unit}" style="font-size:${12*unit}px" text-anchor="middle">${caption}</text>`;
@@ -183,10 +190,11 @@ window.GuildMap = (() => {
         <svg class="walking-map" viewBox="${left} ${top} ${width} ${height}" role="img" aria-label="${p.name}에서 행사장까지 ${path.label} 위성 지도">
           <image href="${new URL('media/arrival-satellite.webp',scriptBase)}" width="2092" height="1241"/>
           <rect width="2092" height="1241" fill="#091710" opacity=".38"/>
+          <polygon class="venue-area" points="${venue.map(pt=>pt.join(',')).join(' ')}" fill="#ffc65c" fill-opacity=".44" stroke="#ffe198" stroke-width="2" vector-effect="non-scaling-stroke"><title>행사장 영역</title></polygon>
           ${line(points,'route-outline')}${line(points,'route-active')}
           ${marker(points[0],'출발',-8)}${marker(points[points.length-1],'행사장',15)}
         </svg>
-        <p class="route-note">청록색 선을 따라 걸어오세요. 거리는 지도 측정값입니다.</p>
+        <p class="route-note">노란 면은 행사장, 청록색 선은 선택한 도보 경로입니다.</p>
         <div class="parking-location-row"><div><strong>${p.name}</strong><p>${p.address}<br>${p.note}</p></div>${naverIcon(p.name,p.name,p.url)}</div>`;
     };
     d.querySelectorAll('.route-options input').forEach(input=>input.addEventListener('change',draw));

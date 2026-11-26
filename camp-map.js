@@ -193,7 +193,9 @@ window.GuildMap = (() => {
   function showNearby(){
     placeGuide('NEARBY','주변 놀거리',[
       {name:'일산호수공원',note:'호숫가를 따라 걷거나 메타세쿼이아길을 산책해 보세요.'},
-      {name:'현대 모터스튜디오 고양',note:'실내에서 자동차를 둘러볼 수 있는 전시 공간이에요.'}
+      {name:'현대 모터스튜디오 고양',note:'실내에서 자동차를 둘러볼 수 있는 전시 공간이에요.'},
+      {name:'아쿠아플라넷 일산',address:'일산서구 한류월드로 282',note:'실내 수족관에서 다양한 해양생물을 만날 수 있어요.'},
+      {name:'엠스파 찜질방',address:'일산서구 중앙로 1493 지하 1층',note:'따뜻한 찜질방에서 쉬어 갈 수 있어요.',url:naver('일산 주엽동 엠스파')}
     ]);
   }
   function arrival(){location();}

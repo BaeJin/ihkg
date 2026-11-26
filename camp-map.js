@@ -56,6 +56,7 @@ window.GuildMap = (() => {
         <path d="M300 155V730M543 155H585M543 730H585"/>
         <path class="entry-route" d="M300 155H585M543 155V730M300 730H585" stroke-width="8"/>
       </g>
+      <g transform="translate(402 99) scale(.55)" color="#82796a" aria-hidden="true" pointer-events="none">${pictogram('caravan')}</g>
       <g class="garden-art" fill="none" stroke="#82796a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none">
         <g transform="translate(512 190)" aria-label="비닐하우스">
           <path d="M-20 14Q0-12 20 14V181Q0 155-20 181Z" fill="#c4d3c7" fill-opacity=".38"/>
@@ -85,7 +86,7 @@ window.GuildMap = (() => {
   function parkingLinks(){return `<div class="parking-simple location-parking">${parking.map((p,i)=>`<a href="${p.url||naver(p.name)}" target="_blank" rel="noopener"><span>주차 위치 ${i?'B':'A'} <small>(${p.name})</small></span><span aria-hidden="true">↗</span></a>`).join('')}</div>`;}
   function shortcutButtons(){
     const shortcuts=[
-      ['location','LOCATION · PARKING','위치와 주차 안내','<path d="M3 7L11 3L21 7L29 3V25L21 29L11 25L3 29ZM11 3V25M21 7V29"/><circle cx="16" cy="14" r="3"/><path d="M16 17V21"/>'],
+      ['location','오시는 길','오시는 길','<path d="M3 7L11 3L21 7L29 3V25L21 29L11 25L3 29ZM11 3V25M21 7V29"/><circle cx="16" cy="14" r="3"/><path d="M16 17V21"/>'],
       ['nearby','NEARBY','주변 놀거리','<circle cx="16" cy="16" r="13"/><path d="m22 10-4 8-8 4 4-8Z"/>']
     ];
     return shortcuts.map(([id,label,title,icon])=>
@@ -204,7 +205,11 @@ window.GuildMap = (() => {
     const formGroup=(name,title,labels)=>`<fieldset><legend>${title}</legend><div class="route-options">${labels.map((text,i)=>
       `<label><input type="radio" name="${name}" value="${i}" ${i===0?'checked':''}><span>${text}</span></label>`
     ).join('')}</div></fieldset>`;
-    const d=modal(`<div class="camp-sheet-title"><span class="eyebrow">LOCATION · PARKING</span><h2>위치와 주차 안내</h2><div class="location-address-row"><div><strong>${address}</strong><p>송포로118번길 170-107</p></div>${naverIcon(address,'길드하우스 위치')}</div></div>
+    const d=modal(`<div class="camp-sheet-title arrival-title"><h2>오시는 길</h2></div>
+      <section class="arrival-destination" aria-labelledby="venue-address-title">
+        <h3 id="venue-address-title">길드하우스 주소</h3>
+        <div class="arrival-address"><div><strong>경기도 고양시 일산서구 송포로118번길 170-107</strong><small>지번 · 대화동 1667-4</small></div>${naverIcon(address,'길드하우스 주소')}</div>
+      </section>
       <div class="walking-guide">${formGroup('lot','주차장',parking.map(p=>p.name))}
       <div class="lot-address parking-location-row" aria-live="polite"></div>
       ${formGroup('walk','주차장에서 오는 길',paths.map(p=>p.label))}
@@ -222,7 +227,7 @@ window.GuildMap = (() => {
         input.nextElementSibling.textContent=`${paths[i].label} · 약 ${distances[i]} m`;
       });
       const meters=distances[walk];
-      d.querySelector('.lot-address').innerHTML=`<strong>${p.address}</strong>${naverIcon(p.name,p.name,p.url)}`;
+      d.querySelector('.lot-address').innerHTML=`<div><small>선택한 주차장 주소</small><strong>${p.address}</strong></div>${naverIcon(p.name,p.name,p.url)}`;
       const cautions=walk===0
         ? ['근처에 민가가 있으니 조용히 지나가 주세요.','좁은 다리를 건너야 합니다.']
         : ['길가에서 개가 짖을 수 있으니 놀라지 마세요.'];

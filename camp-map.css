@@ -244,3 +244,13 @@ a.community-link{cursor:pointer;text-decoration:none}a.community-link:hover{colo
 .inside-space text{pointer-events:none;letter-spacing:0}
 
 .nearby-events h4{margin:4px 0;font-size:14px}.nearby-events a{display:inline-block;padding:6px 0;color:#46553f}.nearby-events+.guide-places{margin-top:22px}
+
+.camp-sheet-title.arrival-title{padding:24px 20px 12px}
+.arrival-title h2{margin:0}
+.arrival-destination{margin:0 20px 18px;padding:12px 14px;background:#f5f2ea;border-left:3px solid #52664b;border-radius:6px;color:#414a3c}
+.arrival-destination h3{font-size:13px;margin:0 0 4px}
+.arrival-address{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.arrival-address strong,.walking-guide .lot-address strong{display:block;font-size:14px;line-height:1.5;word-break:keep-all}
+.arrival-address small,.walking-guide .lot-address small{display:block;color:#635c50;font-size:12px;line-height:1.5}
+.arrival-address small{margin-top:3px}
+.walking-guide .lot-address small{margin-bottom:2px}

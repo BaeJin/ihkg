@@ -196,3 +196,25 @@ a.community-link{cursor:pointer;text-decoration:none}a.community-link:hover{colo
 .map-shortcuts button:focus-visible{outline:2px solid currentColor;outline-offset:1px}
 .guide-places{margin-top:0;padding-top:0}
 .guide-places p{margin:4px 0 0;font-size:12px;line-height:1.6}
+
+.walking-guide{margin:0 20px;color:#514c40}
+.walking-guide fieldset{border:0;padding:0;margin:0 0 12px;min-width:0}
+.walking-guide legend{padding:0;margin-bottom:5px;font-size:12px;font-weight:650}
+.route-options{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.route-options label{position:relative;cursor:pointer}
+.route-options input{position:absolute;opacity:0}
+.route-options span{display:grid;place-items:center;text-align:center;min-height:44px;padding:3px 6px;border:1px solid #b5aa98;border-radius:7px;font-size:13px;word-break:keep-all}
+.route-options input:checked+span{background:#46553f;color:#fff;border-color:#46553f;font-weight:650}
+.route-options input:focus-visible+span{outline:2px solid #705124;outline-offset:2px}
+.route-summary{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;padding:8px 0}
+.route-summary b{white-space:nowrap;color:#37503c}
+.walking-map{display:block;width:100%;background:#f4f1e6;border-radius:10px}
+.walking-map polyline{fill:none;stroke-linejoin:round;stroke-linecap:round}
+.route-water{fill:none;stroke:#b5d2d2;stroke-width:13}
+.route-river{font-size:10px;fill:#406a70}
+.route-other{stroke:#b2ae9e;stroke-width:2;stroke-dasharray:4 4}
+.route-outline{stroke:#fff;stroke-width:7}
+.route-active{stroke:#326b4d;stroke-width:4}
+.route-pin{fill:#254c39;stroke:white;stroke-width:2}
+.route-label{font-size:12px;font-weight:700;fill:#254c39;paint-order:stroke;stroke:#f4f1e6;stroke-width:4;stroke-linejoin:round}
+.route-note,.walking-guide .parking-location-row p{font-size:12px;line-height:1.6;margin:5px 0;color:#645e52}

@@ -153,7 +153,43 @@ window.GuildMap = (() => {
     const rows=places.map(p=>`<div class="parking-location-row"><div><strong>${p.name}</strong><p>${p.address ? p.address+'<br>' : ''}${p.note}</p></div>${naverIcon(p.name,p.name,p.url)}</div>`).join('');
     modal(`<div class="camp-sheet-title"><span class="eyebrow">${label}</span><h2>${title}</h2></div><div class="parking-section guide-places">${rows}</div>`);
   }
-  function showParking(){placeGuide('PARKING','주차 안내',parking);}
+  function showParking(){
+    // Coordinates follow the orientation and turns of the supplied walking map.
+    const junction=[239,161];
+    const connector=[[367,248],[347,245],[275,220],[283,186],junction];
+    const paths=[
+      {label:'짧은 길',meters:193,points:[junction,[280,112],[212,64],[208,69]]},
+      {label:'돌아가는 길',meters:539,points:[junction,[207,211],[129,227],[114,198],[65,185],[38,108],[119,31],[132,41]]}
+    ];
+    const formGroup=(name,title,labels)=>`<fieldset><legend>${title}</legend><div class="route-options">${labels.map((text,i)=>
+      `<label><input type="radio" name="${name}" value="${i}" ${i===0?'checked':''}><span>${text}</span></label>`
+    ).join('')}</div></fieldset>`;
+    const d=modal(`<div class="camp-sheet-title"><span class="eyebrow">PARKING</span><h2>주차장에서 오는 길</h2></div>
+      <div class="walking-guide">${formGroup('lot','출발 주차장',parking.map(p=>p.name))}
+      ${formGroup('walk','행사장 접근로',paths.map(p=>p.label))}
+      <div class="route-result" aria-live="polite"></div></div>`);
+    const draw=()=>{
+      const lot=Number(d.querySelector('input[name=lot]:checked').value);
+      const walk=Number(d.querySelector('input[name=walk]:checked').value);
+      const path=paths[walk], p=parking[lot];
+      const points=lot ? connector.concat(path.points.slice(1)) : path.points;
+      const line=(pts,cls)=>`<polyline class="${cls}" points="${pts.map(pt=>pt.join(',')).join(' ')}"/>`;
+      const marker=(pt,caption,dx,dy)=>`<circle class="route-pin" cx="${pt[0]}" cy="${pt[1]}" r="4.5"/><text class="route-label" x="${pt[0]+dx}" y="${pt[1]+dy}" text-anchor="middle">${caption}</text>`;
+      const meters=path.meters+(lot ? 218 : 0);
+      d.querySelector('.route-result').innerHTML=`<div class="route-summary"><strong>${p.name} → ${path.label}</strong><b>약 ${meters} m</b></div>
+        <svg class="walking-map" viewBox="0 0 400 268" role="img" aria-label="${p.name} 출발, ${path.label}로 행사장까지 약 ${meters}미터">
+          <path class="route-water" d="M338 -15Q354 77 315 145T282 279"/><text x="321" y="164" class="route-river">대화천</text>
+          ${[connector,...paths.map(r=>r.points)].map(pts=>line(pts,'route-other')).join('')}
+          ${line(points,'route-outline')}${line(points,'route-active')}
+          ${marker(points[0],'출발',0,-9)}${marker(points[points.length-1],'행사장',0,19)}
+          ${lot ? '<text class="route-label" x="227" y="151" text-anchor="end">공원 주차장 경유</text>' : ''}
+        </svg>
+        <p class="route-note">도보 약도 · 첨부 지도에서 측정한 거리 기준</p>
+        <div class="parking-location-row"><div><strong>${p.name}</strong><p>${p.address}<br>${p.note}</p></div>${naverIcon(p.name,p.name,p.url)}</div>`;
+    };
+    d.querySelectorAll('.route-options input').forEach(input=>input.addEventListener('change',draw));
+    draw();
+  }
   function showNearby(){
     placeGuide('NEARBY','주변 놀거리',[
       {name:'일산호수공원',note:'호숫가를 따라 걷거나 메타세쿼이아길을 산책해 보세요.'},

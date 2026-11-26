@@ -242,3 +242,5 @@ a.community-link{cursor:pointer;text-decoration:none}a.community-link:hover{colo
 .inside-space:hover .floor-zone,.inside-space[aria-pressed=true] .floor-zone{fill:#bba88355}
 .inside-space:focus-visible .floor-zone{stroke:#806638;stroke-width:3}
 .inside-space text{pointer-events:none;letter-spacing:0}
+
+.nearby-events h4{margin:4px 0;font-size:14px}.nearby-events a{display:inline-block;padding:6px 0;color:#46553f}.nearby-events+.guide-places{margin-top:22px}

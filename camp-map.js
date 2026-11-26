@@ -164,10 +164,6 @@ window.GuildMap = (() => {
     }catch(e){if(target.isConnected)target.textContent='Unable to load media. Please check that the media files are available.';}
   }
   function naverIcon(query,label,url){return `<a class="naver-icon-link" href="${url||naver(query)}" target="_blank" rel="noopener" aria-label="${label} 네이버 지도에서 보기" title="${label} · 네이버 지도"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9.4 3 5 7.6 5 14c0 7 11 15 11 15s11-8 11-15C27 7.6 22.6 3 16 3Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 19V9h3l5 7V9h2v10h-3l-5-7v7Z" fill="currentColor"/></svg></a>`;}
-  function placeGuide(label,title,places){
-    const rows=places.map(p=>`<div class="parking-location-row"><div><strong>${p.name}</strong><p>${p.address ? p.address+'<br>' : ''}${p.note}</p></div>${naverIcon(p.name,p.name,p.url)}</div>`).join('');
-    modal(`<div class="camp-sheet-title"><span class="eyebrow">${label}</span><h2>${title}</h2></div><div class="parking-section guide-places">${rows}</div>`);
-  }
   function arrival(){
     // Coordinates follow the orientation and turns of the supplied walking map.
     // All points use the original satellite image's pixel coordinates.
@@ -250,12 +246,22 @@ window.GuildMap = (() => {
     draw();
   }
   function showNearby(){
-    placeGuide('NEARBY','주변 놀거리',[
-      {name:'일산호수공원',note:'커피 한 잔 들고 호숫가를 걷다가, 메타세쿼이아 길로 접어들어 보세요. 캠프에서 미처 못 나눈 이야기를 이어가기 좋은 산책길이에요.'},
-      {name:'현대 모터스튜디오 고양',note:'자동차 한 대는 어떻게 만들어질까요? 평소엔 볼 수 없는 차체와 부품을 가까이서 들여다보는 재미가 있어요.'},
-      {name:'아쿠아플라넷 일산',note:'커다란 수조 앞에 잠시 서서 마음에 드는 물고기 한 마리를 눈으로 따라가 보세요. 물빛 속 움직임을 구경하다 보면 시간이 금세 가요.'},
-      {name:'엠스파 찜질방',note:'바깥에서 실컷 논 날, 뜨끈한 찜질방에 누워 몸을 녹여 보세요. 돌아가기 전 한 박자 느긋하게 쉬어 가기 좋아요.',url:naver('일산 주엽동 엠스파')}
-    ]);
+    const places=[
+      {name:'일산호수공원',note:'달맞이섬의 정자, 월파정을 목적지로 잡아 보세요. 호숫가를 걷다 섬 안으로 들어서면 방금 걸어온 물가가 건너편 풍경이 됩니다.'},
+      {name:'현대 모터스튜디오 고양',note:'자동차 안에 접혀 있던 에어백이 여기서는 터널의 벽을 이룹니다. 터널을 지나 충돌 테스트 영상까지 보면 운전석에서 볼 수 없던 자동차의 속사정이 보여요.'},
+      {name:'아쿠아플라넷 일산',note:'메인 수조에서 한 몸처럼 방향을 트는 정어리 떼를 보고, 더 정글에서는 미어캣과 눈을 맞춰 보세요. 마지막 코스는 옥상 동물원 스카이팜이에요.'},
+      {name:'엠스파 찜질방',note:'불한증막에서 땀을 낸 뒤 찜질복 차림으로 치킨을 나눠 먹는 게 이곳의 재미예요. 한증막의 열기가 부담스럽다면 자수정방부터 들러 보세요.',url:naver('일산 주엽동 엠스파')}
+    ];
+    const events=[
+      {name:'Anime X Game Festival 2026',when:'12.4(금)–12.6(일) · 매일 09:30–18:00',hall:'제1전시장 1–5홀',note:'애니메이션과 게임 부스가 다섯 홀에 걸쳐 펼쳐집니다. 좋아하는 작품의 부스와 성우들이 오르는 RED 스테이지를 일정에 함께 담아 보세요.',link:'https://www.agfkorea.com/event?idx=1',action:'공식 행사 안내'},
+      {name:'2026 타임캡슐 슈퍼콘서트 in 일산',when:'12.5(토) · 16:00',hall:'제2전시장 9홀',note:'노래방에서 따라 부르던 Y2K와 이브(EVE)의 노래를 원곡 가수의 목소리로 듣는 토요일. 그 시절 선곡 취향이 같았던 친구와 가기 좋은 무대예요.',link:'https://m.smartstore.naver.com/timecapsulesuperconcert/products/13835944517',action:'공연 안내·예매'}
+    ];
+    const listings=events.map(e=>`<article class="parking-location-row"><div><small>${e.when} · ${e.hall}</small><h4>${e.name}</h4><p>${e.note}</p><a href="${e.link}" target="_blank" rel="noopener">${e.action} ↗</a></div></article>`).join('');
+    const outings=places.map(p=>`<div class="parking-location-row"><div><strong>${p.name}</strong><p>${p.note}</p></div>${naverIcon(p.name,p.name,p.url)}</div>`).join('');
+    modal(`<div class="camp-sheet-title"><span class="eyebrow">NEARBY</span><h2>주변 놀거리</h2></div>
+      <section class="parking-section guide-places nearby-events"><h3>킨텍스 공연·전시</h3>${listings}</section>
+      <section class="parking-section guide-places"><h3>주변 나들이</h3>${outings}</section>`);
+
   }
 
   function bind(){

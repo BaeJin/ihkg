@@ -25,7 +25,18 @@ window.GuildMap = (() => {
       caravan:`<path d="M-29 15V-13Q-29-24-18-24H18Q27-24 29-13L32 15ZM32 12H43L47 17M-20-16H-5V-4H-20ZM5 15V-16H19V15"/><circle cx="-14" cy="17" r="6" fill="#e8e0d8"/><circle cx="-14" cy="17" r="2"/><path d="M14-1H15M25 20V25"/>`,
       toilet:`<g fill="currentColor" stroke="none"><circle cx="-16" cy="-24" r="5"/><circle cx="16" cy="-24" r="5"/><path d="M-23-15Q-23-18-20-18H-12Q-9-18-9-15V2H-12V26H-16V7H-18V26H-22V2H-25V-12Q-25-15-23-15Z"/><path d="M12-17H20L29 6H23L19-5L25 13H20V26H16V13H13V26H9V13H4L10-5L6 6H1L10-15Q10-17 12-17Z"/></g><path d="M0-30V30" stroke-width="1.5" opacity=".45"/>`,
       free:`<path d="M-38 24L0-30L38 24ZM0-30V24M-15 24L0-7L15 24M-38 24H-49M38 24H49M-49 24L-19-3M49 24L19-3"/><path d="M0-30V-39L12-35L0-31"/>`,
-      main:`<path d="M-65-4Q-37-13-23-42Q0-14 23-42Q37-13 65-4M-65-4Q-54 8-43-4Q-32 8-21-4Q-10 8 0-4Q11 8 22-4Q33 8 44-4Q55 8 65-4M-57 0V43H57V0M-23-42V-57L-8-51L-23-47M23-42V-57L38-51L23-47M-15 43V18Q0 3 15 18V43M-57 43L-77 43M57 43H77M-77 43L-65-4M77 43L65-4"/><path d="M-42 13H-29V27H-42ZM29 13H42V27H29Z"/>`
+      main:`<g stroke="#71503b" stroke-width="1.55">
+        <path d="M-65-4L-77 43H77L65-4" fill="none"/>
+        <path d="M-57-3H57V43H-57Z" fill="#f1d6a2"/>
+        <path d="M-57 0H57V7H-57Z" fill="#ddbb82" stroke="none"/>
+        <path d="M-15 43V20Q0 3 15 20V43Z" fill="#526755"/>
+        <path d="M-42 13H-29V27H-42ZM29 13H42V27H29Z" fill="#f9bc5d"/>
+        <path d="M-35.5 13V27M35.5 13V27" stroke-width="1"/>
+        <path d="M-65-4Q-37-13-23-42Q0-14 23-42Q37-13 65-4Q55 8 44-4Q33 8 22-4Q11 8 0-4Q-10 8-21-4Q-32 8-43-4Q-54 8-65-4Z" fill="#bb694d"/>
+        <path d="M-23-42Q-27-17-43-4Q-32 8-21-4Q-16-24-23-42ZM23-42Q17-21 22-4Q33 8 44-4Q28-18 23-42Z" fill="#f6ddad" stroke="none"/>
+        <path d="M-65-4Q-37-13-23-42Q0-14 23-42Q37-13 65-4Q55 8 44-4Q33 8 22-4Q11 8 0-4Q-10 8-21-4Q-32 8-43-4Q-54 8-65-4Z" fill="none"/>
+        <path d="M-23-42V-57L-8-51L-23-47M23-42V-57L38-51L23-47" fill="#d6a34e"/>
+      </g>`
     };
     return `<g class="camp-pictogram" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${art[id]||''}</g>`;
   }

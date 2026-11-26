@@ -254,3 +254,5 @@ a.community-link{cursor:pointer;text-decoration:none}a.community-link:hover{colo
 .arrival-address small,.walking-guide .lot-address small{display:block;color:#635c50;font-size:12px;line-height:1.5}
 .arrival-address small{margin-top:3px}
 .walking-guide .lot-address small{margin-bottom:2px}
+
+.zone-marker[data-camp="main"] .facility-caption{fill:#744732;font-family:Georgia,serif;font-size:15px;font-weight:700;letter-spacing:1.4px}

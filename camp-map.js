@@ -56,7 +56,7 @@ window.GuildMap = (() => {
         <path d="M300 155V730M543 155H585M543 730H585"/>
         <path class="entry-route" d="M300 155H585M543 155V730M300 730H585" stroke-width="8"/>
       </g>
-      <g transform="translate(402 99) scale(.55)" color="#82796a" aria-hidden="true" pointer-events="none">${pictogram('caravan')}</g>
+      <g transform="translate(402 134) scale(.55)" color="#82796a" aria-hidden="true" pointer-events="none">${pictogram('caravan')}</g>
       <g class="garden-art" fill="none" stroke="#82796a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none">
         <g transform="translate(512 190)" aria-label="비닐하우스">
           <path d="M-20 14Q0-12 20 14V181Q0 155-20 181Z" fill="#c4d3c7" fill-opacity=".38"/>

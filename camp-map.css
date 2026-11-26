@@ -218,3 +218,9 @@ a.community-link{cursor:pointer;text-decoration:none}a.community-link:hover{colo
 .route-pin{fill:#254c39;stroke:white;stroke-width:2}
 .route-label{font-size:12px;font-weight:700;fill:#254c39;paint-order:stroke;stroke:#f4f1e6;stroke-width:4;stroke-linejoin:round}
 .route-note,.walking-guide .parking-location-row p{font-size:12px;line-height:1.6;margin:5px 0;color:#645e52}
+
+.walking-map{max-height:310px;background:#22342e}
+.walking-map .route-active,.walking-map .route-outline,.walking-map .route-pin,.walking-map .route-label{vector-effect:non-scaling-stroke}
+.walking-map .route-active{stroke:#52ffda;stroke-width:3}
+.walking-map .route-outline{stroke:#14392f;stroke-width:6}
+.walking-map .route-label{fill:#fff;stroke:#14392f;stroke-width:3}

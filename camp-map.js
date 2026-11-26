@@ -57,8 +57,7 @@ window.GuildMap = (() => {
   function parkingLinks(){return `<div class="parking-simple location-parking">${parking.map((p,i)=>`<a href="${p.url||naver(p.name)}" target="_blank" rel="noopener"><span>주차 위치 ${i?'B':'A'} <small>(${p.name})</small></span><span aria-hidden="true">↗</span></a>`).join('')}</div>`;}
   function shortcutButtons(){
     const shortcuts=[
-      ['location','LOCATION','위치','<path d="M3 7L11 3L21 7L29 3V25L21 29L11 25L3 29ZM11 3V25M21 7V29"/><circle cx="16" cy="14" r="3"/><path d="M16 17V21"/>'],
-      ['parking','PARKING','주차 안내','<rect x="4" y="4" width="24" height="24" rx="5"/><path d="M13 23V9h5a4 4 0 0 1 0 8h-5"/>'],
+      ['location','LOCATION · PARKING','위치와 주차 안내','<path d="M3 7L11 3L21 7L29 3V25L21 29L11 25L3 29ZM11 3V25M21 7V29"/><circle cx="16" cy="14" r="3"/><path d="M16 17V21"/>'],
       ['nearby','NEARBY','주변 놀거리','<circle cx="16" cy="16" r="13"/><path d="m22 10-4 8-8 4 4-8Z"/>']
     ];
     return shortcuts.map(([id,label,title,icon])=>
@@ -148,23 +147,22 @@ window.GuildMap = (() => {
     }catch(e){if(target.isConnected)target.textContent='Unable to load media. Please check that the media files are available.';}
   }
   function naverIcon(query,label,url){return `<a class="naver-icon-link" href="${url||naver(query)}" target="_blank" rel="noopener" aria-label="${label} 네이버 지도에서 보기" title="${label} · 네이버 지도"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9.4 3 5 7.6 5 14c0 7 11 15 11 15s11-8 11-15C27 7.6 22.6 3 16 3Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 19V9h3l5 7V9h2v10h-3l-5-7v7Z" fill="currentColor"/></svg></a>`;}
-  function location(){modal(`<div class="camp-sheet-title location-title"><span class="eyebrow">LOCATION</span><div class="location-address-row"><div><h2>${address}</h2><p>(송포로118번길 170-107)</p></div>${naverIcon(address,'놀일 위치')}</div></div><section class="parking-section" aria-labelledby="parking-heading"><h3 id="parking-heading">주차 위치 안내</h3>${parking.map(p=>`<div class="parking-location-row"><span>${p.name}</span>${naverIcon(p.name,p.name,p.url)}</div>`).join('')}</section>`);}
   function placeGuide(label,title,places){
     const rows=places.map(p=>`<div class="parking-location-row"><div><strong>${p.name}</strong><p>${p.address ? p.address+'<br>' : ''}${p.note}</p></div>${naverIcon(p.name,p.name,p.url)}</div>`).join('');
     modal(`<div class="camp-sheet-title"><span class="eyebrow">${label}</span><h2>${title}</h2></div><div class="parking-section guide-places">${rows}</div>`);
   }
-  function showParking(){
+  function arrival(){
     // Coordinates follow the orientation and turns of the supplied walking map.
-    const junction=[239,161];
-    const connector=[[367,248],[347,245],[275,220],[283,186],junction];
+    // All points use the original satellite image's pixel coordinates.
+    const connector=[[1787,1152],[1687,1135],[1322,1014],[1365,843],[1184,735]];
     const paths=[
-      {label:'짧은 길',meters:193,points:[junction,[280,112],[212,64],[208,69]]},
-      {label:'돌아가는 길',meters:539,points:[junction,[207,211],[129,227],[114,198],[65,185],[38,108],[119,31],[132,41]]}
+      {label:'짧은 길',meters:193,points:[[1171,714],[1349,470],[1009,231],[996,248]]},
+      {label:'돌아가는 길',meters:539,points:[[1150,726],[986,965],[597,1046],[521,899],[275,835],[139,448],[547,63],[608,115]]}
     ];
     const formGroup=(name,title,labels)=>`<fieldset><legend>${title}</legend><div class="route-options">${labels.map((text,i)=>
       `<label><input type="radio" name="${name}" value="${i}" ${i===0?'checked':''}><span>${text}</span></label>`
     ).join('')}</div></fieldset>`;
-    const d=modal(`<div class="camp-sheet-title"><span class="eyebrow">PARKING</span><h2>주차장에서 오는 길</h2></div>
+    const d=modal(`<div class="camp-sheet-title"><span class="eyebrow">LOCATION · PARKING</span><h2>위치와 주차 안내</h2><div class="location-address-row"><div><strong>${address}</strong><p>송포로118번길 170-107</p></div>${naverIcon(address,'행사장 위치')}</div></div>
       <div class="walking-guide">${formGroup('lot','출발 주차장',parking.map(p=>p.name))}
       ${formGroup('walk','행사장 접근로',paths.map(p=>p.label))}
       <div class="route-result" aria-live="polite"></div></div>`);
@@ -172,19 +170,23 @@ window.GuildMap = (() => {
       const lot=Number(d.querySelector('input[name=lot]:checked').value);
       const walk=Number(d.querySelector('input[name=walk]:checked').value);
       const path=paths[walk], p=parking[lot];
-      const points=lot ? connector.concat(path.points.slice(1)) : path.points;
+      const points=lot ? connector.concat(path.points) : path.points;
       const line=(pts,cls)=>`<polyline class="${cls}" points="${pts.map(pt=>pt.join(',')).join(' ')}"/>`;
-      const marker=(pt,caption,dx,dy)=>`<circle class="route-pin" cx="${pt[0]}" cy="${pt[1]}" r="4.5"/><text class="route-label" x="${pt[0]+dx}" y="${pt[1]+dy}" text-anchor="middle">${caption}</text>`;
+      // Frame the selected route with room for labels on a narrow phone screen.
+      const xs=points.map(pt=>pt[0]), ys=points.map(pt=>pt[1]);
+      const left=Math.min(...xs)-85, top=Math.min(...ys)-60;
+      const width=Math.max(...xs)-left+85, height=Math.max(...ys)-top+70;
+      const unit=Math.max(width/360,height/300);
+      const marker=(pt,caption,offset)=>`<circle class="route-pin" cx="${pt[0]}" cy="${pt[1]}" r="${4*unit}"/><text class="route-label" x="${pt[0]}" y="${pt[1]+offset*unit}" style="font-size:${12*unit}px" text-anchor="middle">${caption}</text>`;
       const meters=path.meters+(lot ? 218 : 0);
       d.querySelector('.route-result').innerHTML=`<div class="route-summary"><strong>${p.name} → ${path.label}</strong><b>약 ${meters} m</b></div>
-        <svg class="walking-map" viewBox="0 0 400 268" role="img" aria-label="${p.name} 출발, ${path.label}로 행사장까지 약 ${meters}미터">
-          <path class="route-water" d="M338 -15Q354 77 315 145T282 279"/><text x="321" y="164" class="route-river">대화천</text>
-          ${[connector,...paths.map(r=>r.points)].map(pts=>line(pts,'route-other')).join('')}
+        <svg class="walking-map" viewBox="${left} ${top} ${width} ${height}" role="img" aria-label="${p.name}에서 행사장까지 ${path.label} 위성 지도">
+          <image href="${new URL('media/arrival-satellite.webp',scriptBase)}" width="2092" height="1241"/>
+          <rect width="2092" height="1241" fill="#091710" opacity=".38"/>
           ${line(points,'route-outline')}${line(points,'route-active')}
-          ${marker(points[0],'출발',0,-9)}${marker(points[points.length-1],'행사장',0,19)}
-          ${lot ? '<text class="route-label" x="227" y="151" text-anchor="end">공원 주차장 경유</text>' : ''}
+          ${marker(points[0],'출발',-8)}${marker(points[points.length-1],'행사장',15)}
         </svg>
-        <p class="route-note">도보 약도 · 첨부 지도에서 측정한 거리 기준</p>
+        <p class="route-note">청록색 선을 따라 걸어오세요. 거리는 지도 측정값입니다.</p>
         <div class="parking-location-row"><div><strong>${p.name}</strong><p>${p.address}<br>${p.note}</p></div>${naverIcon(p.name,p.name,p.url)}</div>`;
     };
     d.querySelectorAll('.route-options input').forEach(input=>input.addEventListener('change',draw));
@@ -198,12 +200,11 @@ window.GuildMap = (() => {
       {name:'엠스파 찜질방',address:'일산서구 중앙로 1493 지하 1층',note:'따뜻한 찜질방에서 쉬어 갈 수 있어요.',url:naver('일산 주엽동 엠스파')}
     ]);
   }
-  function arrival(){location();}
 
   function bind(){
     document.querySelectorAll('[data-camp]').forEach(b=>{b.onclick=()=>openCamp(b.dataset.camp);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openCamp(b.dataset.camp);}};});
     document.querySelectorAll('[data-arrival]').forEach(b=>b.onclick=()=>arrival());
-    const guides={location,parking:showParking,nearby:showNearby};
+    const guides={location:arrival,nearby:showNearby};
     document.querySelectorAll('[data-guide]').forEach(b=>b.onclick=guides[b.dataset.guide]);
   }
   return {render,bind,arrival};

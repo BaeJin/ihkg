@@ -63,12 +63,12 @@ window.GuildMap = (() => {
           <path d="M-20 181V190H20V181M-20 14V24M20 14V24M0 2V168" opacity=".7"/>
           <path d="M-20 52Q0 26 20 52M-20 90Q0 64 20 90M-20 128Q0 102 20 128M-20 166Q0 140 20 166"/>
         </g>
-        <g transform="translate(110 95)" aria-label="오리">
+        <g transform="translate(110 128) scale(.9)" aria-label="오리">
           <path d="M-24 1Q-20 7-8 4Q-2 3 0-4Q-3-17 9-18Q21-19 21-7Q22 0 16 3Q18 18 0 20Q-18 22-24 1Z" fill="#eee2bc"/>
           <path d="M21-8L30-5L21-2Z" fill="#ce9a67"/><circle cx="14" cy="-10" r="2" fill="#534d43" stroke="none"/>
           <path d="M-13 8Q-8 15 1 10M-4 21l-3 4m13-5 2 4"/>
         </g>
-        <g transform="translate(172 95)" class="zone-marker" data-camp="chicken" role="button" tabindex="0" pointer-events="all" aria-label="닭 사진"><rect x="-33" y="-33" width="66" height="66" fill="transparent" stroke="none"/>
+        <g transform="translate(172 128) scale(.9)" class="zone-marker" data-camp="chicken" role="button" tabindex="0" pointer-events="all" aria-label="닭 사진"><rect x="-37" y="-37" width="74" height="74" fill="transparent" stroke="none"/>
           <path d="M-11 2Q-20-12-24-9L-21 4L-28-1Q-24 12-14 13" fill="#beaa8c"/>
           <path d="M-15 6Q-11-1-4 0Q0-2 0-9Q0-19 11-18Q22-16 18-5Q21 6 14 14Q3 24-10 16Q-16 12-15 6Z" fill="#ece0ca"/>
           <path d="M2-17Q-2-25 4-23L7-19Q7-28 12-24L13-19Q19-24 19-18L16-15" fill="#b98479"/>

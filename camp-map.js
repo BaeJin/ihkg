@@ -215,7 +215,7 @@ window.GuildMap = (() => {
         input.nextElementSibling.textContent=`${paths[i].label} · 약 ${distances[i]} m`;
       });
       const meters=distances[walk];
-      d.querySelector('.lot-address').innerHTML=`<div><strong>${p.address}</strong><p>${p.note}</p></div>${naverIcon(p.name,p.name,p.url)}`;
+      d.querySelector('.lot-address').innerHTML=`<strong>${p.address}</strong>${naverIcon(p.name,p.name,p.url)}`;
       const cautions=walk===0
         ? ['근처에 민가가 있으니 조용히 지나가 주세요.','좁은 다리를 건너야 합니다.']
         : ['길가에서 개가 짖을 수 있으니 놀라지 마세요.'];

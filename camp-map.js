@@ -119,7 +119,7 @@ window.GuildMap = (() => {
 
   // Relative positions follow the site-visit plan; furniture is symbolic.
   const insideSpaces=[
-    {id:'kitchen',title:'주방/식당',shape:'M14 48H89V357H14Z',x:52,y:212,icon:'kitchen',files:[]},
+    {id:'kitchen',title:'주방/식당',shape:'M14 48H89V357H14Z',x:52,y:212,icon:'kitchen',files:['kitchen-dining-tidy.webp']},
     {id:'prep',title:'보조주방',shape:'M89 48H147V141H89Z',x:118,y:100,files:['kitchen-clean.webp']},
     {id:'wc1',title:'화장실 1',shape:'M147 48H204V141H147Z',x:175,y:100,files:[]},
     {id:'wc2',title:'화장실 2',shape:'M204 48H261V141H204Z',x:232,y:100,files:[]},

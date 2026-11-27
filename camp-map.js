@@ -34,7 +34,8 @@ window.GuildMap = (() => {
         <path d="M-65-4Q-37-13-23-42Q0-14 23-42Q37-13 65-4Q55 8 44-4Q33 8 22-4Q11 8 0-4Q-10 8-21-4Q-32 8-43-4Q-54 8-65-4Z" fill="#bb694d"/>
         <path d="M-23-42Q-27-17-43-4Q-32 8-21-4Q-16-24-23-42ZM23-42Q17-21 22-4Q33 8 44-4Q28-18 23-42Z" fill="#f6ddad" stroke="none"/>
         <path d="M-65-4Q-37-13-23-42Q0-14 23-42Q37-13 65-4Q55 8 44-4Q33 8 22-4Q11 8 0-4Q-10 8-21-4Q-32 8-43-4Q-54 8-65-4Z" fill="none"/>
-        <path d="M-23-42V-57L-8-51L-23-47M23-42V-57L38-51L23-47" fill="#d6a34e"/>
+        <path d="M-23-42V-57M23-42V-57"/>
+        <g transform="translate(-23 -57)"><path class="camp-pennant" d="M0 0Q7 -2 16 5Q8 4 0 10Z" fill="#d6a34e"/></g><g transform="translate(23 -57)"><path class="camp-pennant" d="M0 0Q7 -2 16 5Q8 4 0 10Z" fill="#d6a34e"/></g>
       </g>`
     };
     return `<g class="camp-pictogram" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${art[id]||''}</g>`;
@@ -47,9 +48,10 @@ window.GuildMap = (() => {
     const caption=p.id==='toilet'?'W/C':p.en;
     const hitWidth=centerCamp?236:p.id==='plunge'?100:68;
     return `<g class="zone-marker" data-camp="${p.id}" role="button" tabindex="0" aria-label="${p.name}" transform="translate(${p.x} ${p.y})">
-      <rect x="${-hitWidth/2}" y="${centerCamp?-103:-40}" width="${hitWidth}" height="${centerCamp?198:88}" fill="transparent"/>
+      <rect x="${-hitWidth/2}" y="${centerCamp?-103:-40}" width="${hitWidth}" height="${centerCamp?238:88}" fill="transparent"/>
       <g transform="scale(${scale})">${p.id==='caravan'?'<path d="M-29 15V-13Q-29-24-18-24H18Q27-24 29-13L32 15Z" fill="#dae2cf"/><path d="M-20-16H-5V-4H-20Z" fill="#c5dadd"/>':''}${pictogram(p.id)}</g>
-      <text class="facility-caption" y="${centerCamp?93:44}" text-anchor="middle">${caption}</text></g>`;
+      <text class="facility-caption" y="${centerCamp?93:44}" text-anchor="middle">${caption}</text>
+      ${centerCamp?'<g transform="translate(0 118) rotate(-5)" aria-hidden="true"><path d="M-27-10Q-30-10-30-5V6Q-30 12-23 12H23Q30 12 30 6V-4Q30-10 24-10H5L1-15L-4-10Z" fill="#fff2d5" stroke="#a57c55" stroke-width="1.3"/><text y="6" text-anchor="middle" fill="#875537" style="font:italic bold 17px Georgia,serif">click!</text></g>':''}</g>`;
   }
   function terrain(){
     function grove(xs,ys){
@@ -73,18 +75,18 @@ window.GuildMap = (() => {
           <path d="M-20 181V190H20V181M-20 14V24M20 14V24M0 2V168" opacity=".7"/>
           <path d="M-20 52Q0 26 20 52M-20 90Q0 64 20 90M-20 128Q0 102 20 128M-20 166Q0 140 20 166"/>
         </g>
-        <g transform="translate(110 128) scale(.9)" aria-label="오리">
+        <g transform="translate(110 128) scale(.9)" aria-label="오리"><g class="camp-walker duck">
           <path d="M-24 1Q-20 7-8 4Q-2 3 0-4Q-3-17 9-18Q21-19 21-7Q22 0 16 3Q18 18 0 20Q-18 22-24 1Z" fill="#eee2bc"/>
           <path d="M21-8L30-5L21-2Z" fill="#ce9a67"/><circle cx="14" cy="-10" r="2" fill="#534d43" stroke="none"/>
           <path d="M-13 8Q-8 15 1 10M-4 21l-3 4m13-5 2 4"/>
-        </g>
-        <g transform="translate(172 128) scale(.9)" class="zone-marker" data-camp="chicken" role="button" tabindex="0" pointer-events="all" aria-label="닭 사진"><rect x="-37" y="-37" width="74" height="74" fill="transparent" stroke="none"/>
+        </g></g>
+        <g transform="translate(172 128) scale(.9)" class="zone-marker" data-camp="chicken" role="button" tabindex="0" pointer-events="all" aria-label="닭 사진"><g class="camp-walker hen"><rect x="-37" y="-37" width="74" height="74" fill="transparent" stroke="none"/>
           <path d="M-11 2Q-20-12-24-9L-21 4L-28-1Q-24 12-14 13" fill="#beaa8c"/>
           <path d="M-15 6Q-11-1-4 0Q0-2 0-9Q0-19 11-18Q22-16 18-5Q21 6 14 14Q3 24-10 16Q-16 12-15 6Z" fill="#ece0ca"/>
           <path d="M2-17Q-2-25 4-23L7-19Q7-28 12-24L13-19Q19-24 19-18L16-15" fill="#b98479"/>
           <path d="M19-10L25-7L18-5Z" fill="#ce9a67"/><circle cx="13" cy="-10" r="1.9" fill="#534d43" stroke="none"/>
           <path d="M-8 7Q-3 14 4 7M-3 19v6l-4 2m13-9 1 7 4 2"/>
-        </g>
+        </g></g>
       </g>
       ${grove([103,177,251],[218,294,370])}
       ${grove([352,433],[218,294,370])}

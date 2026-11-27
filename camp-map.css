@@ -262,3 +262,21 @@ a.community-link{cursor:pointer;text-decoration:none}a.community-link:hover{colo
 .nearby-travel{display:flex;flex-wrap:wrap;gap:3px 14px;margin:6px 0;font-size:12px;line-height:1.55;font-variant-numeric:tabular-nums}
 .nearby-travel span{white-space:nowrap}
 .nearby-travel b{color:#514a40;font-weight:600}
+
+@media (prefers-reduced-motion:no-preference){
+  .camp-walker{animation:camp-stroll 8s ease-in-out infinite}
+  .camp-walker.hen{animation-duration:9s;animation-delay:-1s}
+  .zone-marker:is(:hover,:focus-visible) .camp-walker{animation-play-state:paused}
+  .camp-pennant{animation:camp-breeze 1.8s ease-in-out infinite alternate}
+  g + g > .camp-pennant{animation-delay:-.65s}
+}
+@keyframes camp-stroll{
+  0%,100%{transform:translateX(-10px) scaleX(1)}
+  44%,48%{transform:translateX(15px) scaleX(1)}
+  50%{transform:translateX(15px) scaleX(-1)}
+  94%,98%{transform:translateX(-10px) scaleX(-1)}
+}
+@keyframes camp-breeze{
+  from{d:path("M0 0Q7 -2 16 5Q8 4 0 10Z")}
+  to{d:path("M0 0Q7 4 14 1Q9 8 0 10Z")}
+}

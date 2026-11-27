@@ -201,23 +201,19 @@ window.GuildMap = (() => {
     if(initialSpace)select(initialSpace);
   }
 
+  const entryPhotos={
+    'upper-entry':{title:'위쪽 입구',photo:'upper-entry-original.jpg',direction:'차량 오른쪽의 입구 바닥',x:790,y:489,arrow:'M790 501Q751 508 672 433M679 456L672 433L698 438'},
+    'lower-entry':{title:'아래쪽 오르막 입구',photo:'lower-entry.webp',direction:'오른쪽 자갈길 오르막 끝',x:602,y:438,arrow:'M744 419Q830 382 959 350M931 344L959 350L940 371'},
+    bridge:{title:'센터캠프 다리 입구',photo:'center-entry.webp',direction:'흰색 천막 오른쪽 입구',x:314,y:282,arrow:'M326 294Q275 299 215 364M218 344L214 366L237 358'}
+  };
   async function openCamp(id){
-    if(id==='upper-entry'){
-      modal(`<div class="camp-sheet-title"><span class="eyebrow">ENTRY</span><h2>위쪽 입구</h2></div>
-        <div class="camp-media"><img src="${new URL('media/upper-entry-original.jpg',scriptBase)}" alt="초록색 울타리 옆으로 이어지는 위쪽 입구 진입로"></div>`);
-      return;
-    }
-    if(id==='bridge'||id==='lower-entry'){
-      const lower=id==='lower-entry';
-      const title=lower?'아래쪽 오르막 입구':'센터캠프 다리 입구';
-      const photo=lower?'lower-entry.webp':'center-entry.webp';
-      const direction=lower?'오른쪽 자갈길 오르막 끝':'흰색 천막 오른쪽 입구';
-      const arrow=lower?'M744 419Q830 382 959 350M931 344L959 350L940 371':'M326 294Q275 299 215 364M218 344L214 366L237 358';
+    if(entryPhotos[id]){
+      const {title,photo,direction,x,y,arrow}=entryPhotos[id];
       modal(`<div class="camp-sheet-title"><span class="eyebrow">ENTRY</span><h2>${title}</h2></div>
         <svg viewBox="0 0 1000 750" width="100%" role="img" aria-label="${direction} 방향을 표시한 현장 사진">
           <image href="${new URL('media/'+photo,scriptBase)}" width="1000" height="750"/>
           <g style="filter:drop-shadow(0 2px 3px #25354b) drop-shadow(0 0 4px #ecfaff)" fill="white">
-            <text x="${lower?602:314}" y="${lower?438:282}" font-family="Segoe Print, Trebuchet MS, sans-serif" font-size="46" font-style="italic" font-weight="bold">ENTRY</text>
+            <text x="${x}" y="${y}" font-family="Segoe Print, Trebuchet MS, sans-serif" font-size="46" font-style="italic" font-weight="bold">ENTRY</text>
             <path d="${arrow}" fill="none" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
           </g>
         </svg>`);

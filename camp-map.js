@@ -51,7 +51,7 @@ window.GuildMap = (() => {
       <rect x="${-hitWidth/2}" y="${centerCamp?-103:-40}" width="${hitWidth}" height="${centerCamp?238:88}" fill="transparent"/>
       <g transform="scale(${scale})">${p.id==='caravan'?'<path d="M-29 15V-13Q-29-24-18-24H18Q27-24 29-13L32 15Z" fill="#dae2cf"/><path d="M-20-16H-5V-4H-20Z" fill="#c5dadd"/>':''}${pictogram(p.id)}</g>
       <text class="facility-caption" y="${centerCamp?93:44}" text-anchor="middle">${caption}</text>
-      ${centerCamp?'<g transform="translate(0 118) rotate(-5)" aria-hidden="true"><path d="M-27-10Q-30-10-30-5V6Q-30 12-23 12H23Q30 12 30 6V-4Q30-10 24-10H5L1-15L-4-10Z" fill="#fff2d5" stroke="#a57c55" stroke-width="1.3"/><text y="6" text-anchor="middle" fill="#875537" style="font:italic bold 17px Georgia,serif">click!</text></g>':''}</g>`;
+      ${centerCamp?'<g transform="translate(0 118) rotate(-5)" aria-hidden="true"><g class="camp-click-hint"><path d="M-27-10Q-30-10-30-5V6Q-30 12-23 12H23Q30 12 30 6V-4Q30-10 24-10H5L1-15L-4-10Z" fill="#fff2d5" stroke="#a57c55" stroke-width="1.3"/><text y="6" text-anchor="middle" fill="#875537" style="font:italic bold 17px Georgia,serif">click!</text></g></g>':''}</g>`;
   }
   function terrain(){
     function grove(xs,ys){

@@ -280,3 +280,12 @@ a.community-link{cursor:pointer;text-decoration:none}a.community-link:hover{colo
   from{d:path("M0 0Q7 -2 16 5Q8 4 0 10Z")}
   to{d:path("M0 0Q7 4 14 1Q9 8 0 10Z")}
 }
+
+@media (prefers-reduced-motion:no-preference){
+  .camp-click-hint{animation:camp-click-hop 5s ease-in-out infinite}
+}
+@keyframes camp-click-hop{
+  0%,70%,81%,92%,100%{transform:translateY(0)}
+  76%{transform:translateY(-7px)}
+  86%{transform:translateY(-4px)}
+}

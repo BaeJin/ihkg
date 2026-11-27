@@ -346,8 +346,19 @@ window.GuildMap = (() => {
     function travelInfo({km,car,walk}){
       return `<div class="nearby-travel"><span>거리 <b>${km.toFixed(1)} km</b></span><span>차량 <b>${car}분</b></span><span>도보 <b>${walk}분</b></span></div>`;
     }
-    const listings=events.map(e=>`<article class="parking-location-row"><div><small>${e.when} · ${e.hall}</small><h4>${e.name}</h4><p>${e.note}</p><a href="${e.link}" target="_blank" rel="noopener">${e.action} ↗</a></div>${travelInfo(e.travel)}</article>`).join('');
-    const outings=places.map(p=>`<div class="parking-location-row"><div><strong>${p.name}</strong><p>${p.note}</p></div><div class="nearby-side">${travelInfo(p.travel)}${naverIcon(p.name,p.name,p.url)}</div></div>`).join('');
+    const listings=events.map(e=>{
+      const venue='킨텍스 '+e.hall.split(' ')[0];
+      return `<article class="parking-location-row">
+        <div class="nearby-heading"><h4>${e.name}</h4>${naverIcon(venue,venue)}</div>
+        ${travelInfo(e.travel)}
+        <small>${e.when} · ${e.hall}</small><p>${e.note}</p>
+        <a class="event-info-link" href="${e.link}" target="_blank" rel="noopener">${e.action} ↗</a>
+      </article>`;
+    }).join('');
+    const outings=places.map(p=>`<article class="parking-location-row">
+      <div class="nearby-heading"><strong>${p.name}</strong>${naverIcon(p.name,p.name,p.url)}</div>
+      <p>${p.note}</p>${travelInfo(p.travel)}
+    </article>`).join('');
     modal(`<div class="camp-sheet-title"><h2>주변 놀거리</h2><p>길드하우스 출발 기준 · 거리는 차량 경로 기준이며, 소요시간은 교통·주차 대기를 제외한 예상치예요.</p></div>
       <section class="parking-section guide-places nearby-events"><h3>킨텍스 공연·전시</h3>${listings}</section>
       <section class="parking-section guide-places"><h3>주변 나들이</h3>${outings}</section>`);

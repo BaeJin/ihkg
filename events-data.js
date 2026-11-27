@@ -27,6 +27,9 @@ const GuildEvents = (() => {
       const participants = [...new Set(value('같이 하고 싶어요').split(/[,，\r\n]+/).map(s=>s.trim()).filter(Boolean))];
       return {id:'sheet-'+encodeURIComponent(name+'|'+host), name, camp:host || '진행자 미정',
         participants,
+        startAt: Date.parse(day+'T'+(value('시작시각') || value('시각'))+':00+09:00'),
+        endAt: Date.parse(value('종료날짜')+'T'+value('종료시각')+':00+09:00'),
+        endDay: value('종료날짜'),
         day, time:time || '일정 미정', desc:desc || '세부 내용은 추후 안내합니다.',
         type};
     }).filter(event => event.name);

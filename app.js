@@ -120,7 +120,7 @@ function openEventForm(){
     <h2>이벤트 등록</h2>
     <label>프로그램 이름<input name="name" maxlength="100" required></label>
     <label>여는 사람<input name="host" maxlength="40" required></label>
-    <label>구분<input name="type" maxlength="40" value="프로그램" required></label>
+    <label>구분<select name="type" required><option>프로그램</option><option>공유회</option><option>기여활동</option></select></label>
     <div class="event-period"><label>시작날짜<input type="date" name="startDate" required></label><label>시작시각<input type="time" name="startTime" required></label>
     <label>종료날짜<input type="date" name="endDate" required></label><label>종료시각<input type="time" name="endTime" required></label></div>
     <label>비고 (선택)<textarea name="note" maxlength="800" rows="2"></textarea></label>
@@ -154,7 +154,7 @@ function openEventForm(){
       const result=await response.json();
       if(!response.ok || !result.ok || result.status!=='created')throw new Error(result.code);
       status.textContent='이벤트를 등록했습니다.';
-      for(const control of form.querySelectorAll('input,textarea'))control.disabled=true;
+      for(const control of form.querySelectorAll('input,select,textarea'))control.disabled=true;
       query='';day='all';category='전체';onlyFav=false;
       await refreshEvents();
     }catch(error){

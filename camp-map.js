@@ -89,15 +89,23 @@ window.GuildMap = (() => {
       ${grove([103,177,251],[218,294,370])}
       ${grove([352,433],[218,294,370])}
       ${grove([345,420,495],[458,543])}
-      <g fill="#928777" font-family="monospace" font-size="11" letter-spacing="2"><text x="585" y="141" text-anchor="end">ENTRY</text><text x="585" y="754" text-anchor="end">ENTRY</text></g>
+      <g fill="#ad4a29" font-family="monospace" font-size="13" font-weight="bold" letter-spacing="1.5">
+        <circle cx="585" cy="155" r="6" stroke="#fff4e0" stroke-width="2"/>
+        <text x="590" y="141" text-anchor="end">ENTRY</text>
+        <g class="zone-marker" data-camp="lower-entry" role="button" tabindex="0" aria-label="아래쪽 오르막 입구 사진">
+          <rect x="532" y="708" width="67" height="66" fill="transparent"/>
+          <circle cx="585" cy="730" r="6" stroke="#fff4e0" stroke-width="2"/>
+          <text x="590" y="754" text-anchor="end">ENTRY</text>
+        </g>
+      </g>
       ${camps.filter(p=>p.id!=='free').map(marker).join('')}
       <g class="zone-marker" data-camp="bridge" role="button" tabindex="0" aria-label="센터캠프 다리 입구 사진" transform="translate(39 634)">
         <rect x="-37" y="-41" width="74" height="79" fill="transparent"/>
-        <g fill="none" stroke="#776752" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M-22 7Q0-4 22 7L22 12Q0 2-22 12Z" fill="#d8c7ab"/>
+        <g fill="none" stroke="#ad4a29" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M-22 7Q0-4 22 7L22 12Q0 2-22 12Z" fill="#efb48a"/>
           <path d="M-22 5V-8M-11 1V-13M0 0V-15M11 1V-13M22 5V-8M-22-6Q0-19 22-6"/>
         </g>
-        <text x="0" y="31" text-anchor="middle" fill="#685d4d" font-family="monospace" font-size="13" letter-spacing="1.5">ENTRY</text>
+        <text x="0" y="31" text-anchor="middle" fill="#ad4a29" font-weight="bold" font-family="monospace" font-size="13" letter-spacing="1.5">ENTRY</text>
       </g>
     </svg>`;
   }
@@ -182,13 +190,18 @@ window.GuildMap = (() => {
   }
 
   async function openCamp(id){
-    if(id==='bridge'){
-      modal(`<div class="camp-sheet-title"><span class="eyebrow">ENTRY</span><h2>센터캠프 다리 입구</h2></div>
-        <svg viewBox="0 0 1000 750" width="100%" role="img" aria-label="흰색 천막 오른쪽 입구를 가리키는 화살표가 표시된 현장 사진">
-          <image href="${new URL('media/center-entry.webp',scriptBase)}" width="1000" height="750"/>
+    if(id==='bridge'||id==='lower-entry'){
+      const lower=id==='lower-entry';
+      const title=lower?'아래쪽 오르막 입구':'센터캠프 다리 입구';
+      const photo=lower?'lower-entry.webp':'center-entry.webp';
+      const direction=lower?'오른쪽 자갈길 오르막 끝':'흰색 천막 오른쪽 입구';
+      const arrow=lower?'M744 419Q830 382 959 350M931 344L959 350L940 371':'M326 294Q275 299 215 364M218 344L214 366L237 358';
+      modal(`<div class="camp-sheet-title"><span class="eyebrow">ENTRY</span><h2>${title}</h2></div>
+        <svg viewBox="0 0 1000 750" width="100%" role="img" aria-label="${direction} 방향을 표시한 현장 사진">
+          <image href="${new URL('media/'+photo,scriptBase)}" width="1000" height="750"/>
           <g style="filter:drop-shadow(0 2px 3px #25354b) drop-shadow(0 0 4px #ecfaff)" fill="white">
-            <text x="314" y="282" font-family="Segoe Print, Trebuchet MS, sans-serif" font-size="46" font-style="italic" font-weight="bold">ENTRY</text>
-            <path d="M326 294Q275 299 215 364M218 344L214 366L237 358" fill="none" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="${lower?602:314}" y="${lower?438:282}" font-family="Segoe Print, Trebuchet MS, sans-serif" font-size="46" font-style="italic" font-weight="bold">ENTRY</text>
+            <path d="${arrow}" fill="none" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
           </g>
         </svg>`);
       return;

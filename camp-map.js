@@ -125,8 +125,8 @@ window.GuildMap = (() => {
     {id:'wc2',title:'화장실 2',shape:'M204 48H261V141H204Z',x:232,y:100,files:[]},
     ...[3,2,1].map((n,i)=>({id:'sleep'+n,title:'침실 컨테이너 '+n,label:'침실 '+n,
       shape:`M${321+i*72} 48h72v93h-72Z`,x:357+i*72,y:100,files:[]})),
-    {id:'lounge',title:'라운지',shape:'M89 183H189V242H261V357H89Z',x:157,y:284,icon:'music',files:['lounge-plan.webp?v=3'],preview:true},
-    {id:'indoor',title:'캠핑 존',shape:'M537 48H603V357H261V242H189V183H537Z',x:414,y:272,icon:'tent',files:['camping-plan.webp?v=3'],preview:true}
+    {id:'lounge',title:'라운지',shape:'M89 183H189V242H261V357H89Z',x:157,y:284,icon:'music',files:['lounge-plan.webp?v=4'],preview:true},
+    {id:'indoor',title:'캠핑 존',shape:'M537 48H603V357H261V242H189V183H537Z',x:414,y:272,icon:'tent',files:['camping-plan.webp?v=4'],preview:true}
   ];
   function insideIcon(id){
     const icons={

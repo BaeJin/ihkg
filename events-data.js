@@ -12,11 +12,18 @@ const GuildEvents = (() => {
       const cells = row.c || [];
       const value = label => { const i=labels.indexOf(label); return String(cells[i]?.f ?? cells[i]?.v ?? '').trim(); };
       const type = value('구분') || '프로그램', name = value('프로그램'), host = value('여는 사람'), desc = value('비고');
-      const rawDate = value('날짜') || value('가능한 날짜');
+      const rawDate = value('시작날짜') || value('날짜') || value('가능한 날짜');
       const date = rawDate.match(/(\d{4})\s*[.\/-]\s*(\d{1,2})\s*[.\/-]\s*(\d{1,2})/);
       const day = date ? date[1]+'-'+date[2].padStart(2,'0')+'-'+date[3].padStart(2,'0') : 'pending';
       const period = desc.match(/시간대:\s*(오전|오후)/)?.[1];
-      const time = labels.includes('날짜') ? (day==='pending'?'날짜 미정':day)+' · '+(value('시각') || value('시간') || (period?period+' · 시각 미정':'시각 미정')) : rawDate;
+      const stamp = (date, clock, missing) => {
+        if (!date && !clock) return missing;
+        const parsed = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
+        const dateText = parsed ? parsed[2]+'/'+parsed[3]+'('+'일월화수목금토'[new Date(date+'T12:00:00Z').getUTCDay()]+')' : '날짜 미정';
+        return dateText+' '+(clock || '시각 미정');
+      };
+      const clock = value('시작시각') || value('시각') || value('시간') || (period && period+' · 시각 미정');
+      const time = stamp(day==='pending'?'':day,clock,'시작 미정')+' ~ '+stamp(value('종료날짜'),value('종료시각'),'종료 미정');
       const participants = [...new Set(value('같이 하고 싶어요').split(/[,，\r\n]+/).map(s=>s.trim()).filter(Boolean))];
       return {id:'sheet-'+encodeURIComponent(name+'|'+host), name, camp:host || '진행자 미정',
         participants,
@@ -25,8 +32,8 @@ const GuildEvents = (() => {
     }).filter(event => event.name);
   }
   async function load() {
-    const params = new URLSearchParams({gid:'115898339', range:'A2:G', headers:'1',
-      tq:'select A,B,C,D,E,F,G where B is not null', tqx:'out:json'});
+    const params = new URLSearchParams({gid:'115898339', range:'A2:I', headers:'1',
+      tq:'select * where B is not null', tqx:'out:json', refresh:String(Date.now())});
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 15000);
     try {
@@ -37,3 +44,4 @@ const GuildEvents = (() => {
   }
   return {load, parse};
 })();
+

@@ -90,8 +90,11 @@ window.GuildMap = (() => {
       ${grove([352,433],[218,294,370])}
       ${grove([345,420,495],[458,543])}
       <g fill="#ad4a29" font-family="monospace" font-size="13" font-weight="bold" letter-spacing="1.5">
-        <circle cx="585" cy="155" r="6" stroke="#fff4e0" stroke-width="2"/>
-        <text x="590" y="141" text-anchor="end">ENTRY</text>
+        <g class="zone-marker" data-camp="upper-entry" role="button" tabindex="0" aria-label="위쪽 입구 사진">
+          <rect x="532" y="109" width="67" height="66" fill="transparent"/>
+          <circle cx="585" cy="155" r="6" stroke="#fff4e0" stroke-width="2"/>
+          <text x="590" y="141" text-anchor="end">ENTRY</text>
+        </g>
         <g class="zone-marker" data-camp="lower-entry" role="button" tabindex="0" aria-label="아래쪽 오르막 입구 사진">
           <rect x="532" y="708" width="67" height="66" fill="transparent"/>
           <circle cx="585" cy="730" r="6" stroke="#fff4e0" stroke-width="2"/>
@@ -190,6 +193,11 @@ window.GuildMap = (() => {
   }
 
   async function openCamp(id){
+    if(id==='upper-entry'){
+      modal(`<div class="camp-sheet-title"><span class="eyebrow">ENTRY</span><h2>위쪽 입구</h2></div>
+        <div class="camp-media"><img src="${new URL('media/upper-entry.webp',scriptBase)}" alt="초록색 울타리 옆으로 이어지는 위쪽 입구 진입로"></div>`);
+      return;
+    }
     if(id==='bridge'||id==='lower-entry'){
       const lower=id==='lower-entry';
       const title=lower?'아래쪽 오르막 입구':'센터캠프 다리 입구';

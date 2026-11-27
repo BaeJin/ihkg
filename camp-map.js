@@ -158,8 +158,8 @@ window.GuildMap = (() => {
     };
     return `<g class="inside-furniture" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icons[id]}</g>`;
   }
-  function insideDoor(x, label){
-    return `<path transform="translate(${x} 252)" d="M0 1V37" stroke="#f1ece3" stroke-width="5" pointer-events="none" role="img" aria-label="${label}"/>`;
+  function insideDoor(x, y, label){
+    return `<path transform="translate(${x} ${y})" d="M0 1V37" stroke="#f1ece3" stroke-width="5" pointer-events="none" role="img" aria-label="${label}"/>`;
   }
   function interiorPlan(){
     return `<svg class="inside-plan" viewBox="0 0 620 379" aria-label="센터캠프 시설 배치도">
@@ -169,8 +169,10 @@ window.GuildMap = (() => {
         <path class="floor-zone" d="${p.shape}"/>
         ${p.icon?`<g transform="translate(${p.x} ${p.y-23}) scale(.6)">${insideIcon(p.icon)}</g>`:''}
         <text x="${p.x}" y="${p.y+(p.icon?16:0)}" text-anchor="middle">${p.label||p.title}</text></g>`).join('')}
-      ${insideDoor(14,'주방/식당 왼쪽 문')}
-      ${insideDoor(603,'캠핑 존 오른쪽 문')}
+      ${insideDoor(89,143,'복도 왼쪽 주방/식당 쪽 문')}
+      ${insideDoor(537,143,'복도 오른쪽 캠핑 존 쪽 문')}
+      ${insideDoor(14,252,'주방/식당 왼쪽 문')}
+      ${insideDoor(603,252,'캠핑 존 오른쪽 문')}
       </svg>`;
   }
   function openInterior(initialSpace){

@@ -333,21 +333,26 @@ window.GuildMap = (() => {
   }
   function showNearby(){
     const places=[
-      {name:'고양국가대표야구훈련장',note:'월드베이스볼클래식(WBC)과 아시안게임에 나서는 야구 대표팀을 위해 대화동에 마련한 구장이에요. 학교 야구팀과 사회인 야구팀도 이 그라운드에서 훈련하고 경기를 치러요.'},
-      {name:'대화레포츠공원',note:'대화동에서 바퀴로 즐기는 스포츠를 만나려면 공원 안 X게임장을 찾아보세요. 여덟 종류의 스케이트 파크 시설이 모여 있어 보드를 타는 사람마다 다른 코스를 그려요.'},
-      {name:'대화농업체험공원',note:'길드하우스에 올 때 주차장 이름으로 만난 그 공원이에요. 안에는 고양시가 치유농업 교육에 쓰는 텃밭이 있어요. 일산신도시를 짓던 때 옛 볍씨가 발견된 대화동에서, 오늘도 도시농업이 이어지고 있어요.'},
-      {name:'일산호수공원',note:'달맞이섬의 정자, 월파정을 목적지로 잡아 보세요. 호숫가를 걷다 섬 안으로 들어서면 방금 걸어온 물가가 건너편 풍경이 됩니다.'},
-      {name:'현대 모터스튜디오 고양',note:'자동차 안에 접혀 있던 에어백이 여기서는 터널의 벽을 이룹니다. 터널을 지나 충돌 테스트 영상까지 보면 운전석에서 볼 수 없던 자동차의 속사정이 보여요.'},
-      {name:'아쿠아플라넷 일산',note:'메인 수조에서 한 몸처럼 방향을 트는 정어리 떼를 보고, 더 정글에서는 미어캣과 눈을 맞춰 보세요. 마지막 코스는 옥상 동물원 스카이팜이에요.'},
-      {name:'엠스파 찜질방',note:'일산의 명물 찜질방이에요. 불한증막에서 땀을 낸 뒤 찜질복 차림으로 치킨을 나눠 먹는 게 이곳의 재미예요. 한증막의 열기가 부담스럽다면 자수정방부터 들러 보세요.',url:naver('일산 주엽동 엠스파')}
+      {name:'고양국가대표야구훈련장',travel:{km:0.8,car:3,walk:11},note:'월드베이스볼클래식(WBC)과 아시안게임에 나서는 야구 대표팀을 위해 대화동에 마련한 구장이에요. 학교 야구팀과 사회인 야구팀도 이 그라운드에서 훈련하고 경기를 치러요.'},
+      {name:'대화레포츠공원',travel:{km:0.9,car:2,walk:12},note:'대화동에서 바퀴로 즐기는 스포츠를 만나려면 공원 안 X게임장을 찾아보세요. 여덟 종류의 스케이트 파크 시설이 모여 있어 보드를 타는 사람마다 다른 코스를 그려요.'},
+      {name:'대화농업체험공원',travel:{km:1.1,car:2,walk:6},note:'길드하우스에 올 때 주차장 이름으로 만난 그 공원이에요. 안에는 고양시가 치유농업 교육에 쓰는 텃밭이 있어요. 일산신도시를 짓던 때 옛 볍씨가 발견된 대화동에서, 오늘도 도시농업이 이어지고 있어요.'},
+      {name:'일산호수공원',travel:{km:4.5,car:8,walk:56},note:'달맞이섬의 정자, 월파정을 목적지로 잡아 보세요. 호숫가를 걷다 섬 안으로 들어서면 방금 걸어온 물가가 건너편 풍경이 됩니다.'},
+      {name:'현대 모터스튜디오 고양',travel:{km:3.0,car:6,walk:31},note:'자동차 안에 접혀 있던 에어백이 여기서는 터널의 벽을 이룹니다. 터널을 지나 충돌 테스트 영상까지 보면 운전석에서 볼 수 없던 자동차의 속사정이 보여요.'},
+      {name:'아쿠아플라넷 일산',travel:{km:4.0,car:8,walk:39},note:'메인 수조에서 한 몸처럼 방향을 트는 정어리 떼를 보고, 더 정글에서는 미어캣과 눈을 맞춰 보세요. 마지막 코스는 옥상 동물원 스카이팜이에요.'},
+      {name:'엠스파 찜질방',travel:{km:2.1,car:4,walk:29},note:'일산의 명물 찜질방이에요. 불한증막에서 땀을 낸 뒤 찜질복 차림으로 치킨을 나눠 먹는 게 이곳의 재미예요. 한증막의 열기가 부담스럽다면 자수정방부터 들러 보세요.',url:naver('일산 주엽동 엠스파')}
     ];
     const events=[
-      {name:'Anime X Game Festival 2026',when:'12.4(금)–12.6(일) · 매일 09:30–18:00',hall:'제1전시장 1–5홀',note:'애니메이션과 게임 부스가 다섯 홀에 걸쳐 펼쳐집니다. 좋아하는 작품의 부스와 성우들이 오르는 RED 스테이지를 일정에 함께 담아 보세요.',link:'https://www.agfkorea.com/event?idx=1',action:'공식 행사 안내'},
-      {name:'2026 타임캡슐 슈퍼콘서트 in 일산',when:'12.5(토) · 16:00',hall:'제2전시장 9홀',note:'노래방에서 따라 부르던 Y2K와 이브(EVE)의 노래를 원곡 가수의 목소리로 듣는 토요일. 그 시절 선곡 취향이 같았던 친구와 가기 좋은 무대예요.',link:'https://m.smartstore.naver.com/timecapsulesuperconcert/products/13835944517',action:'공연 안내·예매'}
+      {name:'Anime X Game Festival 2026',travel:{km:3.1,car:6,walk:29},when:'12.4(금)–12.6(일) · 매일 09:30–18:00',hall:'제1전시장 1–5홀',note:'애니메이션과 게임 부스가 다섯 홀에 걸쳐 펼쳐집니다. 좋아하는 작품의 부스와 성우들이 오르는 RED 스테이지를 일정에 함께 담아 보세요.',link:'https://www.agfkorea.com/event?idx=1',action:'공식 행사 안내'},
+      {name:'2026 타임캡슐 슈퍼콘서트 in 일산',travel:{km:3.7,car:7,walk:31},when:'12.5(토) · 16:00',hall:'제2전시장 9홀',note:'노래방에서 따라 부르던 Y2K와 이브(EVE)의 노래를 원곡 가수의 목소리로 듣는 토요일. 그 시절 선곡 취향이 같았던 친구와 가기 좋은 무대예요.',link:'https://m.smartstore.naver.com/timecapsulesuperconcert/products/13835944517',action:'공연 안내·예매'}
     ];
-    const listings=events.map(e=>`<article class="parking-location-row"><div><small>${e.when} · ${e.hall}</small><h4>${e.name}</h4><p>${e.note}</p><a href="${e.link}" target="_blank" rel="noopener">${e.action} ↗</a></div></article>`).join('');
-    const outings=places.map(p=>`<div class="parking-location-row"><div><strong>${p.name}</strong><p>${p.note}</p></div>${naverIcon(p.name,p.name,p.url)}</div>`).join('');
-    modal(`<div class="camp-sheet-title"><h2>주변 놀거리</h2></div>
+    // OSRM road routes to each mapped destination. For walking, compare the direct
+    // route with the route via the 200 m footbridge approach to the park car park.
+    function travelInfo({km,car,walk}){
+      return `<div class="nearby-travel"><span>거리 <b>${km.toFixed(1)} km</b></span><span>차량 <b>${car}분</b></span><span>도보 <b>${walk}분</b></span></div>`;
+    }
+    const listings=events.map(e=>`<article class="parking-location-row"><div><small>${e.when} · ${e.hall}</small><h4>${e.name}</h4><p>${e.note}</p><a href="${e.link}" target="_blank" rel="noopener">${e.action} ↗</a></div>${travelInfo(e.travel)}</article>`).join('');
+    const outings=places.map(p=>`<div class="parking-location-row"><div><strong>${p.name}</strong><p>${p.note}</p></div><div class="nearby-side">${travelInfo(p.travel)}${naverIcon(p.name,p.name,p.url)}</div></div>`).join('');
+    modal(`<div class="camp-sheet-title"><h2>주변 놀거리</h2><p>길드하우스 출발 기준 · 거리는 차량 경로 기준이며, 소요시간은 교통·주차 대기를 제외한 예상치예요.</p></div>
       <section class="parking-section guide-places nearby-events"><h3>킨텍스 공연·전시</h3>${listings}</section>
       <section class="parking-section guide-places"><h3>주변 나들이</h3>${outings}</section>`);
 

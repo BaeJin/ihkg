@@ -256,3 +256,5 @@ a.community-link{cursor:pointer;text-decoration:none}a.community-link:hover{colo
 .walking-guide .lot-address small{margin-bottom:2px}
 
 .zone-marker[data-camp="main"] .facility-caption{fill:#744732;font-family:Georgia,serif;font-size:15px;font-weight:700;letter-spacing:1.4px}
+
+.guide-places .parking-location-row{align-items:flex-start}.nearby-side{display:grid;justify-items:end;gap:5px}.nearby-travel{flex:none;display:grid;gap:2px;width:7.5em;text-align:right;font-size:12px;line-height:1.55;font-variant-numeric:tabular-nums}.nearby-travel span{display:flex;justify-content:space-between;gap:5px;white-space:nowrap}.nearby-travel b{color:#514a40;font-weight:600}

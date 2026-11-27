@@ -169,7 +169,7 @@ window.GuildMap = (() => {
         <path class="floor-zone" d="${p.shape}"/>
         ${p.icon?`<g transform="translate(${p.x} ${p.y-23}) scale(.6)">${insideIcon(p.icon)}</g>`:''}
         <text x="${p.x}" y="${p.y+(p.icon?16:0)}" text-anchor="middle">${p.label||p.title}</text></g>`).join('')}
-      ${insideDoor(89,143,'복도 왼쪽 주방/식당 쪽 문')}
+      ${insideDoor(89,183,'복도에서 라운지로 통하는 문',true)}
       ${insideDoor(537,143,'복도 오른쪽 캠핑 존 쪽 문')}
       ${insideDoor(40,48,'주방/식당 상단 문',true)}
       ${insideDoor(89,264,'라운지와 주방/식당 사이 문')}

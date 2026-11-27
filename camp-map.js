@@ -204,7 +204,7 @@ window.GuildMap = (() => {
   async function openCamp(id){
     if(id==='upper-entry'){
       modal(`<div class="camp-sheet-title"><span class="eyebrow">ENTRY</span><h2>위쪽 입구</h2></div>
-        <div class="camp-media"><img src="${new URL('media/upper-entry.webp',scriptBase)}" alt="초록색 울타리 옆으로 이어지는 위쪽 입구 진입로"></div>`);
+        <div class="camp-media"><img src="${new URL('media/upper-entry.webp?v=2',scriptBase)}" alt="초록색 울타리 옆으로 이어지는 위쪽 입구 진입로"></div>`);
       return;
     }
     if(id==='bridge'||id==='lower-entry'){

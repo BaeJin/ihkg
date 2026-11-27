@@ -58,7 +58,7 @@ window.GuildMap = (() => {
         <rect x="${xs[0]-28}" y="${ys[0]-32}" width="${xs.at(-1)-xs[0]+56}" height="${ys.at(-1)-ys[0]+64}" fill="transparent"/>
         ${trees}</g>`;
     }
-    return `<svg viewBox="0 0 600 850" class="camp-terrain" aria-label="Camp map with perimeter roads and a highlighted route between two entrances.">
+    return `<svg viewBox="0 0 600 850" class="camp-terrain" aria-label="Camp map with perimeter roads and three entrances.">
       
       <defs><g id="wild-tree" fill="none" stroke="#7a8976" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-5 5C-20 9-24-7-15-14C-18-24-6-29 0-24C8-30 21-22 17-13C27-5 19 9 5 5" fill="#a6b19b" fill-opacity=".22"/><path d="M0-17V19M0 0L-9-9M0-3L9-12M-5 19H5"/></g></defs>
       <g class="map-roads" fill="none" stroke="#bcb3a7" stroke-width="2" stroke-linejoin="miter">
@@ -91,6 +91,14 @@ window.GuildMap = (() => {
       ${grove([345,420,495],[458,543])}
       <g fill="#928777" font-family="monospace" font-size="11" letter-spacing="2"><text x="585" y="141" text-anchor="end">ENTRY</text><text x="585" y="754" text-anchor="end">ENTRY</text></g>
       ${camps.filter(p=>p.id!=='free').map(marker).join('')}
+      <g class="zone-marker" data-camp="bridge" role="button" tabindex="0" aria-label="센터캠프 다리 입구 사진" transform="translate(39 634)">
+        <rect x="-37" y="-41" width="74" height="79" fill="transparent"/>
+        <g fill="none" stroke="#776752" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M-22 7Q0-4 22 7L22 12Q0 2-22 12Z" fill="#d8c7ab"/>
+          <path d="M-22 5V-8M-11 1V-13M0 0V-15M11 1V-13M22 5V-8M-22-6Q0-19 22-6"/>
+        </g>
+        <text x="0" y="31" text-anchor="middle" fill="#685d4d" font-family="monospace" font-size="13" letter-spacing="1.5">ENTRY</text>
+      </g>
     </svg>`;
   }
   function parkingLinks(){return `<div class="parking-simple location-parking">${parking.map((p,i)=>`<a href="${p.url||naver(p.name)}" target="_blank" rel="noopener"><span>주차 위치 ${i?'B':'A'} <small>(${p.name})</small></span><span aria-hidden="true">↗</span></a>`).join('')}</div>`;}
@@ -174,6 +182,17 @@ window.GuildMap = (() => {
   }
 
   async function openCamp(id){
+    if(id==='bridge'){
+      modal(`<div class="camp-sheet-title"><span class="eyebrow">ENTRY</span><h2>센터캠프 다리 입구</h2></div>
+        <svg viewBox="0 0 1000 750" width="100%" role="img" aria-label="흰색 천막 오른쪽 입구를 가리키는 화살표가 표시된 현장 사진">
+          <image href="${new URL('media/center-entry.webp',scriptBase)}" width="1000" height="750"/>
+          <g style="filter:drop-shadow(0 2px 3px #25354b) drop-shadow(0 0 4px #ecfaff)" fill="white">
+            <text x="314" y="282" font-family="Segoe Print, Trebuchet MS, sans-serif" font-size="46" font-style="italic" font-weight="bold">ENTRY</text>
+            <path d="M326 294Q275 299 215 364M218 344L214 366L237 358" fill="none" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+        </svg>`);
+      return;
+    }
     if(id==='wild'||id==='chicken'){
       const wild=id==='wild';
       const title=wild?'나무 지역':'닭';

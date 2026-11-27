@@ -93,6 +93,9 @@ function eventStatus(e, now=Date.now()){
   if(Number.isFinite(e.startAt) && now>=e.startAt && now<e.endAt)return 'live';
   return 'scheduled';
 }
+// Build Events controls here so previously cached page shells can also start.
+$('#floating').innerHTML='<button type="button" id="refresh-events" aria-label="새로고침" title="새로고침">↻</button><button type="button" id="new-event">＋ 이벤트 등록</button>';
+$('#filter')?.remove();
 function filtered(){return events.filter(e=>(showEnded||eventStatus(e)!=='ended')&&(day==='all'||e.day===day||(e.day<=day && day<=e.endDay))&&(category==='전체'||e.type===category)&&(!onlyFav||saved.has(e.id))&&`${e.name} ${e.camp} ${e.desc} ${e.type}`.toLowerCase().includes(query.toLowerCase()))}
 function favorite(id){saved.has(id)?saved.delete(id):saved.add(id);try{localStorage.setItem('iguild-favorites',JSON.stringify([...saved]))}catch{}render()}
 function eventSummary(e, heading) {

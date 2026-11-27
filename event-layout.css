@@ -13,7 +13,8 @@
 .events-view #title{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:1}
 .events-view #title a{font-size:12px;line-height:24px;color:#475c45;text-underline-offset:3px}
 .events-view main{padding-bottom:210px}
-.events-view .row h3.event-name{font-size:24px;line-height:1.28}
+.events-view .row h3.event-name{font-size:22px;line-height:1.28}
+.event-card .event-when{font-size:18px}
 .events-view .days{overflow-x:auto}
 .ended-toggle{display:flex;align-items:center;gap:7px;margin:8px 17px;width:fit-content;min-height:36px;color:#4b5145;font-size:14px;cursor:pointer}
 .ended-toggle input{width:17px;height:17px;accent-color:#465f43}

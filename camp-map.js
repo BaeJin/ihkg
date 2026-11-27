@@ -158,8 +158,8 @@ window.GuildMap = (() => {
     };
     return `<g class="inside-furniture" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icons[id]}</g>`;
   }
-  function insideDoor(x, y, label){
-    return `<path transform="translate(${x} ${y})" d="M0 1V37" stroke="#f1ece3" stroke-width="5" pointer-events="none" role="img" aria-label="${label}"/>`;
+  function insideDoor(x, y, label, horizontal=false){
+    return `<path transform="translate(${x} ${y})" d="${horizontal?'M1 0H37':'M0 1V37'}" stroke="#f1ece3" stroke-width="5" pointer-events="none" role="img" aria-label="${label}"/>`;
   }
   function interiorPlan(){
     return `<svg class="inside-plan" viewBox="0 0 620 379" aria-label="센터캠프 시설 배치도">
@@ -171,7 +171,9 @@ window.GuildMap = (() => {
         <text x="${p.x}" y="${p.y+(p.icon?16:0)}" text-anchor="middle">${p.label||p.title}</text></g>`).join('')}
       ${insideDoor(89,143,'복도 왼쪽 주방/식당 쪽 문')}
       ${insideDoor(537,143,'복도 오른쪽 캠핑 존 쪽 문')}
-      ${insideDoor(14,252,'주방/식당 왼쪽 문')}
+      ${insideDoor(40,48,'주방/식당 상단 문',true)}
+      ${insideDoor(89,264,'라운지와 주방/식당 사이 문')}
+      ${insideDoor(202,242,'라운지 오른쪽 상단 캠핑 존 쪽 문',true)}
       ${insideDoor(603,252,'캠핑 존 오른쪽 문')}
       </svg>`;
   }

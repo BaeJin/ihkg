@@ -116,7 +116,7 @@ window.GuildMap = (() => {
   function shortcutButtons(){
     const shortcuts=[
       ['location','오시는 길','오시는 길','<path d="M3 7L11 3L21 7L29 3V25L21 29L11 25L3 29ZM11 3V25M21 7V29"/><circle cx="16" cy="14" r="3"/><path d="M16 17V21"/>'],
-      ['nearby','NEARBY','주변 놀거리','<circle cx="16" cy="16" r="13"/><path d="m22 10-4 8-8 4 4-8Z"/>']
+      ['nearby','주변 놀거리','주변 놀거리','<circle cx="16" cy="16" r="13"/><path d="m22 10-4 8-8 4 4-8Z"/>']
     ];
     return shortcuts.map(([id,label,title,icon])=>
       `<button class="offsite-parking" data-guide="${id}" aria-label="${title}" aria-haspopup="dialog" title="${title}"><svg viewBox="0 0 32 32" aria-hidden="true">${icon}</svg><span>${label}</span></button>`
@@ -344,7 +344,7 @@ window.GuildMap = (() => {
     ];
     const listings=events.map(e=>`<article class="parking-location-row"><div><small>${e.when} · ${e.hall}</small><h4>${e.name}</h4><p>${e.note}</p><a href="${e.link}" target="_blank" rel="noopener">${e.action} ↗</a></div></article>`).join('');
     const outings=places.map(p=>`<div class="parking-location-row"><div><strong>${p.name}</strong><p>${p.note}</p></div>${naverIcon(p.name,p.name,p.url)}</div>`).join('');
-    modal(`<div class="camp-sheet-title"><span class="eyebrow">NEARBY</span><h2>주변 놀거리</h2></div>
+    modal(`<div class="camp-sheet-title"><h2>주변 놀거리</h2></div>
       <section class="parking-section guide-places nearby-events"><h3>킨텍스 공연·전시</h3>${listings}</section>
       <section class="parking-section guide-places"><h3>주변 나들이</h3>${outings}</section>`);
 

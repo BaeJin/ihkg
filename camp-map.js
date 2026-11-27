@@ -141,24 +141,25 @@ window.GuildMap = (() => {
   // Relative positions follow the site-visit plan; furniture is symbolic.
   const insideSpaces=[
     {id:'kitchen',title:'주방/식당',shape:'M14 48H89V357H14Z',x:52,y:212,icon:'kitchen',files:['kitchen-dining-tidy.webp']},
-    {id:'prep',title:'보조주방',shape:'M89 48H147V141H89Z',x:118,y:100,files:['kitchen-clean.webp']},
-    {id:'wc1',title:'화장실 1',shape:'M147 48H204V141H147Z',x:175,y:100,files:[]},
-    {id:'wc2',title:'화장실 2',shape:'M204 48H261V141H204Z',x:232,y:100,files:[]},
+    {id:'prep',title:'보조주방',shape:'M89 48H147V141H89Z',x:118,y:100,icon:'pot',files:['kitchen-clean.webp']},
+    {id:'wc1',title:'화장실 1',shape:'M147 48H204V141H147Z',x:175,y:100,icon:'wc',files:[]},
+    {id:'wc2',title:'화장실 2',shape:'M204 48H261V141H204Z',x:232,y:100,icon:'wc',files:[]},
     ...[3,2,1].map((n,i)=>({id:'sleep'+n,title:'침실 컨테이너 '+n,label:'침실 '+n,
-      shape:`M${321+i*72} 48h72v93h-72Z`,x:357+i*72,y:100,files:[]})),
+      shape:`M${321+i*72} 48h72v93h-72Z`,x:357+i*72,y:100,icon:'bed',files:[]})),
     {id:'lounge',title:'라운지',shape:'M89 183H189V242H261V357H89Z',x:157,y:284,icon:'music',files:['lounge-plan.webp?v=4'],preview:true},
     {id:'indoor',title:'캠핑 존',shape:'M537 48H603V357H261V242H189V183H537Z',x:414,y:272,icon:'tent',files:['camping-plan.webp?v=5'],preview:true}
   ];
   function insideIcon(id){
     const icons={
       table:'<rect x="-20" y="-48" width="40" height="96" rx="5"/><path d="M-32-33V-13M-32 13V33M32-33V-13M32 13V33M-10-60H10M-10 60H10"/>',
-      kitchen:'<path d="M-28-32V-8Q-28 3-18 3Q-8 3-8-8V-32M-18-32V34M18 34V-32C30-23 31-4 29 9H18"/>',
-      bed:'<path d="M-36-20V30M36 0V30M-36 18H36M-36 5H36V-4Q36-12 28-12H-4V5"/><rect x="-29" y="-12" width="18" height="13" rx="4"/>',
-      lounge:'<rect x="-22" y="-12" width="44" height="28" rx="9"/><path d="M-30-22H30M-30 26H30M-34-18V-32H34V-18M-34 23V36H34V23"/>',
-      tent:'<path d="M-38 28L0-32L38 28ZM0-32V28M-15 28L0-3L15 28M-45 28H45"/>',
-      music:'<path d="M-13 18V-23L27-31V10M-13-12L27-20"/><ellipse cx="-23" cy="21" rx="10" ry="7" fill="currentColor" stroke="none"/><ellipse cx="17" cy="13" rx="10" ry="7" fill="currentColor" stroke="none"/>'
+      kitchen:'<g stroke="#945735"><path d="M-27-30V-9Q-27 3-17 3Q-7 3-7-9V-30M-17-30V-8M-17 3V32" stroke-width="4"/><path d="M15 32V-30Q30-17 27 7H15" fill="#e3b47f" stroke-width="3"/></g>',
+      pot:'<g stroke="#885139"><path d="M-24-3H24V14Q24 24 14 24H-14Q-24 24-24 14Z" fill="#dfa07d"/><path d="M-29-4H29M-24 2H-32V9H-24M24 2H32V9H24M-22-8Q0-23 22-8Z" fill="#e9bb92"/><path d="M-5-16Q0-25 5-16" stroke-width="3"/></g>',
+      wc:'<g stroke="#477981"><rect x="-23" y="-26" width="14" height="30" rx="3" fill="#9ec9cc"/><path d="M-16 3H27Q25 19 9 20L13 28H-7L-4 17Q-15 13-16 3Z" fill="#d2e7e5"/><path d="M-10 0H27" stroke-width="4"/></g>',
+      bed:'<g stroke="#68557c"><path d="M-34-19V23M34-2V23M-34 13H34" stroke-width="4"/><rect x="-28" y="-12" width="17" height="13" rx="4" fill="#f1e7ed"/><path d="M-8-10H24Q33-10 33-2V8H-32V1H-8Z" fill="#b8a7ce"/></g>',
+      tent:'<g stroke="#526b4f"><path d="M-38 28L0-32L38 28Z" fill="#a6bc8c"/><path d="M-16 28L0-6L16 28Z" fill="#eaedd3"/><path d="M0-32V-6M-44 28H44"/></g>',
+      music:'<g stroke="#845337" fill="#cf9253"><path d="M-13 18V-23L27-31V10M-13-12L27-20V-31L-13-23Z" stroke-width="3"/><ellipse cx="-22" cy="20" rx="10" ry="7"/><ellipse cx="18" cy="13" rx="10" ry="7"/></g>'
     };
-    return `<g class="inside-furniture" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icons[id]}</g>`;
+    return `<g class="inside-furniture" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icons[id]}</g>`;
   }
   function insideDoor(x, y, label, horizontal=false, width=36){
     return `<path transform="translate(${x} ${y})" d="${horizontal?'M1 0h'+width:'M0 1v'+width}" stroke="#f1ece3" stroke-width="5" pointer-events="none" role="img" aria-label="${label}"/>`;

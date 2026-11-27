@@ -6,7 +6,7 @@ window.GuildMap = (() => {
     {id:'tree',en:'TREE OF LIFE',name:'진입로 · 생명의 나무',x:300,y:94,source:['tree','entrance'],symbol:'✳'},
     {id:'fire',en:'FIRE CIRCLE',name:'캠프파이어',x:108,y:466,source:[],symbol:'♨'},
     {id:'plunge',en:'COLD PLUNGE',name:'콜드플런지',x:214,y:466,source:[]},
-    {id:'main',en:'CENTER CAMP',name:'먹고 · 마시고 · 함께',x:178,y:628,source:['drinking','music','indoor'],symbol:'◉'},
+    {id:'main',en:'Center Camp HKG',name:'먹고 · 마시고 · 함께',x:178,y:628,source:['drinking','music','indoor'],symbol:'◉'},
     {id:'free',en:'INDOOR CAMP',name:'캠핑 존',x:235,y:642,source:['sauna','house'],symbol:'△'},
     {id:'hut',en:'CABIN 1',name:'캐빈 1',x:343,y:646,source:[],symbol:'⌂'},
     {id:'hut2',en:'CABIN 2',name:'캐빈 2',x:415,y:646,source:[]},
@@ -104,7 +104,7 @@ window.GuildMap = (() => {
         </g>
       </g>
       ${camps.filter(p=>p.id!=='free').map(marker).join('')}
-      <g class="zone-marker" data-camp="bridge" role="button" tabindex="0" aria-label="센터캠프 다리 입구 사진" transform="translate(39 634)">
+      <g class="zone-marker" data-camp="bridge" role="button" tabindex="0" aria-label="Center Camp HKG 다리 입구 사진" transform="translate(39 634)">
         <rect x="-37" y="-41" width="74" height="79" fill="transparent"/>
         <g fill="none" stroke="#ad4a29" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
           <path d="M-22 7Q0-4 22 7L22 12Q0 2-22 12Z" fill="#efb48a"/>
@@ -165,7 +165,7 @@ window.GuildMap = (() => {
     return `<path transform="translate(${x} ${y})" d="${horizontal?'M1 0h'+width:'M0 1v'+width}" stroke="#f1ece3" stroke-width="5" pointer-events="none" role="img" aria-label="${label}"/>`;
   }
   function interiorPlan(){
-    return `<svg class="inside-plan" viewBox="0 0 620 379" aria-label="센터캠프 시설 배치도">
+    return `<svg class="inside-plan" viewBox="0 0 620 379" aria-label="Center Camp HKG 시설 배치도">
       <rect class="inside-outline" x="14" y="48" width="589" height="309"/>
       <rect x="261" y="48" width="60" height="93" fill="#bcb3a733"/>
       ${insideSpaces.map(p=>`<g class="inside-space" data-inside="${p.id}" role="button" tabindex="0" aria-label="${p.title}" aria-pressed="false">
@@ -181,7 +181,7 @@ window.GuildMap = (() => {
       </svg>`;
   }
   function openInterior(initialSpace){
-    const d=modal(`<section class="camp-interior"><button class="inside-back" aria-label="Back to camp map">← MAP</button><div class="inside-heading"><span class="eyebrow">INSIDE THE CAMP</span><h2>CENTER CAMP</h2></div>${interiorPlan()}<p class="inside-hint">Select a space to explore</p><section class="inside-detail" aria-live="polite"><div class="inside-detail-heading"><h3>Make yourself at home.</h3><span>— / ${String(insideSpaces.length).padStart(2,'0')}</span></div><p class="inside-description">A place to eat, rest and spend time together.</p><div class="camp-media inside-media"></div></section></section>`);
+    const d=modal(`<section class="camp-interior"><button class="inside-back" aria-label="Back to camp map">← MAP</button><div class="inside-heading"><span class="eyebrow">INSIDE THE CAMP</span><h2>Center Camp HKG</h2></div>${interiorPlan()}<p class="inside-hint">Select a space to explore</p><section class="inside-detail" aria-live="polite"><div class="inside-detail-heading"><h3>Make yourself at home.</h3><span>— / ${String(insideSpaces.length).padStart(2,'0')}</span></div><p class="inside-description">A place to eat, rest and spend time together.</p><div class="camp-media inside-media"></div></section></section>`);
     d.querySelector('.inside-back').onclick=()=>d.close();
     function select(id){
       const p=insideSpaces.find(s=>s.id===id);
@@ -207,7 +207,7 @@ window.GuildMap = (() => {
   const entryPhotos={
     'upper-entry':{title:'위쪽 입구',photo:'upper-entry-original.jpg',direction:'차량 오른쪽의 입구 바닥',x:790,y:489,arrow:'M790 501Q751 508 672 433M679 456L672 433L698 438'},
     'lower-entry':{title:'아래쪽 오르막 입구',photo:'lower-entry.webp',direction:'오른쪽 자갈길 오르막 끝',x:602,y:438,arrow:'M744 419Q830 382 959 350M931 344L959 350L940 371'},
-    bridge:{title:'센터캠프 다리 입구',photo:'center-entry.webp',direction:'흰색 천막 오른쪽 입구',x:314,y:282,arrow:'M326 294Q275 299 215 364M218 344L214 366L237 358'}
+    bridge:{title:'Center Camp HKG 다리 입구',photo:'center-entry.webp',direction:'흰색 천막 오른쪽 입구',x:314,y:282,arrow:'M326 294Q275 299 215 364M218 344L214 366L237 358'}
   };
   async function openCamp(id){
     if(entryPhotos[id]){
